@@ -1,0 +1,46 @@
+/**
+ * Definition for an interval.
+ * struct Interval {
+ *     int start;
+ *     int end;
+ *     Interval() : start(0), end(0) {}
+ *     Interval(int s, int e) : start(s), end(e) {}
+ * };
+ */
+class Solution {
+public:
+    vector<Interval> merge(vector<Interval>& intervals) {
+        vector<Interval> result;
+        
+        if(intervals.size() == 0) return result;
+        
+        map<int, int> m;
+        for(int i=0;i<intervals.size();i++){
+            if(m[intervals[i].start] != 0){
+                m[intervals[i].start] = max(m[intervals[i].start], intervals[i].end);
+            }else{
+                m[intervals[i].start] = intervals[i].end;
+            }
+        }
+        
+        map<int, int>::iterator itor = m.begin();
+        Interval temp;
+        
+        temp.start = itor->first;
+        temp.end = itor->second;
+        itor++;
+        
+        for(itor;itor!=m.end();itor++){
+            if(temp.end >= itor->first){
+                temp.end = max(temp.end, itor->second);
+            }else{
+                result.push_back(temp);
+                temp.start = itor->first;
+                temp.end = itor->second;
+            }
+        }
+        if(temp.start != -1) result.push_back(temp);
+        
+        return result;
+    }    
+};

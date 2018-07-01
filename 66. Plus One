@@ -1,0 +1,27 @@
+class Solution {
+public:
+    vector<int> plusOne(vector<int>& digits) {
+        if(digits.size() == 0){
+            digits.push_back(0);
+            return digits;
+        }
+        
+        bool upper = false;
+        digits[digits.size()-1]++;
+        for(int i=digits.size()-1;i>=0;i--){
+            if(upper) digits[i]++;
+            upper = false;
+            
+            if(digits[i] > 9){
+                upper = true;
+                digits[i] %= 10;
+            }
+        }
+        vector<int> temp;
+        if(upper){
+            temp.push_back(1);
+            for(int i=0;i<digits.size();i++) temp.push_back(digits[i]);
+            return temp;
+        }else return digits;
+    }
+};

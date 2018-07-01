@@ -1,0 +1,54 @@
+class Solution {
+public:
+    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+        int v1Pos = 0;
+        int v2Pos = 0;
+        double midVal = 0;
+        double preVal = 0;
+        int mid = ((int)nums1.size()+(int)nums2.size()) / 2;
+
+        sort(nums1.begin(), nums1.end());
+        sort(nums2.begin(), nums2.end());
+
+        for (int i = 0; i <(int)nums1.size() + (int)nums2.size(); i++) {
+            int val;
+            if (v1Pos >= (int)nums1.size()) {
+                val = nums2.at(v2Pos);
+                v2Pos++;
+            }
+            else if (v2Pos >= (int)nums2.size()) {
+                val = nums1.at(v1Pos);
+                v1Pos++;
+            }
+            else {
+                int v1Val = nums1.at(v1Pos);
+                int v2Val = nums2.at(v2Pos);
+                if (v1Val > v2Val) {
+                    val = v2Val;
+                    v2Pos++;
+                }
+                else {
+                    val = v1Val;
+                    v1Pos++;
+                }
+            }
+
+            if (i == mid) {
+                if (((int)nums1.size()+(int)nums2.size()) % 2 == 0) {
+                    if (mid == 0) {
+                        return (double)val;
+                    }
+                    else {
+                        return (double)(val+preVal) / 2;
+                    }
+                }
+                else {
+                    return (double)val;
+                }
+            }
+            preVal = val;
+        }
+
+        return midVal;
+    }
+};

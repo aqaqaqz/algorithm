@@ -1,0 +1,29 @@
+class Solution {
+public:
+   ListNode* mergeKLists(vector<ListNode*>& lists) {
+       ListNode* result = new ListNode(NULL);
+       ListNode* head = result;
+       bool first = true;
+       while(true){
+           int minPos = -1;
+           int minVal = 99999999;
+          
+           for(int i=0;i<lists.size();i++){               
+               if(lists[i] != NULL){                   
+                   if(minVal >= lists[i]->val){
+                       minPos = i;
+                       minVal = lists[i]->val;
+                   }
+               }
+           }
+           if(minPos == -1) break;
+           else{
+               result->next = new ListNode(lists[minPos]->val);
+               result = result->next;
+                            
+               lists[minPos] = lists[minPos]->next;                 
+           }
+       }   
+       return head->next;
+   }   
+};

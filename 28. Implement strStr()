@@ -1,0 +1,19 @@
+class Solution {
+public:
+    int strStr(string haystack, string needle) {
+        if(needle == "") return 0;
+        for(int i=0;i<haystack.size();i++){
+            if(haystack.at(i) == needle.at(0)){
+                for(int j=0;j<needle.size();j++){
+                    if(i+j < haystack.size()){
+                        if(haystack.at(i+j) != needle.at(j)){
+                            break;
+                        }
+                        if(j+1 == needle.size()) return i;
+                    }
+                }
+            }
+        }
+        return -1;
+    }
+};

@@ -1,0 +1,22 @@
+class Solution {
+public:
+    bool canJump(vector<int>& nums) {
+        if(nums.size() == 0) return true;
+        return getCanJump(nums, 0);
+    }
+    
+    bool getCanJump(vector<int> &nums, int pos){
+        if(nums[pos]+pos+1 >= nums.size()) return true;
+        if(nums[pos] == 0) return false;
+        
+        int nextP, nextV=0;
+        for(int i=1;i<=nums[pos];i++){
+            if(pos+i+nums[pos+i] >= nextV){
+                nextV = pos+i+nums[pos+i];
+                nextP = pos+i;
+            }
+        }
+        
+        return getCanJump(nums, nextP);
+    }
+};

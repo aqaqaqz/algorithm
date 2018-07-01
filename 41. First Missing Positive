@@ -1,0 +1,34 @@
+class Solution {
+public:
+    int firstMissingPositive(vector<int>& nums) {
+        vector<int> vec;
+        int minV = 999999999;
+        
+        for(int i=0;i<nums.size();i++){
+            if(nums[i] > 0) vec.push_back(nums[i]);
+        }
+        
+        vector<pair<int, bool>> visit;
+        visit.resize(vec.size()+1);
+        for(int i=1;i<visit.size();i++){
+            visit[i].first = i;
+            visit[i].second = false;
+        }
+        
+        for(int i=0;i<vec.size();i++){
+            if(vec[i] <= vec.size()){
+                minV = min(minV, vec[i]);
+                visit[vec[i]].second = true;
+            }
+        }
+        
+        
+        if(minV-1 > 0) return 1;
+        else{
+            for(int i=1;i<visit.size();i++){
+                if(!visit[i].second) return visit[i].first;
+            }
+        }
+        return visit.size();
+    }
+};

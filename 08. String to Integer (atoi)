@@ -1,0 +1,61 @@
+class Solution {
+public:
+    int myAtoi(string str) {
+        list<char> l;
+        bool minus = false;
+        bool fZero = true;
+        
+        ltrim(str);
+
+        for(int i=0;i<(int)str.size();i++){
+            char temp = str.at(i);
+            if('-' == temp && i == 0){
+                minus = true;
+                continue;
+            }else if('+' == temp && i == 0){
+                continue;
+            }else if(fZero && ('0'==temp)){
+                continue;
+            }else if(checkInt(temp)){
+                l.push_front(temp);
+            }else{
+                break;
+            }
+            fZero=false;
+        }
+
+        int val = 0;
+        long long int ten = 1;
+
+        list<char>::iterator itor = l.begin();
+        for(itor;itor!=l.end();itor++){
+            long long int addVal = (*itor-'0')*ten;
+            long long int tempVal = val + addVal;
+            val = tempVal;
+            
+            if((val-addVal != tempVal-addVal) || ten > 2147483648 ){
+                if(minus){
+                    val = 2147483648;
+                }else{
+                    val = 2147483647;
+                }
+                break;                    
+            }
+            ten *= 10;
+        }
+        if(minus) val *= -1;
+
+        return val;
+    }
+    void ltrim(string &s) {
+        s.erase(s.begin(), find_if(s.begin(), s.end(), [](int ch) {
+            return !isspace(ch);
+        }));
+    }
+
+    bool checkInt(char c){
+        if(c >= '0' && c <= '9') return true;
+        return false;
+    }
+
+};

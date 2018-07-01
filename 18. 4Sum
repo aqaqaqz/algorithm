@@ -1,0 +1,71 @@
+class Solution {
+public:
+	vector<vector<int>> fourSum(vector<int>& nums, int target) {
+		vector<vector<int>> result;
+		set<vector<int>> s;
+
+		sort(nums.begin(), nums.end());
+
+		int preF;
+		for (int i = 0; i<nums.size(); i++) {
+			if (i != 0 && preF == nums[i]) {
+				continue;
+			}
+
+			int preM;
+			for (int j = i + 1; j<nums.size(); j++) {
+				if (j != i + 1 && preM == nums[j]) {
+					continue;
+				}
+
+				int preL;
+				for (int k = j + 1; k < nums.size(); k++) {
+					if (k != j + 1 && preL == nums[k]) {
+						continue;
+					}
+
+					int tempSum = nums[i] + nums[j] + nums[k];
+					if (findNum(nums, target -1 * tempSum, k + 1)) {
+						vector<int> tempV;
+						tempV.push_back(nums[i]);
+						tempV.push_back(nums[j]);
+						tempV.push_back(nums[k]);
+						tempV.push_back(target -1 * tempSum);
+						pair<set<vector<int>>::iterator, bool> p = s.insert(tempV);
+						if (p.second) {
+							result.push_back(tempV);
+						}
+					}
+					preL = nums[k];
+				}
+				preM = nums[j];
+			}
+			preF = nums[i];
+		}
+
+		return result;
+	}
+
+private:
+	bool findNum(vector<int>& nums, int val, int pos) {
+
+		int begin = pos;
+		int end = nums.size() - 1;
+
+		while (begin <= end) {
+			pos = (begin + end) / 2;
+
+			if (nums[pos] > val) {
+				end = pos - 1;
+			}
+			else if (nums[pos] < val) {
+				begin = pos + 1;
+			}
+			else {
+				return true;
+			}
+		}
+
+		return false;
+	}
+};

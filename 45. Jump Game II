@@ -1,0 +1,32 @@
+class Solution {
+public:
+    int jump(vector<int>& nums) {
+        int cur = 0;
+        int step = 0;
+        
+        if(nums.size() == 1) return 0;
+        
+        while(true){
+            int next = 0;
+            int val = 0;
+            step++;
+            for(int i=1;i<=nums[cur];i++){
+                if(nums[i+cur]+cur+i >= val){
+                    next = cur+i;
+                    val = nums[i+cur]+cur+i;
+                    if(val>= nums.size()) break;
+                }
+            }
+            
+            if(nums[cur]+cur+1>= nums.size()){
+                return step; 
+            }
+            else{
+                cur = next;
+                if(nums[cur]+cur+1>= nums.size()) return step+1; 
+            }
+            
+        }
+        return step;
+    }
+};

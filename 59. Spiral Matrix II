@@ -1,0 +1,44 @@
+class Solution {
+public:
+    vector<vector<int>> generateMatrix(int n) {
+        vector<vector<int>> result;
+        result.resize(n, vector<int>(n));
+        
+        int h = 0;
+        int w = 0;
+        int depth = 0;
+        char dir = 'r';
+        
+        for(int i=1;i<=n*n;i++){
+            result[h][w] = i;
+            if(dir == 'r'){
+                if(w+1 < n-depth) w++;
+                else{
+                    dir = 'd';
+                    h++;              
+                }
+            }else if(dir == 'd'){
+                if(h+1 < n-depth) h++;
+                else{
+                    dir = 'l';
+                    w--;
+                }
+            }else if(dir == 'l'){
+                if(w-1 >= depth) w--;
+                else{
+                    dir = 'u';
+                    h--;
+                }
+            }else{
+                if(h-1 > depth) h--;
+                else{
+                    dir = 'r';
+                    w++;
+                    depth++;
+                }
+            }
+        }
+                      
+        return result;
+    }
+};

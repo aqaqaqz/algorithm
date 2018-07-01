@@ -1,0 +1,44 @@
+class Solution {
+public:
+    vector<vector<int>> permuteUnique(vector<int>& nums) {
+        vector<vector<int>> result;
+        set<vector<int>> resultSet;
+        vector<int> tempResult;
+        vector<bool> visit;
+        
+        sort(tempResult.begin(), tempResult.end());
+        visit.resize(nums.size(), false);
+        
+        for(int i=0;i<nums.size();i++){
+            tempResult.push_back(nums[i]);
+            visit[i] = true;            
+            makeCollection(nums, resultSet, tempResult, visit);
+            tempResult.pop_back();
+            visit[i] = false;
+        }
+        
+        set<vector<int>>::iterator itor;
+        for(itor=resultSet.begin();itor!=resultSet.end();itor++){
+            result.push_back(*itor);
+        }
+        
+        return result;
+    }
+    
+    void makeCollection(vector<int> &nums, set<vector<int>> &result, vector<int> &tempResult, vector<bool> &visit){
+        if(tempResult.size() == nums.size()){
+            result.insert(tempResult);
+            return;
+        }
+        
+        for(int i=0;i<nums.size();i++){
+            if(!visit[i]){
+                tempResult.push_back(nums[i]);
+                visit[i] = true;            
+                makeCollection(nums, result, tempResult, visit);
+                tempResult.pop_back();
+                visit[i] = false;
+            }
+        }
+    }
+};

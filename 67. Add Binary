@@ -1,0 +1,28 @@
+class Solution {
+public:
+    string addBinary(string a, string b) {
+        int ap=a.size()-1, bp=b.size()-1;
+        int upper = 0;
+        string result = "";
+        while( !(ap==-1 && bp==-1) ){
+            int aVal=0, bVal=0;
+            if(ap >= 0){
+                aVal = (int)(a.at(ap)-'0');
+                ap--;
+            }
+            if(bp >= 0){
+                bVal = (int)(b.at(bp)-'0');
+                bp--;
+            }
+            int temp = aVal+bVal+upper;
+            upper = 0;
+            if(temp>1){
+                temp %= 2;
+                upper = 1;
+            }
+            result = (char)(temp+'0')+result;
+        }
+        if(upper == 1) result = "1"+result;
+        return result;
+    }
+};

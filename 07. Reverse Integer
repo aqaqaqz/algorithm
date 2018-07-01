@@ -1,0 +1,43 @@
+class Solution {
+public:
+    int reverse(int x) {
+        int val = 0;
+        
+        int minus = false;
+        if(x<0) minus = true;
+        x = abs(x);
+        
+        list<int> l;
+
+        while(x != 0){
+            int a = x/10;
+            int b = x%10;
+
+            l.push_front(b);
+
+            x = a;
+        }
+
+        int temp = 1;
+
+        list<int>::iterator itor = l.begin();
+        for(itor;itor!=l.end();itor++){
+            int tempVal = *itor * temp;
+
+            if(tempVal/temp != *itor){
+                val = 0;
+                break;
+            }
+            val += tempVal;
+            if(val != abs(val)){
+                val = 0;
+                break;
+            }
+            temp *= 10;
+        }
+
+        if(minus) val *= -1;
+        
+        return val;
+    }
+};

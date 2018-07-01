@@ -1,0 +1,27 @@
+class Solution {
+public:
+    void rotate(vector<vector<int>>& matrix) {
+        vector<vector<int>> oMatrix = matrix;
+        for(int i=0;i<matrix.size()/2+1;i++){
+            rotateMatrix(oMatrix, matrix, i);
+        }
+    }
+    
+    void rotateMatrix(vector<vector<int>> &oMatrix, vector<vector<int>> &matrix, int depth){
+        int w = matrix.size()-1;
+  
+        for(int i=0;i<w-depth*2+1;i++){
+            matrix[depth][depth+i] = oMatrix[w-depth-i][depth];
+        }
+        for(int i=0;i<w-depth*2+1;i++){
+            matrix[w-depth-i][depth] = oMatrix[w-depth][w-depth-i];
+        }
+        for(int i=0;i<w-depth*2+1;i++){
+            matrix[w-depth][w-depth-i] = oMatrix[depth+i][w-depth];
+        }
+        for(int i=0;i<w-depth*2+1;i++){
+            matrix[depth+i][w-depth] = oMatrix[depth][depth+i];
+        }
+        
+    }
+};

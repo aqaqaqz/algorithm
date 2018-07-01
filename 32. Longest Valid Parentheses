@@ -1,0 +1,53 @@
+class Solution {
+public:
+    int longestValidParentheses(string s) {
+        bool find = true;
+        
+        if("" == s) return 0;
+
+        while(find){
+            find = false;
+
+            for(int i=0;i<s.size()-1;i++){
+                if(s.at(i) != '(') continue;
+
+                int next = i+1;
+                bool temp = true;
+                while(s.at(next)=='*'){
+                    next++;
+                    if(next >= s.size()) {
+                        temp = false;
+                        break;
+                    }
+                }
+                if(!temp) continue;
+
+                if(s.at(i)=='(' && s.at(next)==')'){
+                    find = true;
+                    s.at(i) = '*';
+                    s.at(next) = '*';
+                }
+            }
+        }
+
+        return getResult(s);
+    }
+
+    int getResult(string &s){
+        int val = 0;
+
+        for(int i=0;i<s.size()-1;i++){
+            if(s.at(i) != '*') continue;
+
+            int next = i+1;
+            while(s.at(next)=='*'){
+                next++;
+                if(next >= s.size()){
+                    break;
+                }
+            }
+            val = max(val, next-i);   
+        }
+        return val;
+    }
+};

@@ -1,0 +1,39 @@
+class Solution {
+public:
+    int romanToInt(string s) {
+        vector<pair<int, string>> vec;
+		vec.push_back(make_pair(1000, "M"));
+		vec.push_back(make_pair(900, "CM"));
+		vec.push_back(make_pair(500, "D"));
+		vec.push_back(make_pair(400, "CD"));
+		vec.push_back(make_pair(100, "C"));
+		vec.push_back(make_pair(90, "XC"));
+		vec.push_back(make_pair(50, "L"));
+		vec.push_back(make_pair(40, "XL"));
+		vec.push_back(make_pair(10, "X"));
+		vec.push_back(make_pair(9, "IX"));
+		vec.push_back(make_pair(5, "V"));
+		vec.push_back(make_pair(4, "IV"));
+		vec.push_back(make_pair(1, "I"));
+
+		int val = 0;
+		int pos = 0;
+		while (s.size() != 0) {
+			string tempRoman = vec[pos].second;
+			string tempS = s.substr(0, tempRoman.size());
+			while (tempRoman==tempS) {
+				val += vec[pos].first;
+				s = s.substr(tempRoman.size(), s.size() - tempRoman.size());
+				if (s.size() >= tempRoman.size()) {
+					tempS = s.substr(0, tempRoman.size());
+				}
+				else {
+					break;
+				}
+			}
+			pos++;
+		}
+
+		return val;
+    }
+};

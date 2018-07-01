@@ -1,0 +1,23 @@
+class Solution {
+public:
+    vector<string> generateParenthesis(int n) {
+        vector<string> v;
+        makeStr(0, 0, n, n*2, "", v);
+
+        return v;
+    }
+
+    void makeStr(int lCount, int rCount, int total, int depth, string pre, vector<string> &v){
+        if(depth == 0) {
+            v.push_back(pre);
+            return;
+        }
+
+        if(lCount < total){
+            makeStr(lCount+1, rCount, total, depth-1, pre+"(", v);
+        }
+        if(rCount < total && lCount > rCount){
+            makeStr(lCount, rCount+1, total, depth-1, pre+")", v);
+        }
+    }
+};

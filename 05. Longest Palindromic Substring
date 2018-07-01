@@ -1,0 +1,50 @@
+class Solution {
+public:
+    vector<vector<char>> v;
+    
+    string longestPalindrome(string s) {
+        int start, len = 0;
+        v.resize(s.size(), vector<char>(s.size(), 'u'));
+
+        for(int i=0;i<s.size();i++){
+            for(int j=i;j<s.size();j++){
+                checkPel(s, i, j);
+            }
+        }
+
+        for(int i=0;i<s.size();i++){
+            for(int j=i;j<s.size();j++){
+                if(v[i][j] == 't'){
+                    if(len <= j-i){
+                        len = j-i;
+                        start = i;
+                    }
+                }
+            }
+        }
+
+        return s.substr(start, len+1);
+    }
+    
+    char checkPel(string &s, int start, int end){
+        char temp;
+
+        if(v[start][end] != 'u'){
+            return v[start][end];
+        }
+
+        if(s.at(start) == s.at(end)){
+            if((end-start)==1 || (end-start)==0){
+                v[start][end] = 't';
+                return v[start][end];
+            }
+            temp = checkPel(s, start+1, end-1);
+        }else{
+           temp = 'f';
+        }
+
+        v[start][end] = temp;
+
+        return v[start][end];
+    }
+};

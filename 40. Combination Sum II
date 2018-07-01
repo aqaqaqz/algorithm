@@ -1,0 +1,35 @@
+class Solution {
+public:
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+        vector<vector<int>> result;
+        vector<int> tempResult;
+        set<vector<int>> resultSet;
+        
+        sort(candidates.begin(), candidates.end());
+        
+        makeResult(tempResult, resultSet, candidates, target, 0, 0);
+        
+        for(set<vector<int>>::iterator itor = resultSet.begin();itor != resultSet.end();itor++){
+            result.push_back(*itor);
+        }
+        
+        return result;
+    }
+    
+    void makeResult(vector<int> tempResult, set<vector<int>> &resultSet, vector<int>& candidates, int target, int sum, int pos){
+        if(pos >= candidates.size()) return;
+        
+        makeResult(tempResult, resultSet, candidates, target, sum, pos+1);
+        if(candidates[pos]+sum == target){
+            tempResult.push_back(candidates[pos]);
+            resultSet.insert(tempResult);
+            return;
+        }else if(candidates[pos]+sum < target){
+            sum += candidates[pos];
+            tempResult.push_back(candidates[pos]);
+            makeResult(tempResult, resultSet, candidates, target, sum, pos+1);
+        }else{
+            return;
+        }
+    }
+};

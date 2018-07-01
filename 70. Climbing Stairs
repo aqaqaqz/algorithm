@@ -1,0 +1,19 @@
+class Solution {
+public:
+    int climbStairs(int n) {
+        int pre=1;
+        int now=2;
+        int next;
+        
+        if(n==1) return 1;
+        if(n==2) return 2;
+        
+        for(int i=2;i<n;i++){
+            next = pre+now;
+            pre = now;
+            now = next;
+        }
+        
+        return next;
+    }
+};

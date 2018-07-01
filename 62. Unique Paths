@@ -1,0 +1,15 @@
+class Solution {
+public:
+    int uniquePaths(int m, int n) {
+        if(m==0 || n==0) return 0;
+        vector<int> grid;
+        grid.resize(m, 1);
+        for(int i=1;i<n;i++){
+             for(int j=0;j<m;j++){
+                 int next = j==0?0:grid[j-1];
+                 grid[j] += next;
+             }
+        }
+        return grid[m-1];
+    }
+};

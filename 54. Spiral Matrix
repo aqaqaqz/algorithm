@@ -1,0 +1,52 @@
+class Solution {
+public:
+    vector<int> spiralOrder(vector<vector<int>>& matrix) {
+        vector<int> result;
+        
+        if(matrix.size()==0) return result;
+        if(matrix[0].size()==0) return result;
+        
+        int h = 0;
+        int w = 0;
+        char dir = 'l';
+        
+        int circle = 0;
+        
+        for(int i=0;i<matrix.size()*matrix[0].size();i++){
+            result.push_back(matrix[h][w]);
+            
+            if(dir=='l'){
+                if(w+1 < matrix[0].size()-circle){
+                    w++;
+                } else{
+                    h++;
+                    dir = 'd';
+                }             
+            }else if(dir=='d'){
+                if(h+1 < matrix.size()-circle){
+                    h++;
+                } else{
+                    w--;
+                    dir = 'r';
+                }
+            }else if(dir=='r'){
+                if(w-1 >= circle){
+                    w--;
+                } else{
+                    h--;
+                    dir = 'u';                   
+                }
+            }else{
+                if(h-1 > circle){
+                    h--;
+                } else{
+                    w++;
+                    dir = 'l';
+                    circle++;
+                }
+            }
+        }
+        
+        return result;
+    }
+};

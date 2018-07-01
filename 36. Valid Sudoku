@@ -1,0 +1,58 @@
+class Solution {
+public:
+    bool isValidSudoku(vector<vector<char>>& board) {
+        for(int i=0;i<3;i++){
+            for(int j=0;j<3;j++){               
+                if(!checkSquare(board, i, j)) return false;
+            }
+        }
+        
+        for(int i=0;i<9;i++){
+            if(!checkLine(board, i, 0)){
+                return false;
+            }
+            if(!checkLine(board, i, 1)){
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
+    bool checkSquare(vector<vector<char>> & board, int w, int h){
+        vector<bool> temp;
+        temp.resize(9, false);
+        for(int i=0;i<3;i++){
+            for(int j=0;j<3;j++){
+                int x = (i+w*3);
+                int y = (j+h*3);
+                
+                if(board[x][y] == '.') continue;
+                    
+                if(temp[board[x][y]]){
+                    return false;
+                }else{
+                    temp[board[x][y]] = true;
+                }
+            }
+        }
+        
+        return true;
+    }
+    
+    bool checkLine(vector<vector<char>> & board, int l, int type){
+        vector<bool> temp;
+        temp.resize(9, false);
+        for(int i=0;i<9;i++){
+            
+            if((type==0?board[i][l]:board[l][i])=='.') continue;
+            if( temp[type==0?board[i][l]:board[l][i]] ){
+                return false;
+            }else{
+                temp[type==0?board[i][l]:board[l][i]] = true;
+            }
+        }
+        
+        return true;
+    }
+};

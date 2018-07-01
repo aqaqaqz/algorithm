@@ -1,0 +1,31 @@
+class Solution {
+public:
+    string intToRoman(int num) {
+        vector<pair<int, string>> vec;
+        vec.push_back( make_pair(1000, "M") );
+        vec.push_back( make_pair(900, "CM") );
+        vec.push_back( make_pair(500, "D") );
+        vec.push_back( make_pair(400, "CD") );
+        vec.push_back( make_pair(100, "C") );
+        vec.push_back( make_pair(90, "XC") );
+        vec.push_back( make_pair(50, "L") );
+        vec.push_back( make_pair(40, "XL") );
+        vec.push_back( make_pair(10, "X") );
+        vec.push_back( make_pair(9, "IX") );
+        vec.push_back( make_pair(5, "V") );
+        vec.push_back( make_pair(4, "IV") );
+        vec.push_back( make_pair(1, "I") );
+
+        string val = "";
+        int pos = 0;
+        while(num!=0){
+            while(num >= vec[pos].first){
+                val += vec[pos].second;
+                num -= vec[pos].first;
+            }
+            pos++;
+        }
+
+        return val;
+    }
+};

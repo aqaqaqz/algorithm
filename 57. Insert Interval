@@ -1,0 +1,42 @@
+/**
+ * Definition for an interval.
+ * struct Interval {
+ *     int start;
+ *     int end;
+ *     Interval() : start(0), end(0) {}
+ *     Interval(int s, int e) : start(s), end(e) {}
+ * };
+ */
+class Solution {
+public:
+    vector<Interval> insert(vector<Interval>& intervals, Interval newInterval) {
+        vector<Interval> result;
+        
+        for(int i=0;i<intervals.size();i++){
+            if(checkDuplication(intervals[i], newInterval)){
+                newInterval.start = min(newInterval.start, intervals[i].start);
+                newInterval.end = max(newInterval.end, intervals[i].end);
+            }else{
+                if(newInterval.end < intervals[i].start){
+                    result.push_back(newInterval);
+                    for(int j=i;j<intervals.size();j++){
+                        result.push_back(intervals[j]);
+                    }
+                    return result;
+                }
+                result.push_back(intervals[i]);
+            }
+        }
+        result.push_back(newInterval);
+        
+        return result;
+    }
+    
+    bool checkDuplication(Interval a, Interval b){
+        if((a.start>=b.start && a.start<=b.end) || (a.end>=b.start && a.end<=b.end)
+          || (b.start>=a.start && b.start<=a.end) || (b.end>=a.start && b.end<=a.end)){
+            return true;
+        }
+        return false;
+    }
+};

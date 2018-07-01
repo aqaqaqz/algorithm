@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int mySqrt(int x) {
+        int s = 1;
+        int e = 50000;
+        long long m;
+        
+        while(true){
+            m = (s+e)/2;
+            long long val = m*m;
+            if(val == x) return m;
+            else if(val > x){
+                if( (m-1)*(m-1) < x ) return m-1;
+                e = m-1;
+            }else{
+                if( (m+1)*(m+1) > x ) return m;
+                s = m+1;
+            }
+        }
+    }
+};

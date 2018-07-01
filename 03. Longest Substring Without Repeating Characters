@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        pair<set<char>::iterator, bool> pr;
+
+        int maxLen = 0;
+
+        for (int i = 0; i < (int)s.length(); i++) {
+            int tempLen = 0;
+            set<char> checkSet;
+
+            for (int j = i; j < (int)s.length(); j++) {
+                char t = s.at(j);
+                pr = checkSet.insert(t);
+
+                if (pr.second) {
+                    tempLen++;
+                }
+                else {
+                    break;
+                }
+            }
+
+            maxLen = max(maxLen, tempLen);
+        }
+        
+        return maxLen;
+    }
+};

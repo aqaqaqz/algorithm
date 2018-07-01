@@ -1,0 +1,27 @@
+class Solution {
+public:
+    vector<string> letterCombinations(string digits) {
+		vector<string> v;
+		getString(0, "", digits, v);
+
+		return v;
+	}
+	void getString(int pos, string str, string& digits, vector<string>& v) {
+		if (pos == digits.size()) {
+			if (str != "") {
+				v.push_back(str);
+			}
+			return;
+		}
+
+		int digit = (int)(digits.at(pos) - '0');
+		int len = digit == 7 || digit == 9 ? 4 : 3;
+		char s = 'a' + (digit-2)*3;
+		if (digit > 7) s += 1;
+
+		string val = "";
+		for (int i = 0; i < len; i++) {
+			getString(pos + 1, str + (char)((int)s+i), digits, v);
+		}
+	}
+};

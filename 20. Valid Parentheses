@@ -1,0 +1,42 @@
+class Solution {
+public:
+	bool isValid(string s) {
+		stack<char> c_s;
+
+		for (int i = s.size() - 1; i >= 0; i--) {
+			c_s.push(s.at(i));
+		}
+
+		while (!c_s.empty()) {
+			if (!checkChar(c_s)) return false;
+		}
+		return true;
+	}
+	bool checkChar(stack<char>& c_s) {
+		char temp = c_s.top();
+		c_s.pop();
+
+        if (c_s.empty()) return false;
+        
+		while ( !(c_s.top() == ')' || c_s.top() == '}' || c_s.top() == ']') ) {
+			if (c_s.top() == '(' || c_s.top() == '{' || c_s.top() == '[') {
+				if (!checkChar(c_s)) {
+					return false;
+				}
+                if (c_s.empty()) return false;
+			}
+			else return false;
+		}
+        
+        if (c_s.empty()) return false;
+
+		if ( (temp == '(' && c_s.top() == ')') || (temp == '[' && c_s.top() == ']') || (temp == '{' && c_s.top() == '}')) {
+			c_s.pop();
+			return true;
+		}
+		else {
+			c_s.pop();
+			return false;
+		}
+	}
+};

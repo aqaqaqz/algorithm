@@ -1,0 +1,52 @@
+class Solution {
+public:
+    string convert(string s, int numRows) {
+        vector<list<char>> v;
+        
+        pair<int, int> data;
+        data.first = -1;
+        data.second = 0;
+
+        v.resize(numRows, list<char>());
+
+        for(int i=0;i<(int)s.size();i++){
+            data = getPos(data, numRows);
+            v.at(data.first).push_back(s.at(i));
+        }
+
+        string val = "";
+
+        for(int i=0;i<(int)v.size();i++){
+            list<char>::iterator itor = v.at(i).begin();
+            for(itor;itor!=v.at(i).end();itor++){
+                val += *itor;
+            }
+        }
+
+        return val;
+    }
+    
+    pair<int, int> getPos(pair<int, int> data, int numRows){
+        if(numRows == 1){
+            data.first = 0;
+            return data;
+        }
+        if(data.second == 0){
+            if(data.first+1 >= numRows){
+                data.second = 1;
+                data.first--;
+                return data;
+            }
+            data.first++;
+            return data;
+        }else{
+            if(data.first-1 < 0){
+                data.second = 0;
+                data.first++;
+                return data;
+            }
+            data.first--;
+            return data;
+        }
+    }
+};

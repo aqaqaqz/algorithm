@@ -1,0 +1,56 @@
+class Solution {
+public:
+    bool isMatch(string s, string p) {
+        return checkNextPos(s, 0, p, 0);
+    }
+    
+    bool checkNextPattern(string p, int p_p){
+        if(p_p+1 >= (int)p.size()) return false;
+        while(!(p_p+1 >= (int)p.size())){
+            if(!(p.at(p_p+1)=='*')) return false;
+            p_p += 2;
+        }
+        if((int)p.size() == p_p+1) return false;
+        return true;
+    }
+    
+    bool checkNextPos(string s, int s_p, string p, int p_p){
+        if((int)s.size()<=s_p && (int)p.size()<=p_p) return true;
+        if((int)s.size()<=s_p) return checkNextPattern(p, p_p); 
+        if((int)p.size()<=p_p) return false;
+
+        char c_s = s.at(s_p);
+        char c_p = p.at(p_p);
+        char nc_p = ((int)p.size() > p_p+1)?p.at(p_p+1):'-';
+
+        if(nc_p == '*'){
+            if(c_p == '.'){
+                bool temp = false;
+                for(int i=s_p;i<=(int)s.size();i++){
+                    temp = temp || checkNextPos(s, i, p, p_p+2);
+                }
+                //cout << temp << endl;
+                return temp;
+            }else{
+                if(c_s == c_p){
+                    bool temp = false;
+                    for(int i=s_p;i<=(int)s.size();i++){
+                        temp = temp || checkNextPos(s, i, p, p_p+2);
+                        if((int)s.size() <= i) break;
+                        if(c_p != s.at(i)){
+                            break;
+                        }
+                    }
+                    return temp;
+                }else{
+                    return checkNextPos(s, s_p, p, p_p+2);
+                }
+            }
+        }else if(c_p == '.'){
+            return checkNextPos(s, s_p+1, p, p_p+1);
+        }else{
+            if(c_s == c_p) return checkNextPos(s, s_p+1, p, p_p+1);
+            else return false;
+        }
+    }
+};

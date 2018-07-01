@@ -1,0 +1,38 @@
+class Solution {
+public:
+	vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+		set<vector<int>> resultSet;
+		vector<vector<int>> result;
+		vector<int> tempResult;
+		int sum = 0;
+		int pos = 0;
+
+		makeCombinationSum(resultSet, tempResult, candidates, sum, pos, target);
+
+		set<vector<int>>::iterator itor;
+		for (itor = resultSet.begin(); itor != resultSet.end(); itor++) {
+			result.push_back(*itor);
+		}
+
+		return result;
+	}
+
+	void makeCombinationSum(set<vector<int>> &result, vector<int> tempResult, vector<int> &candidates, int sum, int pos, int target) {
+		if (pos == candidates.size()) return;
+
+		makeCombinationSum(result, tempResult, candidates, sum, pos + 1, target);
+
+		if (candidates.at(pos) + sum > target) return;
+		else if (candidates.at(pos) + sum == target) {
+			tempResult.push_back(candidates.at(pos));
+			result.insert(tempResult);
+			return;
+		}
+		else {
+			tempResult.push_back(candidates.at(pos));
+			sum += candidates.at(pos);
+			makeCombinationSum(result, tempResult, candidates, sum, pos, target);
+			makeCombinationSum(result, tempResult, candidates, sum, pos + 1, target);
+		}
+	}
+};

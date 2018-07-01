@@ -1,0 +1,26 @@
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        vector<int> cache;
+        cache.resize(nums.size());
+        
+        int result = getMaxVal(nums, cache, 0);
+        for(int i=0;i<cache.size();i++){
+            result = max(result, cache[i]);
+        }
+        
+        return result;
+    }
+    
+    int getMaxVal(vector<int> &nums, vector<int> &cache, int pos){
+        if(pos >= nums.size()){
+            return 0;            
+        }
+        
+        cache[pos] = nums[pos];
+        int val = getMaxVal(nums, cache, pos+1);
+        if(val > 0) cache[pos] += val;
+        
+        return cache[pos];
+    }
+};

@@ -1,0 +1,64 @@
+class Solution {
+public:
+    vector<vector<string>> solveNQueens(int n) {
+        string initStr = "";
+        for(int i=0;i<n;i++) initStr += ".";
+
+        vector<vector<string>> result;
+        
+        vector<string> board;
+        for(int i=0;i<n;i++) board.push_back(initStr);
+        
+        vector<int> w;
+        w.resize(n, -1); 
+        vector<int> h;
+        h.resize(n, -1);
+        
+        for(int i=0;i<n;i++){
+            makeBoard(i, board, w, h, 0, result);
+        }
+        
+        return result;
+    }
+    
+    void makeBoard(int h, vector<string> &board, vector<int> &vw, vector<int> &vh, int qCount, vector<vector<string>> &result){
+        if(vw.size() == qCount){
+            result.push_back(board);
+            return;
+        }
+        if(h == vh.size()) return;
+        
+        for(int i=0;i<vw.size();i++){
+            if(vw[i] == 1) continue;
+            if(vh[h] == 1) continue;
+            if(checkCross(h, i, board)) continue;
+            
+            vw[i] = vh[h] = 1;
+            board[h].at(i) = 'Q';
+            makeBoard(h+1, board, vw, vh, qCount+1, result);
+            vw[i] = vh[h] = -1;
+            board[h].at(i) = '.';
+        }
+    }
+    
+    bool checkCross(int h, int w, vector<string> &board){
+        for(int i=0;i<board.size();i++){
+            if( h-i<0 || w+i>=board.size()) break;
+            if(board[h-i].at(w+i) == 'Q') return true;
+        }
+        for(int i=0;i<board.size();i++){
+            if(h+i>=board.size() || w-i<0) break;
+            if(board[h+i].at(w-i) == 'Q') return true;
+        }
+        
+        for(int i=0;i<board.size();i++){
+            if( h-i<0 || w-i<0 ) break;
+            if(board[h-i].at(w-i) == 'Q') return true;
+        }
+        for(int i=0;i<board.size();i++){
+            if(h+i>=board.size() || w+i>=board.size()) break;
+            if(board[h+i].at(w+i) == 'Q') return true;
+        }
+        return false;
+    }
+};
