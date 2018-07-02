@@ -1,0 +1,59 @@
+class Solution {
+public:
+    string getPermutation(int n, int k) {
+        int factory = 1;
+        vector<int> v;
+        vector<int> rv;
+        string result = "";
+        
+        for(int i=0;i<n;i++){
+            v.push_back(i+1);  
+            factory *= (i+1);
+        } 
+        
+        while(k != 1){
+            factory /= n;
+            n--;
+            
+            int next = k/factory;
+            k %= factory;
+            
+            if(k==0){
+                rv.push_back(getNextNum(v, next-1));
+                int pos = rv.size();
+                while(rv.size() != v.size()){
+                    rv.push_back(getNextNum(v, 0));
+                }
+                reverse(rv.begin()+pos, rv.end());
+                break;
+            }
+            
+            rv.push_back(getNextNum(v, next));
+        }
+        
+        while(rv.size() != v.size()){
+            rv.push_back(getNextNum(v, 0));
+        }
+        
+        for(int i=0;i<rv.size();i++){
+            result = result + (char)(rv[i]+'0');
+        }
+        
+        return result;        
+    }
+    
+    int getNextNum(vector<int> &v, int next){
+        int count = 0;
+        for(int i=0;i<v.size();i++){
+            if(v[i] != -1){
+                if(count==next){
+                    int val = v[i];
+                    v[i] = -1;
+                    return val;
+                } 
+                count++;
+            }
+        }
+        return -1;
+    }
+};
