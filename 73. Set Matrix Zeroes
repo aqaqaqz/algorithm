@@ -1,0 +1,32 @@
+class Solution {
+public:
+    void setZeroes(vector<vector<int>>& matrix) {
+        changeMatrix(matrix, 0, 0);
+    }
+    
+    void changeMatrix(vector<vector<int>> &matrix, int h, int w){
+        if(w == matrix[0].size()){
+            w = 0;
+            h++;
+        }
+        if(h == matrix.size()) return;
+        
+        bool checkZero = false;
+        if(matrix[h][w] == 0) checkZero = true;
+        
+        changeMatrix(matrix, h, w+1);
+        
+        if(checkZero){
+            /*
+            if(h-1 >= 0)                matrix[h-1][w] = 0;
+            if(h+1 < matrix.size())     matrix[h+1][w] = 0;
+            if(w-1 >= 0)                matrix[h][w-1] = 0;
+            if(w+1 < matrix[0].size())  matrix[h][w+1] = 0;
+            */
+            for(int th = h+1;th<matrix.size();th++)     matrix[th][w] = 0;
+            for(int th = h-1;th>=0;th--)                matrix[th][w] = 0;
+            for(int tw = w+1;tw<matrix[0].size();tw++)  matrix[h][tw] = 0;
+            for(int tw = w-1;tw>=0;tw--)                matrix[h][tw] = 0;
+        }
+    }
+};
