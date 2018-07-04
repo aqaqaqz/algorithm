@@ -1,0 +1,28 @@
+class Solution {
+public:
+    vector<vector<int>> combine(int n, int k) {
+        vector<vector<int>> result;
+        vector<int> tResult;
+        
+        for(int i=1;i<=n-k+1;i++){
+            makeCombine(result, tResult, n, k, i);
+        }            
+
+        return result;
+    }
+    
+    void makeCombine(vector<vector<int>> &result, vector<int> &tResult, int n, int k, int pos){
+        tResult.push_back(pos);
+        if(tResult.size() == k){
+            result.push_back(tResult);
+            tResult.pop_back();
+            return;
+        }
+        
+        for(int i=pos+1;i<=n;i++){
+            makeCombine(result, tResult, n, k, i);
+        }
+        
+        tResult.pop_back();
+    }
+};
