@@ -1,0 +1,36 @@
+class Solution {
+    string pWord;
+public:
+    bool exist(vector<vector<char>>& board, string word) {
+        pWord = word;
+        for(int i=0;i<board.size();i++){
+            for(int j=0;j<board[i].size();j++){
+                if(checkNext(board, i, j, 0)){
+                    return true;
+                }
+            }
+        }
+        
+        return false;
+    }
+    
+    bool checkNext(vector<vector<char>> &board, int h, int w, int pos){
+        if(pos == pWord.size())  return true;
+        if(h == -1) return false;
+        if(w == -1) return false;
+        if(board.size() == h) return false;
+        if(board[h].size() == w) return false;
+        
+        if(board[h][w] == pWord.at(pos)){
+            char temp = board[h][w];
+            board[h][w] = '0';
+            if(checkNext(board, h+1, w, pos+1)) return true;
+            if(checkNext(board, h, w+1, pos+1)) return true;
+            if(checkNext(board, h-1, w, pos+1)) return true;
+            if(checkNext(board, h, w-1, pos+1)) return true;
+            board[h][w] = temp;
+        }
+        
+        return false;
+    }
+};
