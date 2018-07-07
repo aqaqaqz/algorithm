@@ -1,0 +1,16 @@
+class Solution {
+public:
+    bool search(vector<int>& nums, int target) {
+        if(nums.size() == 0) return false;
+        int s=0, e=nums.size()-1, m;
+        
+        if(nums[0] == target) return true;
+        for(int i=1;i<nums.size();i++){
+            if(nums[i] == target) return true;
+            if(nums[i-1] > nums[i]){
+                if(nums[0] < target) return false;
+            }
+        }
+        return false;
+    }
+};
