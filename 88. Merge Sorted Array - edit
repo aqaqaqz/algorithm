@@ -1,0 +1,26 @@
+class Solution {
+public:
+    void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
+        int pos = nums1.size()-1;
+        int pos1 = m-1;
+        int pos2 = n-1;
+        
+        while( !(pos1==-1 && pos2==-1) ){
+            if(pos1!=-1 && pos2!=-1){
+                if(nums1[pos1] > nums2[pos2]){
+                    nums1[pos--] = nums1[pos1--];
+                }else{
+                    nums1[pos--] = nums2[pos2--];
+                }
+            }else if(pos1==-1){
+                for(int i=pos2;i>=0;i--) nums1[pos--] = nums2[i];
+                break;
+            }else if(pos2==-1){
+                for(int i=pos1;i>=0;i--) nums1[pos--] = nums1[i];
+                break;
+            }else{
+                break;
+            }
+        }
+    }
+};
