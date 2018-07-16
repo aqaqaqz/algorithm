@@ -1,0 +1,98 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+    vector<bool> visit;
+    vector<TreeNode*> result;
+    vector<vector<int>> list;
+    vector<int> tempList;
+public:
+    vector<TreeNode*> generateTrees(int n) {
+        result.clear();
+        visit.resize(n, false);
+        list.clear();
+        tempList.clear();
+        
+        makeList(1, n);            
+
+        TreeNode *head;
+        for(int i=0;i<list.size();i++){
+            if(list[i].size() == 0) continue;
+            head = new TreeNode(list[i][0]);
+            for(int j=1;j<list[i].size();j++){
+                pushVal(head, list[i][j]);
+            }
+            
+            if(result.size()>0){
+                for(int j=0;j<result.size();j++){
+                    bool check = checkTree(head, result[j]);
+                    if(check) break;
+                    if(!check && j+1==result.size()){
+                        result.push_back(head);
+                    }
+                }
+            }else result.push_back(head);
+        }
+        
+        return result;
+    }
+    
+    void makeList(int depth, int n){
+        if(depth > n){
+            list.push_back(tempList);
+            return;
+        }
+        
+        for(int i=0;i<n;i++){
+            if(!visit[i]){
+                visit[i] = true;
+                tempList.push_back(i+1);
+                makeList(depth+1, n);            
+                visit[i] = false;
+                tempList.pop_back();
+            }
+        }
+    }
+    
+    void pushVal(TreeNode *node, int val){
+        TreeNode *temp = new TreeNode(val);
+        while(true){
+            if(node->val < val){
+                if(node->right == NULL){
+                    node->right = temp;
+                    return;
+                }else{
+                node = node->right;
+                }
+            }else{
+                if(node->left == NULL){
+                    node->left = temp;
+                    return;
+                }else{
+                    node = node->left;
+                }
+            }
+        }
+    }
+    
+    bool checkTree(TreeNode *a, TreeNode *b){
+        bool check;
+        
+        if(a == NULL && b == NULL) return true;
+        if(a == NULL || b == NULL) return false;
+        
+        if(a->val != b->val) return false;
+        
+        check = checkTree(a->left, b->left);
+        if(check)
+            check = checkTree(a->right, b->right);
+        
+        return check;
+    }
+};
