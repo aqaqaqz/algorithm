@@ -1,0 +1,27 @@
+class Solution {
+    vector<int> cache;
+public:
+    int numTrees(int n) {
+        cache.resize(n, -1);
+        return makeBinaryTree(1, n);
+    }
+    
+    int makeBinaryTree(int start, int end){
+        int result = 0;
+        if(start >= end) return 1;
+
+        int val = end-start;
+        if(cache[val] != -1) return cache[val];
+
+        for(int i=start;i<=end;i++){
+            int lCnt = makeBinaryTree(start, i-1);
+            int rCnt = makeBinaryTree(i+1, end);
+            
+            result += lCnt*rCnt;
+        }
+        
+        cache[val] = result;
+        
+        return cache[val];
+    }
+};
