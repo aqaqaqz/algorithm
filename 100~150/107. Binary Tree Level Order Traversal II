@@ -1,0 +1,39 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+    vector<vector<int>> result;
+public:
+    vector<vector<int>> levelOrderBottom(TreeNode* root) {
+        result.clear();
+        makeOrderTop(root, 0);
+        for(int i=0;i<result.size()/2;i++){
+            int swapP = result.size()-i-1;
+            vector<int> temp = result[i];
+            result[i] = result[swapP];
+            result[swapP] = temp;
+        }
+        return result;
+    }
+    
+    void makeOrderTop(TreeNode *node, int depth){
+        if(node == NULL) return;
+        
+        if(depth >= result.size()){
+            vector<int> v;
+            v.push_back(node->val);
+            result.push_back(v);
+        }else{
+            result[depth].push_back(node->val);
+        }
+        
+        makeOrderTop(node->left, depth+1);
+        makeOrderTop(node->right, depth+1);
+    }
+};
