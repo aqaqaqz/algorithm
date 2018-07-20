@@ -1,0 +1,24 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool hasPathSum(TreeNode* root, int sum) {
+        return hasPathSum2(root, 0, sum);
+    }
+    
+    bool hasPathSum2(TreeNode* node, int pre, int sum){
+        if(node == NULL) return false;
+        if(pre+node->val == sum && node->left==NULL && node->right == NULL ) return true;
+        
+        if(!hasPathSum2(node->left, pre+node->val, sum))
+            return hasPathSum2(node->right, pre+node->val, sum);
+        return true;
+    }
+};
