@@ -1,0 +1,31 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+    int minV;
+public:
+    int minDepth(TreeNode* root) {
+        minV = 200000000;
+        
+        if(root == NULL) return 0;
+        
+        return makeMinDepth(root, 1);
+    }
+    
+    int makeMinDepth(TreeNode *node, int depth){
+        if(minV < depth) return minV;
+        if(node->left==NULL && node->right==NULL){
+            minV = min(minV, depth);
+        }
+        if(node->left != NULL) minV = min(minV, makeMinDepth(node->left, depth+1));
+        if(node->right != NULL) minV = min(minV, makeMinDepth(node->right, depth+1));
+        
+        return minV;
+    }
+};
