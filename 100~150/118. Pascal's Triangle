@@ -1,0 +1,21 @@
+class Solution {
+    vector<vector<int>> result;
+public:
+    vector<vector<int>> generate(int numRows) {
+        if(numRows == 0) return result;
+        vector<int> v;
+        v.push_back(1);
+        result.push_back(v);
+        
+        for(int i=1;i<numRows;i++){
+            int size = v.size();
+            for(int j=0;j<=size;j++){
+                v.push_back( (j-1==-1?0:v[j-1])+ (j==size?0:v[j]) );
+            }
+            v.erase(v.begin(), v.begin()+size);
+            result.push_back(v);
+        }
+        
+        return result;
+    }
+};
