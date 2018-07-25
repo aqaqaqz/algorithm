@@ -1,0 +1,36 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+    stack<TreeNode*> s;
+public:
+    void flatten(TreeNode* root) {
+        if(root == NULL) return;
+        
+        makeStack(root);
+        
+        TreeNode *preNode = NULL;
+
+        while(!s.empty()){
+            TreeNode *tempNode = s.top();
+            tempNode->right = preNode;
+            tempNode->left = NULL;
+            preNode = tempNode;
+            s.pop();
+        }
+    }
+    
+    void makeStack(TreeNode *node){
+        if(node == NULL) return;
+        
+        s.push(node);
+        makeStack(node->left);
+        makeStack(node->right);
+    }
+};
