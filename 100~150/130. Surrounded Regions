@@ -1,0 +1,29 @@
+class Solution {
+    vector<vector<char>> result;
+public:
+    void solve(vector<vector<char>>& board) {
+        if(board.size() == 0) return;
+        
+        result.resize(board.size(), vector<char>(board[0].size(), 'X'));
+        for(int w=0;w<board[0].size();w++){
+            if(board[0][w] == 'O' && result[0][w] == 'X') makeO(board, 0, w);
+            if(board[board.size()-1][w] == 'O' && result[board.size()-1][w] == 'X') makeO(board, board.size()-1, w);
+        }
+        for(int h=0;h<board.size();h++){
+            if(board[h][0] == 'O' && result[h][0] == 'X') makeO(board, h, 0);
+            if(board[h][board[0].size()-1] == 'O' && result[h][board[0].size()-1] == 'X') makeO(board, h, board[0].size()-1);
+        }
+        board = result;
+    }
+    
+    void makeO(vector<vector<char>> &board, int h, int w){
+        if(h<0 || h>=board.size() || w<0 || w>=board[0].size()) return;
+        if(board[h][w] == 'O' && result[h][w] == 'X'){
+            result[h][w] = 'O';
+            makeO(board, h+1, w);
+            makeO(board, h, w+1);
+            makeO(board, h-1, w);
+            makeO(board, h, w-1);
+        }
+    }
+};
