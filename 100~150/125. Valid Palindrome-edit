@@ -1,0 +1,23 @@
+class Solution {
+public:
+    bool isPalindrome(string s) {
+        string vStr = "";
+        
+        for(int i=0;i<s.size();i++){
+            char c = tolower(s.at(i));
+            
+            if( ('a'<=c && 'z'>=c) || ('0'<=c && '9'>=c) ) vStr += c;
+        }
+        
+        int sp = 0;
+        int ep = vStr.size()-1;
+        
+        while(sp < ep){
+            if(vStr.at(sp) != vStr.at(ep)) return false;
+            sp++;
+            ep--;
+        }
+        
+        return true;
+    }
+};
