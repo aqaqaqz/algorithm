@@ -1,0 +1,43 @@
+class Solution {
+    vector<vector<int>> v;
+public:
+    int lenLongestFibSubseq(vector<int>& A) {
+        v.resize(A.size(), vector<int>(A.size(), -1));
+        
+        int len = 0;
+        for(int i=0;i<A.size();i++){
+            for(int j=i+1;j<A.size();j++){
+                int sum = A[i]+A[j];
+                int nextPos = findPos(sum, A);
+                if(nextPos !=-  1){
+                    len = max(len, 3+getLongestLen(nextPos, j, A));
+                }
+            }
+        }
+        
+        return len;
+    }
+    
+    int getLongestLen(int pos, int pre, vector<int> &A){
+        int sum = A[pos] + A[pre];
+        int nextPos = findPos(sum, A);
+        if(nextPos != -1)
+            return 1+getLongestLen(nextPos, pos, A);
+        
+        return 0;
+    }
+    
+    int findPos(int num, vector<int> &A){
+        int s = 0;
+        int e = A.size()-1;
+        int m;
+        
+        while(s<=e){
+            m = (s+e)/2;
+            if(num > A[m]) s = m+1;
+            else if(num < A[m]) e = m-1;
+            else return m;
+        }
+        return -1;
+    }
+};
