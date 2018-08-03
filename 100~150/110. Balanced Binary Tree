@@ -1,0 +1,33 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+    bool result;
+public:
+    bool isBalanced(TreeNode* root) {
+        if(root == NULL) return true;
+        result = true;
+        
+        getMaxDepth(root, 1);
+        
+        return result;
+    }
+    
+    int getMaxDepth(TreeNode *node, int depth){
+        if(node == NULL) return depth;
+        if(!result) return -1;
+        depth++;
+        
+        int l = getMaxDepth(node->left, depth);
+        int r = getMaxDepth(node->right, depth);
+        if(abs(l-r)>1) result = false;
+        
+        return max(l, r);
+    }
+};
