@@ -1,0 +1,30 @@
+class Solution {
+private:
+	int getHour(vector<int> &piles, int speed) {
+		int h = 0;
+		for (int i = 0; i < piles.size(); i++) {
+			h += (piles[i]) / speed;
+            if(piles[i]%speed != 0) h++;
+		}
+		return h;
+	}
+public:
+	int minEatingSpeed(vector<int>& piles, int H) {
+		int begin = 1;
+		int end = pow(10, 9);
+		int speed;
+
+		while (begin < end) {
+			speed = (begin + end) / 2;
+			//cout << begin << " " << end << " " << speed << endl;
+			int hour = getHour(piles, speed);
+			if (hour > H) {
+				begin = speed + 1;
+			}else {
+				end = speed;
+			}
+		}
+
+		return begin;
+	}
+};
