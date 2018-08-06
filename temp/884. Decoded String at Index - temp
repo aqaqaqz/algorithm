@@ -1,0 +1,54 @@
+class Solution {
+public:
+    string decodeAtIndex(string s, long long k) {
+        vector<vector<long long>> v;
+        
+        long long cnt = 0;
+        for(int i=0;i<s.size();i++){
+            vector<long long> p;
+            p.resize(3);
+            //0:pos, 1:cnt, 2:loop
+            
+            p[0] = i;
+            while( !(s.at(i)>='2' && s.at(i)<='9') ){
+                cnt++;
+                i++;
+            }
+            long long loop = getNum(s, i);
+            p[1] = cnt;
+            p[2] = loop;
+            v.push_back(p);
+                        
+            cnt *= loop;
+        }
+        
+        long long order;
+        for(vector<long long> temp : v){
+            if(temp[1]*temp[2]>=k){
+                order = k%temp[1];
+            }
+        }
+        
+        for(vector<long long> temp : v){
+            if(order > temp[1]*temp[2]){
+                order -= temp[1]*temp[2];
+            }else{
+                int result = (int)(temp[0] + order -1);
+                return s.substr(result, 1);
+            }
+        }
+        
+        return "";
+    }
+    
+    long long getNum(string &s, int &pos){
+        long long num = 0;
+        while(pos < s.size() && s.at(pos)>='2' && s.at(pos)<='9' ){
+            num += num*10;
+            num += (int)(s.at(pos)-'0');
+            pos++;
+        }
+        pos--;
+        return num;
+    }
+};
