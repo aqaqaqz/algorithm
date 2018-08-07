@@ -1,0 +1,30 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* sortList(ListNode* head) {
+        ListNode *front = head;
+        
+        vector<int> v;
+        while(head != NULL){
+            v.push_back(head->val);
+            head = head->next;
+        }
+        
+        int pos = 0;
+        sort(v.begin(), v.end());
+        head = front;
+        while(head != NULL){
+            head->val = v[pos++];
+            head = head->next;
+        }
+        
+        return front;
+    }
+};
