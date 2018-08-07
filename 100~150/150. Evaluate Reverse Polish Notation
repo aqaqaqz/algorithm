@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int evalRPN(vector<string>& tokens) {
+        int pos = tokens.size()-1;
+        return getNum(tokens, pos);
+    }
+
+    int getNum(vector<string> &tokens, int &pos){
+        if( pos < 0 ) return 0;
+        string s = tokens[pos--];
+        
+        if(s == "*" || s == "/" || s == "-" || s == "+"){
+            int eval1 = getNum(tokens, pos);
+            int eval2 = getNum(tokens, pos);
+            
+            if(s == "*") return eval1*eval2;
+            else if(s == "/") return eval2/eval1;
+            else if(s == "+") return eval1+eval2;
+            else return eval2-eval1;
+        }else{
+            return atoi(s.c_str());
+        }
+    }
+};
