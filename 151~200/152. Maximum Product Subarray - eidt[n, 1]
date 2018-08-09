@@ -1,0 +1,21 @@
+class Solution {
+    vector<int> v;
+public:
+    int maxProduct(vector<int>& nums) {
+        if(nums.size() == 0) return 0;
+        
+        int minV = nums[0];
+        int maxV = nums[0];
+        int result = nums[0];
+        
+        for(int i=1;i<nums.size();i++){
+            int tempMin = min(maxV*nums[i], minV*nums[i]);
+            int tempMax = max(maxV*nums[i], minV*nums[i]);
+            minV = min(tempMin, nums[i]);
+            maxV = max(tempMax, nums[i]);
+            result = max(result, max(minV, maxV));
+        }
+        
+        return result;
+    }
+};
