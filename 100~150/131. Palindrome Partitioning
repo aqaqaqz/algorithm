@@ -1,0 +1,32 @@
+class Solution {
+    vector<vector<string>> result;
+public:
+    vector<vector<string>> partition(string s) {
+        vector<string> tResult;
+        makeResult(0, tResult, s);
+        return result;
+    }
+    
+    bool checkStr(string str, int s, int e){
+        int size = (e-s+1)/2;
+        for(int i=0;i<size;i++){
+            if(str.at(s+i) != str.at(e-i)) return false;
+        }
+        return true;
+    }
+    
+    void makeResult(int pos, vector<string> tResult, string &s){
+        if(pos == s.size()){
+            result.push_back(tResult);  
+            return;
+        }
+        
+        for(int i=pos;i<s.size();i++){
+            if(checkStr(s, pos, i)){
+                tResult.push_back(s.substr(pos, i-pos+1));
+                makeResult(i+1, tResult, s);
+                tResult.pop_back();
+            }
+        }
+    }
+};
