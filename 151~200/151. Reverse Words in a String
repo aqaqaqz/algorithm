@@ -1,0 +1,19 @@
+class Solution {
+public:
+	void reverseWords(string &s) {
+		string result = "";
+		string temp;
+
+		for (int i = 0; i<s.size(); i++) {
+			temp = "";
+			while (s.at(i) != ' ') {
+				temp += s.at(i);
+				i++;
+				if (i >= s.size())  break;
+			}
+			if("" != temp)
+				result  =  temp + " "  + result ;
+		}
+		s = result.substr(0, result.size()-1);
+	}
+};
