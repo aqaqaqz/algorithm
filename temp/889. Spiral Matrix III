@@ -1,0 +1,59 @@
+class Solution {
+    vector<vector<int>> result;
+    int cnt;
+    int maxCnt;
+public:
+    vector<vector<int>> spiralMatrixIII(int R, int C, int r, int c) {
+        cnt = 0;
+        maxCnt = R*C;
+        R--; C--;
+        
+        int depth = 1;
+        char dir = 'r';
+        
+        checkOnBoard(R, C, r, c);
+            
+        while(cnt != maxCnt){
+            if(dir == 'r'){
+                for(int i=0;i<depth;i++){
+                    c++;
+                    checkOnBoard(R, C, r, c);
+                }
+                dir = 'd';
+            }else if(dir == 'l'){
+                for(int i=0;i<depth;i++){
+                    c--;
+                    checkOnBoard(R, C, r, c);
+                }
+                dir = 'u';
+            }else if(dir == 'd'){
+                for(int i=0;i<depth;i++){
+                    r++;
+                    checkOnBoard(R, C, r, c); 
+                }
+                dir = 'l';
+                depth++;
+            }else if(dir == 'u'){
+                for(int i=0;i<depth;i++){
+                    r--;
+                    checkOnBoard(R, C, r, c); 
+                }
+                dir = 'r';
+                depth++;
+            }
+        }
+        return result;
+    }
+    
+    void checkOnBoard(int r, int c, int rp, int cp){
+        if(rp>=0 && rp<=r && cp>=0 && cp<=c){
+            vector<int> tVector;
+            tVector.push_back(rp);
+            tVector.push_back(cp);
+            result.push_back(tVector);
+            cnt++;
+        }
+    }
+    
+    
+};

@@ -1,0 +1,31 @@
+class Solution {
+public:
+    vector<string> uncommonFromSentences(string A, string B) {
+        vector<string> result;
+        map<string, int> m;
+        
+        makeSet(A, m);
+        makeSet(B, m);
+        
+        map<string, int>::iterator iter;
+        for(iter=m.begin();iter!=m.end();iter++){
+            if(iter->second == 1) result.push_back(iter->first);
+        }
+        
+        return result;
+    }
+    
+    void makeSet(string &str, map<string, int> &m){
+        for(int i=0;i<str.size();i++){
+            string temp = "";
+            while(i<str.size() && str.at(i) == ' '){
+                i++;
+            }
+            while(i<str.size() && str.at(i) != ' '){
+                temp += str.at(i);
+                i++;
+            }
+            if(temp != "") m[temp]++;
+        }
+    }
+};
