@@ -1,0 +1,16 @@
+class Solution {
+public:
+    uint32_t reverseBits(uint32_t n) {
+        uint32_t result = 0;
+        uint32_t temp = pow(2, 31);
+        for(int i=31;i>=0;i--){
+            if(n >=temp){
+                n -= temp;
+                result += (1<<(31-i));
+            }
+            temp /= 2;
+        }
+        
+        return result;
+    }
+};
