@@ -1,0 +1,28 @@
+class Solution {
+    int result;
+public:
+    int numIslands(vector<vector<char>>& grid) {
+        result = 2;
+        for(int h=0;h<grid.size();h++){
+            for(int w=0;w<grid[0].size();w++){
+                if(grid[h][w] == '1'){
+                    findGround(grid, w, h);
+                    result++;
+                }
+            }
+        }
+        return result-2;
+    }
+    
+    void findGround(vector<vector<char>> &grid, int w, int h){
+        if( !(w >= 0 && w < grid[0].size() && h >= 0 && h < grid.size()) ) return;
+        if(grid[h][w] != '1') return;
+        
+        grid[h][w] = (char)(result+'0');
+        
+        findGround(grid, w+1, h);
+        findGround(grid, w, h+1);
+        findGround(grid, w-1, h);
+        findGround(grid, w, h-1);
+    }
+};
