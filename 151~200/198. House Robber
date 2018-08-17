@@ -1,0 +1,21 @@
+class Solution {
+    vector<int> v;
+public:
+    int rob(vector<int>& nums) {
+        v.resize(nums.size(), -1);
+        return getMaxRob(nums, 0);
+    }
+    
+    int getMaxRob(vector<int> &nums, int pos){
+        if(pos >=nums.size()) return 0;
+        
+        if(v[pos] != -1) return v[pos];
+        
+        int rob1 = getMaxRob(nums, pos+1);
+        int rob2 = nums[pos] + getMaxRob(nums, pos+2);
+        
+        v[pos] = max(rob1, rob2);
+        
+        return v[pos];
+    }
+};
