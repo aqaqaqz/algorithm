@@ -1,0 +1,24 @@
+class Solution {
+public:
+    bool isHappy(int n) {
+        map<int, int> m;
+        m[n]++;
+        while(true){
+            n = getHappy(n);
+            if(n == 1) return true;
+            if(m[n] == 1) return false;
+            m[n]++;
+        }
+        return false;
+    }
+    
+    int getHappy(int val){
+        int happy = 0;
+        while(val != 0){
+            int temp = val%10;
+            happy += temp*temp;
+            val /= 10;
+        }
+        return happy;
+    }
+};
