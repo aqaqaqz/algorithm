@@ -1,0 +1,43 @@
+class Solution {
+public:
+    vector<int> fairCandySwap(vector<int>& a, vector<int>& b) {
+        vector<int> result;
+        
+        //sort(a.begin(), a.end());
+        sort(b.begin(), b.end());
+        
+        int sumA = getSum(a);
+        int sumB = getSum(b);
+        
+        for(int i=0;i<a.size();i++){
+            int candyLen = sumB-sumA+2*a[i];
+            if(candyLen < 0 || candyLen%2==1) continue;
+            candyLen /= 2;
+            if(findCandy(b, candyLen)){
+                result.push_back(a[i]);
+                result.push_back(candyLen);
+                return result;
+            }
+        }
+        
+        return result;
+    }
+    
+    int getSum(vector<int> &v){
+        int s = 0;
+        for(int i=0;i<v.size();i++) s += v[i];
+        return s;
+    }
+    
+    bool findCandy(vector<int> &v, int val){
+        int s = 0;
+        int e = v.size()-1;
+        while(s <= e){
+            int m = (s+e)/2;
+            if(v[m] == val) return true;
+            else if(v[m] > val) e = m-1;
+            else s = m+1;
+        }
+        return false;
+    }
+};

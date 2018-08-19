@@ -1,0 +1,30 @@
+class Solution {
+public:
+    vector<string> findAndReplacePattern(vector<string>& words, string pattern) {
+        vector<string> result;
+        
+        for(int i=0;i<words.size();i++){
+            if(checkPattern(words[i], pattern)) result.push_back(words[i]);
+        }
+        
+        return result;
+    }
+    
+    bool checkPattern(string &a, string &b){
+        if(a.size() != b.size()) return false;
+        map<char, char> m;
+        
+        for(int i=0;i<a.size();i++){
+            if( m[a.at(i)] == NULL ){
+                map<char, char>::iterator iter;
+                for(iter=m.begin();iter!=m.end();iter++){
+                    if(iter->second == b.at(i)) return false;
+                }
+                m[a.at(i)] = b.at(i);
+            }
+            else if(m[a.at(i)] != b.at(i)) return false;
+        }
+        
+        return true;
+    }
+};
