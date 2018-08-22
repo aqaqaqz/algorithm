@@ -1,0 +1,61 @@
+struct Word{
+    char val;
+    bool end;
+    vector<Word*> next;
+    Word(char v){
+        val = v;
+        end = false;
+        next.resize(26);
+    }
+};
+
+class Trie {
+    vector<Word*> w;
+    
+    Word* getLastPos(string word){
+        Word *temp = NULL;
+        temp = w[word.at(0)-'a'];
+        for(int i=1;i<word.size();i++){
+            if(temp == NULL) return NULL;
+            temp = temp->next[word.at(i)-'a'];
+        }
+        return temp;
+    }
+public:
+    /** Initialize your data structure here. */
+    Trie() {
+        w.resize(26);
+    }
+    
+    /** Inserts a word into the trie. */
+    void insert(string word) {
+        if(w[word.at(0)-'a'] == NULL) w[word.at(0)-'a'] = new Word(word.at(0));
+
+        Word *temp = w[word.at(0)-'a'];
+        for(int i=1;i<word.size();i++){
+            if(temp->next[word.at(i)-'a'] == NULL) temp->next[word.at(i)-'a'] = new Word(word.at(i));
+            temp = temp->next[word.at(i)-'a'];
+        }
+        temp->end = true;
+    }
+    
+    /** Returns if the word is in the trie. */
+    bool search(string word) {
+        Word *temp = getLastPos(word);
+        return temp!=NULL?temp->end:false;
+    }
+    
+    /** Returns if there is any word in the trie that starts with the given prefix. */
+    bool startsWith(string prefix) {
+        Word *temp = getLastPos(prefix);
+        return temp!=NULL;
+    }
+};
+
+/**
+ * Your Trie object will be instantiated and called as such:
+ * Trie obj = new Trie();
+ * obj.insert(word);
+ * bool param_2 = obj.search(word);
+ * bool param_3 = obj.startsWith(prefix);
+ */
