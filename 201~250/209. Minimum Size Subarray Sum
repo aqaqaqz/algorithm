@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int minSubArrayLen(int s, vector<int>& nums) {
+        if(nums.size() == 0) return 0;
+        
+        int result = 0;
+        
+        vector<int> v(nums.size(), 0);
+        v[0] = nums[0];
+        for(int i=1;i<nums.size();i++)
+            v[i] = v[i-1]+nums[i];
+        
+        for(int i=0;i<v.size();i++){
+            int minLen;
+            if(v[i] < s) continue;
+            else if(v[i] == s){
+                minLen = i+1;
+            }else{
+                int f=0;
+                while(v[i]-v[f] >= s) f++;
+                f--;
+                minLen = f>=0?i-f:i+1;
+            }
+            result = result==0?minLen:min(result, minLen);
+        }
+        
+        return result;
+    }
+};
