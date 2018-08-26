@@ -1,0 +1,43 @@
+class Solution {
+public:
+    int numSpecialEquivGroups(vector<string>& a) {
+        if(a.size() == 0 ) return 0;
+        for(int i=0;i<a.size();i++)
+            sortString(a[i]);
+        
+        int result = 1;
+        sort(a.begin(), a.end());
+        
+        for(int i=1;i<a.size();i++){
+            if(a[i] != a[i-1]) result++;
+        }
+        
+        return result;
+    }
+    
+    void sortString(string &str){
+        vector<char> v0;
+        vector<char> v1;
+        
+        for(int i=0;i<str.size();i++){
+            if(i%2 == 0) v0.push_back(str.at(i));
+            else v1.push_back(str.at(i));
+        }
+        
+        sort(v0.begin(), v0.end());
+        sort(v1.begin(), v1.end());
+        
+        str = "";
+        
+        int p0 = 0;
+        int p1 = 0;
+        
+        while(true){
+            if(p0 != v0.size()) str += v0[p0++];
+            if(p1 != v1.size()) str += v1[p1++];
+            
+            if(p0==v0.size() && p1==v1.size()) break;
+        }
+        
+    }
+};
