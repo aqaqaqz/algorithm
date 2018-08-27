@@ -1,0 +1,52 @@
+class Solution {
+    string makeStr(int a){
+        if(a == 0) return "0";
+        string str = "";
+        while(a != 0){
+            str = (char)(a%10 + '0') + str;
+            a /= 10;
+        }
+        return str;
+    }
+    
+    static bool mySort(string a, string b){
+        int size = min(a.size(), b.size());
+        for(int i=0;i<size;i++){
+            if(a.at(i) == b.at(i)) continue;
+            else if(a.at(i) > b.at(i)) return true;
+            return false;
+        }
+        if(a.size() > b.size()){
+            for(int i=size;i<a.size();i++){
+                for(int j=0;j<b.size();j++){
+                    if(a.at(i) == b.at(j)) continue;
+                    else if(a.at(i) > b.at(j)) return true;
+                    return false;
+                }
+            }
+        }else if(a.size() < b.size()){
+            for(int i=size;i<b.size();i++){
+                for(int j=0;j<a.size();j++){
+                    if(b.at(i) == a.at(j)) continue;
+                    else if(b.at(i) > a.at(j)) return false;
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+public:
+    string largestNumber(vector<int>& nums) {
+        vector<string> v;
+        for(int num : nums)
+            v.push_back(makeStr(num));
+        
+        sort(v.begin(), v.end(), mySort);
+        
+        string result = "";
+        for(int i=0;i<v.size();i++) result = result + v[i];
+        
+        if(result.at(0) == '0') return "0";
+        return result;
+    }
+};
