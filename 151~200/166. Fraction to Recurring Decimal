@@ -1,0 +1,45 @@
+class Solution {
+public:
+    string fractionToDecimal(long long n, long long d) {
+        if(d == 0) return "NaN";
+        bool minus = false;
+        
+        if( (n<0&&d>0) || (n>0&&d<0) ) minus = true;
+
+        n = abs(n);
+        d = abs(d);
+        string result = "";
+        long long val = n/d;
+        long long remain = n%d;
+        
+        result = to_string(val);
+        if(remain == 0)
+            return ((minus?"-":"") + result);
+        result += '.';
+        
+        int dotPos = result.size();
+        int pos = 1;
+        map<long long, int> remainMap;
+        
+        while(remain != 0){
+            remain *= 10;
+            val = remain/d;
+            remain = remain%d;
+            
+            if(remainMap[remain] != NULL){
+                
+                if(result.at(dotPos+remainMap[remain]-1) != (char)(val + '0')){
+                    dotPos++;
+                    result += (char)(val + '0');
+                }
+                result.insert(dotPos+remainMap[remain]-1, "(");
+                result += ')';
+                return ((minus?"-":"") + result);
+            }
+            result += (char)(val + '0');
+            remainMap[remain] = pos++;
+        }
+        
+        return ((minus?"-":"") + result);
+    }
+};
