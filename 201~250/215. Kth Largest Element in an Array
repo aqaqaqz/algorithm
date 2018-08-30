@@ -1,0 +1,13 @@
+class Solution {
+public:
+    int findKthLargest(vector<int>& nums, int k) {
+        multiset<int> s;
+        for(int num : nums){
+            if(*s.begin() < num || s.size()<k){
+                if(s.size() == k) s.erase(s.begin());
+                s.insert(num);
+            }
+        }
+        return *s.begin();
+    }
+};
