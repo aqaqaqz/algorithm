@@ -1,0 +1,26 @@
+class Solution {
+    vector<vector<int>> result;
+public:
+    vector<vector<int>> combinationSum3(int k, int n) {
+        vector<int> tempResult;
+        makeCombinationSum(tempResult, k, n, 0, 0);
+        return result;
+    }
+    
+    void makeCombinationSum(vector<int> &v, int k, int n, int pre, int sum){
+        if(v.size() == k){
+            if(sum == n)
+                result.push_back(v);
+            return;
+        }
+        
+        for(int i=pre+1;i<=9;i++){
+            v.push_back(i);
+            sum += i;
+            if(n >= sum)
+                makeCombinationSum(v, k, n, i, sum);
+            sum -= i;
+            v.pop_back();
+        }
+    }
+};
