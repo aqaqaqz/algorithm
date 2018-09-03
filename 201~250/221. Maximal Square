@@ -1,0 +1,38 @@
+class Solution {
+    vector<vector<vector<int>>> v;
+public:
+    int maximalSquare(vector<vector<char>>& matrix) {
+        if(matrix.size()==0 || matrix[0].size()==0) return 0;
+        v.resize(matrix.size(), vector<vector<int>>(matrix[0].size(), vector<int>(2, -1)));
+        
+        for(int i=0;i<matrix.size();i++){
+            for(int j=0;j<matrix[i].size();j++){
+                v[i][j][0] = getLargestLen(i, j, 'r', matrix);
+                v[i][j][1] = getLargestLen(i, j, 'd', matrix);
+            }
+        }
+
+        int result = 0;
+        for(int i=0;i<matrix.size();i++){
+            for(int j=0;j<matrix[i].size();j++){
+                if(matrix[i][j] == '0') continue;
+                
+                int len = min(v[i][j][0], v[i][j][1]);
+                for(int k=0;k<len;k++){
+                    if(v[i+k][j][0]>=k+1 && v[i][j+k][1]>=k+1) result = max(result, k+1);
+                    else break;
+                }
+            }
+        }
+        
+        return result*result;
+    }
+    
+    int getLargestLen(int h, int w, char d, vector<vector<char>> &matrix){
+        if(h>=v.size() || w>=v[0].size() || matrix[h][w]=='0') return 0;
+        if(v[h][w][d=='r'?0:1] != -1) return v[h][w][d=='r'?0:1];
+        
+        if(d == 'r') return 1+getLargestLen(h, w+1, d, matrix);
+        return 1+getLargestLen(h+1, w, d, matrix);
+    }
+};
