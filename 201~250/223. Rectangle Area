@@ -1,0 +1,17 @@
+class Solution {
+public:
+    int computeArea(int a, int b, int c, int d, int e, int f, int g, int h) {
+        int result = (c-a)*(d-b) + (g-e)*(h-f);
+        result -= getCrashArea(a, b, c, d, e, f, g, h);
+        return result;
+    }
+    
+    int getCrashArea(int a, int b, int c, int d, int e, int f, int g, int h) {
+        int x1 = max(a, e);
+        int x2 = min(c, g);
+        int y1 = max(b, f);
+        int y2 = min(d, h);
+        if(x1 >= x2 || y1 >= y2) return 0;
+        return (x2-x1)*(y2-y1);
+    }
+};
