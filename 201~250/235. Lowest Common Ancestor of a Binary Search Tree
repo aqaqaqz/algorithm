@@ -1,0 +1,36 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        makePath(root, p, q);
+        return findLowsetNode(root, p, q);
+    }
+    
+    bool makePath(TreeNode* node, TreeNode* p, TreeNode* q){
+        if(node==NULL) return false;
+        if(node==p || node==q) return true;
+        
+        bool findLeft = makePath(node->left, p, q);
+        bool findRight = makePath(node->right, p, q);
+        if(!findLeft) node->left = NULL;
+        if(!findRight) node->right = NULL;
+        
+        return findLeft || findRight;
+    }
+    
+    TreeNode* findLowsetNode(TreeNode* node, TreeNode* p, TreeNode* q){
+        if(node==p) return p;
+        if(node==q) return q;
+        if(node->left!=NULL && node->right!=NULL) return node;
+        else if(node->left == NULL) return findLowsetNode(node->right, p, q);
+        return findLowsetNode(node->left, p, q);
+    }
+};
