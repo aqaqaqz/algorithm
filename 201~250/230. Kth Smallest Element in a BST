@@ -1,0 +1,34 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+    unordered_map<TreeNode *, int> treeMap;
+public:
+    int kthSmallest(TreeNode* root, int k) {
+        if(root == NULL) return 0;
+        return getKthSmallest(root, k, 0);
+    }
+    
+    int getKthSmallest(TreeNode* node, int k, int r) {
+        int nowR = getNodeCnt(node->left)+r;
+        if(nowR+1 == k) return node->val;
+        if(nowR >= k) return getKthSmallest(node->left, k, r);
+        return getKthSmallest(node->right, k, nowR+1);
+    }
+    
+    int getNodeCnt(TreeNode *node){
+        if(node == NULL) return 0;
+        if(treeMap[node] != NULL) return treeMap[node];
+        treeMap[node] = 1;
+        treeMap[node] += getNodeCnt(node->left);
+        treeMap[node] += getNodeCnt(node->right);
+        
+        return treeMap[node];
+    }
+};
