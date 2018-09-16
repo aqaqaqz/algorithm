@@ -1,0 +1,30 @@
+class Solution {
+    int type1;
+    int type2;
+public:
+    int totalFruit(vector<int>& tree) {
+        if(tree.empty()) return 0;
+        
+        int result = 0;
+        int pos = 0;
+        while(pos < tree.size()){
+            result = max(result, getNextFruit(tree, pos, tree[pos], -1));   
+            if(pos != tree.size()){
+                while(tree[pos] == tree[pos-1]) pos--;
+            }
+        }
+        
+        return result;
+    }
+    
+    int getNextFruit(vector<int> &tree, int &pos, int type1, int type2){
+        if(pos == tree.size()) return 0;
+        if(tree[pos+1] == type1) return 1+getNextFruit(tree, ++pos, type1, type2);
+        if(tree[pos+1] == type2) return 1+getNextFruit(tree, ++pos, type1, type2);
+        if(type2 == -1){
+            type2 = tree[pos+1];
+            return 1+getNextFruit(tree, ++pos, type1, type2);
+        }
+        return 1;
+    }
+};

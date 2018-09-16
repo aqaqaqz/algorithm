@@ -1,0 +1,17 @@
+class Solution {
+public:
+    vector<int> sortArrayByParity(vector<int>& A) {
+        vector<int> v1;
+        vector<int> v2;
+        for(int num : A){
+            if(num % 2 == 0) 
+                v1.push_back(num);
+            else
+                v2.push_back(num);
+        }
+        
+        for(int num : v2) v1.push_back(num);
+        
+        return v1;
+    }
+};
