@@ -1,0 +1,18 @@
+class Solution {
+public:
+    vector<int> productExceptSelf(vector<int>& nums) {
+        vector<int> result(nums.size(), 1);
+        
+        int front = 1;
+        int back = 1;
+        for(int i=0;i<nums.size();i++){
+            result[i] *= front;
+            front *= nums[i];
+            
+            result[nums.size()-1-i] *= back;
+            back *= nums[nums.size()-1-i];
+        }
+     
+        return result;
+    }
+};
