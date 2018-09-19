@@ -1,0 +1,15 @@
+class Solution {
+public:
+    bool isUgly(int num) {
+        devide(num, 2);
+        devide(num, 3);
+        devide(num, 5);
+        
+        if(num == 1) return true;
+        return false;
+    }
+    
+    void devide(int &num, int d){
+        while( !(num%d!=0||num==0) ) num/=d;
+    }
+};
