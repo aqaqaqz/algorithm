@@ -1,0 +1,27 @@
+class Solution {
+    vector<int> v;
+        
+    int getLeastNumSquare(int n){
+        int val;
+        int sq = sqrt(n);
+        if(sq*sq == n) val = 1;
+        else{
+            val = INT_MAX;
+            for(int i=1;i*i<=n;i++){
+                val = min(val, v[n-i*i]+1);
+            }
+        }
+        
+        return val;
+    }
+public:
+    int numSquares(int n) {
+        v.push_back(0); //0
+        for(int i=1;i<=n;i++){
+            v.push_back(getLeastNumSquare(i));
+        }
+        
+        return v[n];
+    }
+
+};
