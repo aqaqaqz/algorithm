@@ -1,0 +1,19 @@
+class Solution {
+public:
+    int nthUglyNumber(int n) {
+        if(n==0) return 0;
+        
+        set<long long> s({1});
+        set<long long>::iterator iter;
+        
+        for(iter=s.begin();iter!=s.end();iter++){
+            if(*iter*2 < INT_MAX) s.insert(*iter*2);
+            if(*iter*3 < INT_MAX) s.insert(*iter*3);
+            if(*iter*5 < INT_MAX) s.insert(*iter*5);
+        }
+        
+        iter = s.begin();
+        while(--n) iter++;
+        return *iter;
+    }
+};
