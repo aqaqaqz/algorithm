@@ -1,0 +1,27 @@
+class Solution {
+    int getGcd(int a, int b){
+        while(a!=0 && b!=0){
+            if(a>b)
+                a %= b;
+            else
+                b %= a;            
+        }
+        return max(a,b);
+    }
+public:
+    bool hasGroupsSizeX(vector<int>& deck) {
+        unordered_map<int, int> m;
+        for(int num : deck) m[num]++;
+        
+     
+        unordered_map<int, int>::iterator iter = m.begin();
+        int val = iter->second;
+        iter++;
+        for(iter;iter!=m.end();iter++){
+            val = getGcd(val, iter->second);
+        }
+
+        if(val != 1) return true;
+        return false;
+    }
+};

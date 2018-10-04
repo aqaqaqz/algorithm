@@ -1,0 +1,20 @@
+class Solution {
+public:
+    int partitionDisjoint(vector<int>& a) {
+        vector<int> minV(a.size(), INT_MAX);
+        vector<int> maxV(a.size(), -1);
+
+        minV[a.size()-1] = a[a.size()-1];
+        maxV[0] = a[0];
+        
+        for(int i=1;i<a.size();i++)
+            maxV[i] = max(maxV[i-1], a[i]);
+        for(int i=a.size()-2;i>=0;i--)
+            minV[i] = min(minV[i+1], a[i]);
+        
+        for(int i=0;i<maxV.size()-1;i++)
+            if(maxV[i] <= minV[i+1]) return i+1;
+        
+        return a.size();
+    }
+};

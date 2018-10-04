@@ -1,0 +1,44 @@
+class Solution {
+    void makeCharMap(vector<unordered_map<char, int>> &vm, vector<string> &v){
+        for(string str : v){
+            unordered_map<char, int> temp;
+            for(int i=0;i<str.size();i++) temp[str.at(i)]++;
+            
+            vm.push_back(temp);
+        }
+    }
+public:
+    vector<string> wordSubsets(vector<string>& a, vector<string>& b) {
+        vector<unordered_map<char, int>> va;
+        vector<int> bChar(26, 0);
+        
+        makeCharMap(va, a);
+        
+        for(string str : b){
+            cout << str << endl;
+            vector<int> temp(26, 0);
+            for(int i=0;i<str.size();i++)
+                temp[(int)(str.at(i)-'a')]++;
+            
+            for(int i=0;i<26;i++)
+                bChar[i] = max(bChar[i], temp[i]);
+        }
+        
+        vector<string> result;
+        for(int i=0;i<va.size();i++){
+            unordered_map<char, int> &ma = va[i];
+            int check = true;
+            
+            for(int j=0;j<bChar.size();j++){
+                if(bChar[j] > ma[(char)(j+'a')]){
+                    check = false;
+                    break;
+                }
+            }
+          
+            if(check) result.push_back(a[i]);
+        }
+        
+        return result;
+    }
+};
