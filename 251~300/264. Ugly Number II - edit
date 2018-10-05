@@ -1,0 +1,26 @@
+class Solution {
+public:
+    int nthUglyNumber(int n) {
+        vector<long long> vp(3, 0);
+        vector<int> result(1, 1);
+        
+        while(result.size() != n){
+            int minVal;
+            if(result[vp[0]]*2<=result[vp[1]]*3 && result[vp[0]]*2<=result[vp[2]]*5){
+                minVal = result[vp[0]]*2;
+                vp[0]++;                
+            }else if(result[vp[1]]*3<=result[vp[0]]*2 && result[vp[1]]*3<=result[vp[2]]*5){
+                minVal = result[vp[1]]*3;
+                vp[1]++;
+            }else{
+                minVal = result[vp[2]]*5;
+                vp[2]++;
+            }
+            
+            if(minVal != result.back()) 
+                result.push_back(minVal);
+        }
+        
+        return result.back();
+    }
+};
