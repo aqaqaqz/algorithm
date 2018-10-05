@@ -1,0 +1,35 @@
+class Solution {
+    string getNextStr(string &str, int &pos){
+        int sp;
+        while(str.at(pos) == ' ') pos++;
+        sp = pos;
+        while(pos<str.size() && str.at(pos) != ' ') pos++;
+        
+        return str.substr(sp, pos-sp);
+    }
+public:
+    bool wordPattern(string p, string str) {
+        int pos = 0;
+        vector<string> v(26, "");
+        set<string> s;
+        
+        for(int i=0;i<p.size();i++){
+            if(pos == str.size()) return false;
+            string nextStr = getNextStr(str, pos);
+            int strPos = (int)(p.at(i)-'a');
+            if(v[strPos] == ""){
+                if(s.find(nextStr) != s.end()){
+                    return false;
+                }
+                v[strPos] = nextStr;
+                s.insert(nextStr);
+            }else if(v[strPos] != nextStr){
+                return false;
+            }
+        }
+              
+        if(pos == str.size())
+            return true;
+        return false;
+    }
+};
