@@ -1,0 +1,51 @@
+class WordDictionary {
+    vector<WordDictionary> v;
+    bool visit;
+    bool end;
+public:
+    /** Initialize your data structure here. */
+    WordDictionary() {
+        visit = false;
+        end = false;
+    }
+    
+    /** Adds a word into the data structure. */
+    void addWord(string word) {
+        if(word.size() == 0){
+            end = true;
+            return;
+        }
+        if(v.empty()) v = vector<WordDictionary>(26, WordDictionary());
+        if(!v[(int)(word.at(0)-'a')].visit){
+            v[(int)(word.at(0)-'a')] = WordDictionary();
+        }
+        v[(int)(word.at(0)-'a')].visit = true;
+        v[(int)(word.at(0)-'a')].addWord(word.substr(1, word.size()-1));
+    }
+    
+    /** Returns if the word is in the data structure. A word could contain the dot character '.' to represent any one letter. */
+    bool search(string word) {
+        if(word.size() == 0){
+            return end;
+        }
+        if(v.empty()) return false;
+        if(word.at(0) == '.'){
+            for(int i=0;i<v.size();i++){
+                if(v[i].visit){
+                    if(v[i].search(word.substr(1, word.size()-1))) return true;
+                }
+            }
+            return false;
+        }else{
+            if(!v[word.at(0)-'a'].visit) return false;
+            return v[word.at(0)-'a'].search(word.substr(1, word.size()-1));
+        }
+    }
+};
+
+/**
+ * Your WordDictionary object will be instantiated and called as such:
+ * WordDictionary obj = new WordDictionary();
+ * obj.addWord(word);
+ * bool param_2 = obj.search(word);
+ */
