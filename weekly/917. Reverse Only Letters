@@ -1,0 +1,24 @@
+class Solution {
+    void findPos(string &str, int &pos, int dir){
+        while(pos>=0 && pos<str.size() && !isalpha(str.at(pos))) pos += dir;
+    }
+public:
+    string reverseOnlyLetters(string str) {
+        int s = 0;
+        int e = str.size()-1;
+        
+        findPos(str, s, 1);
+        findPos(str, e, -1);
+        
+        while(e>=s){
+            char temp = str[s];
+            str[s] = str[e];
+            str[e] = temp;
+            
+            findPos(str, ++s, 1);
+            findPos(str, --e, -1);
+        }
+        
+        return str;
+    }
+};

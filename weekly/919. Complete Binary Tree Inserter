@@ -1,0 +1,59 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class CBTInserter {
+    vector<vector<TreeNode*>> v;
+    
+    void makeVector(TreeNode* node, int depth){
+        if(node == NULL) return;
+        if(v.size() == depth){
+            v.push_back(vector<TreeNode*>());
+        }
+        v[depth].push_back(node);
+        makeVector(node->left, depth+1);
+        makeVector(node->right, depth+1);
+    }
+public:
+    CBTInserter(TreeNode* root) {
+        makeVector(root, 0);
+    }
+
+    int insert(int val) {
+        TreeNode *temp = new TreeNode(val);
+        int depth = v.size();
+        if(depth==0){
+            v.push_back(vector<TreeNode*>());
+        }else{
+            int maxLen = pow(2, depth) - pow(2, depth-1);
+            if(maxLen == v[v.size()-1].size()) 
+                v.push_back(vector<TreeNode*>());
+        }
+        v[v.size()-1].push_back(temp);
+        
+        if(v.size() < 2) return NULL; 
+        int parentPos = (v[v.size()-1].size()-1)/2;
+        if(v[v.size()-1].size() % 2 == 1)
+            v[v.size()-2][parentPos]->left = temp;
+        else
+            v[v.size()-2][parentPos]->right = temp;
+        
+        return v[v.size()-2][parentPos]->val;
+    }
+    
+    TreeNode* get_root() {
+        return v[0][0];
+    }
+};
+
+/**
+ * Your CBTInserter object will be instantiated and called as such:
+ * CBTInserter obj = new CBTInserter(root);
+ * int param_1 = obj.insert(v);
+ * TreeNode* param_2 = obj.get_root();
+ */
