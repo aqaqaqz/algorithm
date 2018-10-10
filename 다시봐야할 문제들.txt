@@ -1,3 +1,2 @@
-155. Min Stack
 211. Add and Search Word - Data structure design
-916. Word Subsets - weekly 104[Åë°ú´Â Çß´Âµ¥ ´À¸²..]
+916. Word Subsets - weekly 104[Ã…Ã«Â°ÃºÂ´Ã‚ Ã‡ÃŸÂ´Ã‚ÂµÂ¥ Â´Ã€Â¸Â²..]
