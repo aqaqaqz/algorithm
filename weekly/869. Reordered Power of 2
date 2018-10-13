@@ -1,0 +1,33 @@
+class Solution {
+public:
+    bool reorderedPowerOf2(int n) {
+        int len = 1;
+        while( !(pow(10, len-1)<=n && pow(10, len)>n) ) len++;
+        
+        vector<unordered_map<int, int>> cntV;
+        int power2 = 0;
+        while(pow(2, power2) <= pow(10, len)){
+            if(pow(2, power2) >= pow(10, len-1)){
+                int temp = pow(2, power2);
+                unordered_map<int, int> m;
+                while(temp != 0){
+                    m[temp%10]++;
+                    temp /= 10;
+                }
+                cntV.push_back(m);
+            }
+            power2++;
+        }
+        
+        unordered_map<int, int> nMap;
+        while(n != 0){
+            nMap[n%10]++;
+            n /= 10;
+        }
+        
+        for(unordered_map<int, int> m : cntV){
+            if(m == nMap) return true;
+        }
+        return false;
+    }
+};
