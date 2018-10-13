@@ -1,0 +1,14 @@
+class Solution {
+    bool checkOrder(vector<int> &v, int type){
+        for(int i=1;i<v.size();i++){
+            if(v[i-1]*type>=v[i]*type) continue;
+            return false;
+        }
+        return true;
+    }
+public:
+    bool isMonotonic(vector<int>& a) {
+        if(checkOrder(a, 1)) return true;
+        return checkOrder(a, -1);
+    }
+};
