@@ -1,0 +1,20 @@
+class Solution {
+public:
+    vector<int> sortArrayByParityII(vector<int>& A) {
+        int posOdd = 0;
+        int posEven = 1;
+        vector<int> result(A.size());
+        
+        for(int num : A){
+            if( (num&0x0001) == 0){
+                result[posOdd] = num;
+                posOdd += 2;
+            }else{
+                result[posEven] = num;
+                posEven += 2;
+            }
+        }
+        
+        return result;
+    }
+};

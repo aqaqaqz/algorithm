@@ -1,0 +1,37 @@
+class Solution {
+public:
+    int threeSumMulti(vector<int>& a, int target) {
+        long long result = 0;
+        map<int, long long> m;
+        map<int, long long>::iterator iter1;
+        map<int, long long>::iterator iter2;
+        for(int num : a) m[num]++;
+        
+        for(iter1=m.begin();iter1!=m.end();iter1++){
+            for(int i=0;i<min((int)iter1->second, 3);i++){
+                int sum = (i+1)*iter1->first;
+                if(i==0){
+                    iter2=iter1;
+                    iter2++;
+                    for(iter2;iter2!=m.end();iter2++){
+                        int sum2 = sum + iter2->first;
+                        if(sum2+iter2->first == target)
+                            result += (iter1->second*(iter2->second-1)*iter2->second/2);
+
+                        if(iter2->first >= target-sum2) break;
+                        if(m[target-sum2] > 0)
+                            result += (iter1->second*iter2->second*m[target-sum2]);
+                    }
+                }else if(i==1){
+                    if(target-sum>iter1->first && m[target-sum] > 0) result += (iter1->second * (iter1->second-1) * m[target-sum] / 2);
+                }else{
+                    if(sum == target) result += ((iter1->second-2)*(iter1->second-1)*(iter1->second) / 6);
+                }
+                
+                if(result >= 1000000007) result %= 1000000007;
+            }
+        }
+        
+        return result;
+    }
+};
