@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int subarrayBitwiseORs(vector<int>& a) {
+        set<int> result;
+        set<int> temp;
+        temp.insert(0);
+        
+        for(int n : a){
+            set<int> temp2;
+            for(set<int>::iterator iter=temp.begin();iter!=temp.end();iter++){
+                temp2.insert(*iter | n);
+                result.insert(*iter | n);
+            }
+            temp2.insert(n);
+            result.insert(n);
+            temp = temp2;
+        }
+        
+        return result.size();
+    }
+};
