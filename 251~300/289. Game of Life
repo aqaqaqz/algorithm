@@ -1,0 +1,54 @@
+class Solution {
+    // 0=>dead, 1=>live
+    // 2=>live to dead
+    // 3=>dead to live
+    int getLive(int x, int y, vector<vector<int>> &board){
+        bool xLeft = x-1>=0;
+        bool xRight = x+1<board[0].size();
+        bool yUp = y-1>=0;
+        bool yDown = y+1 <board.size();
+        
+        int cnt = 0;
+        
+        if(yUp){
+            if(xLeft && board[y-1][x-1]==1 || board[y-1][x-1]==2) cnt++;
+            if(board[y-1][x]==1 || board[y-1][x]==2) cnt++;
+            if(xRight && board[y-1][x+1]==1 || board[y-1][x+1]==2) cnt++;
+        }
+
+        if(xLeft && board[y][x-1]==1 || board[y][x-1]==2) cnt++;
+        if(xRight && board[y][x+1]==1 || board[y][x+1]==2) cnt++;
+
+        if(yDown){
+            if(xLeft && board[y+1][x-1]==1 || board[y+1][x-1]==2) cnt++;
+            if(board[y+1][x]==1 || board[y+1][x]==2) cnt++;
+            if(xRight && board[y+1][x+1]==1 || board[y+1][x+1]==2) cnt++;
+        }
+        
+        return cnt;
+    }
+    
+    int getCheckDead(int x, int y, vector<vector<int>> &board){
+        int cnt = getLive(x, y, board);
+        if(board[y][x] == 0){
+            if(cnt == 3) return 3;
+        }else{
+            if( !(cnt==2 || cnt == 3) ) return 2;
+        }
+        
+        return board[y][x];
+    }
+public:
+    void gameOfLife(vector<vector<int>>& board) {
+        for(int y=0;y<board.size();y++){
+            for(int x=0;x<board[y].size();x++)
+                board[y][x] = getCheckDead(x, y, board);
+        }
+        for(int y=0;y<board.size();y++){
+            for(int x=0;x<board[y].size();x++)
+                if(board[y][x]==2) board[y][x] = 0;
+                else if(board[y][x]==3) board[y][x] = 1;
+        }
+        
+    }
+};
