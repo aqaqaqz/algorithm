@@ -1,0 +1,53 @@
+class Solution {
+    vector<long long> v;
+    long long myAtoi(string str){
+        long long result = 0;
+        long long ten = 1;
+        for(int i=str.size()-1;i>=0;i--){
+            result += ten*(str.at(i)-'0');
+            ten *= 10;
+        }
+        
+        return result;
+    }
+public:
+    bool isAdditiveNumber(string num) {
+        v.resize(num.size(), -1);
+        checkNum(num, 0);
+        
+        return checkNum(num, 0)==1;
+    }
+    
+    int checkNum(string &num, int pos){
+        if(v[pos] != -1) return v[pos];
+        
+        string a,b,c;
+        
+        for(int i=pos;i<num.size()-1;i++){
+            a = num.substr(pos, i-pos+1);
+            if(a.at(0)=='0' && a.size()>1) break;
+            for(int j=i+1;j<num.size()-1;j++){
+                b = num.substr(i+1, j-i);
+                if(b.at(0)=='0' && b.size()>1) break;
+                for(int k=j+1;k<num.size();k++){
+                    c = num.substr(j+1, k-j);
+                    if(c.at(0)=='0' && c.size()>1) break;
+                    long long ta = myAtoi(a);
+                    long long tb = myAtoi(b);
+                    long long tc = myAtoi(c);
+                    
+                    if(tc > ta+tb) break;
+                    
+                    if(tc == ta+tb){
+                        if( (k+1 == num.size()) || (checkNum(num, i+1)==1)){
+                            v[pos] = 1;
+                            return v[pos];
+                        }
+                    }
+                }
+            }
+        }
+        v[pos] = 0;
+        return v[pos];
+    }
+};
