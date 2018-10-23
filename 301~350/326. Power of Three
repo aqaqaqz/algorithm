@@ -1,0 +1,13 @@
+class Solution {
+public:
+    bool isPowerOfThree(int n) {
+        if(n==1) return true;
+        int oriN = n;
+        int cnt = 0;
+        while(n!=0){
+            n/=3;        
+            cnt++;
+        }
+        return pow(3, cnt-1)==oriN;
+    }
+};
