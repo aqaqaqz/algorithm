@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int numSubarraysWithSum(vector<int>& a, int s) {
+        if(a.empty()) return 0;
+        int cnt = 0;
+        int f=0, e=0, ts=a[0];
+        
+        for(f;f<a.size();f++){
+            if(e<a.size() && f>e){
+                e = f;
+                ts = a[e];
+            };
+            if(ts < s)
+                while(e+1 < a.size() && ts < s) ts += a[++e];
+            
+            
+            if(ts == s){
+                cnt++;
+                for(int i=e+1;i<a.size();i++){
+                    if(a[i] == 0) cnt++;
+                    else break;
+                }
+            }
+            ts -= a[f];
+        }
+        
+        return cnt;
+    }
+};
