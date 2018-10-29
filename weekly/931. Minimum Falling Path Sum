@@ -1,0 +1,36 @@
+class Solution {
+    int getValue(vector<vector<int>> &a, int p){
+        int result = INT_MAX;
+        vector<int> v(a.size(), INT_MAX);
+        
+        for(int h=0;h<a.size();h++){
+            vector<int> tv(a.size(), INT_MAX);
+            if(h==0) tv[p] = a[h][p];
+            else{
+                for(int i=max(p-h, 0);i<min(i+h, (int)a.size());i++){
+                    int tempMin = INT_MAX;
+                    if(i>0 && i-1>=p-h+1 && i-1<=p+h-1)
+                        tempMin = min(tempMin, v[i-1]+a[h][i]);
+                    if(i>=p-h+1 && i<=p+h-1)
+                        tempMin = min(tempMin, v[i]+a[h][i]);
+                    if(i+1<a.size() && i+1>=p-h+1 && i+1<=p+h-1)
+                        tempMin = min(tempMin, v[i+1]+a[h][i]);
+                    tv[i] = tempMin;
+                }
+            }
+            v = tv;
+        }
+        
+        for(int n : v) result = min(result, n);
+        
+        return result;
+    }
+public:
+    int minFallingPathSum(vector<vector<int>>& a) {
+        int result = INT_MAX;
+        for(int i=0;i<a.size();i++)
+            result = min(result, getValue(a, i));
+        
+        return result;
+    }
+};
