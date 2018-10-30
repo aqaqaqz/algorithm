@@ -1,0 +1,36 @@
+class Solution {
+public:
+	int maxProduct(vector<string>& words) {
+		int result = 0;
+
+		if(words.empty()) return 0;
+
+		vector<vector<int>> v;
+		for(string str : words){
+			vector<int> tv(26, 0);
+			for(int i=0;i<str.size();i++)
+				tv[str.at(i)-'a']++;
+			v.push_back(tv);
+		}
+
+		for(int i=0;i<v.size()-1;i++){
+			int a, b;
+			for(int j=i+1;j<v.size();j++){
+				a = 0;
+				b = 0;
+				bool duple = false;
+				for(int k=0;k<26;k++){
+					if(v[i][k]>0  && v[j][k]>0){
+						duple = true;
+						break;
+					}
+					a += v[i][k];
+					b += v[j][k];
+					
+				}
+
+				if(!duple) result = max(result, a*b);
+			}
+		}
+	}
+};
