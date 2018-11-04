@@ -1,0 +1,20 @@
+class RecentCounter {
+    list<int> pingList;
+public:
+    RecentCounter() {
+        
+    }
+    
+    int ping(int t) {
+        pingList.push_back(t);
+        while(!pingList.empty() && t-3000>pingList.front()) pingList.pop_front();
+        
+        return pingList.size();
+    }
+};
+
+/**
+ * Your RecentCounter object will be instantiated and called as such:
+ * RecentCounter* obj = new RecentCounter();
+ * int param_1 = obj->ping(t);
+ */

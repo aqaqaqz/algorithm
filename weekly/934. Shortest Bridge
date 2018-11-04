@@ -1,0 +1,58 @@
+class Solution {
+    void makeIslandGrp(int h, int w, vector<vector<int>> &a, int type){
+        if(h<0 || w<0 || h>=a.size() || w>=a[0].size()) return;
+        if(a[h][w] == 1){
+            a[h][w] = type;
+            makeIslandGrp(h-1, w, a, type);
+            makeIslandGrp(h, w-1, a, type);
+            makeIslandGrp(h+1, w, a, type);
+            makeIslandGrp(h, w+1, a, type);
+        }
+    }
+    void makeDepth(int h, int w, vector<vector<int>> &a, int depth, bool &loop){
+        a[h][w] = depth;
+        loop = true;
+    }
+public:
+    int shortestBridge(vector<vector<int>>& a) {
+        int result = INT_MAX;
+        int island = -2;
+        for(int i=0;i<a.size();i++){
+            for(int j=0;j<a[0].size();j++){
+                if(a[i][j] == 1) makeIslandGrp(i, j, a, island++);
+                else if(a[i][j] == 0) a[i][j] = INT_MAX-1;
+            }
+        }
+        
+        bool loop = true;
+        int target = -1;
+        
+        while(loop){
+            loop = false;
+            for(int i=0;i<a.size();i++){
+                for(int j=0;j<a[0].size();j++){
+                    if(a[i][j] == target){
+                        if(i-1>=0 && a[i-1][j]==INT_MAX-1)        makeDepth(i-1, j, a, target+1, loop);
+                        if(j-1>=0 && a[i][j-1]==INT_MAX-1)        makeDepth(i, j-1, a, target+1, loop);
+                        if(i+1<a.size() && a[i+1][j]==INT_MAX-1)  makeDepth(i+1, j, a, target+1, loop);
+                        if(j+1<a.size() && a[i][j+1]==INT_MAX-1)  makeDepth(i, j+1, a, target+1, loop);
+                    }
+                }
+            }
+            target++;
+        }
+        
+        for(int i=0;i<a.size();i++){
+            for(int j=0;j<a[0].size();j++){
+                if(a[i][j] == -2){
+                    if(i-1>=0 && a[i-1][j]>=0)        result = min(result, a[i-1][j]+1);
+                    if(j-1>=0 && a[i][j-1]>=0)        result = min(result, a[i][j-1]+1);
+                    if(i+1<a.size() && a[i+1][j]>=0)  result = min(result, a[i+1][j]+1);
+                    if(j+1<a.size() && a[i][j+1]>=0)  result = min(result, a[i][j+1]+1);
+                }
+            }
+        }
+        
+        return result;
+    }
+};
