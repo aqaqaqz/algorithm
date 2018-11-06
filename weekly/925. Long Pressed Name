@@ -1,0 +1,27 @@
+class Solution {
+	void makeVector(vector<pair<char, int>> &v, string &s){
+		if(s == "") return;
+		for(int i=0;i<s.size();i++){
+			if( !v.empty() && v.back().first == s.at(i))
+				v.back().second++;
+			else
+				v.push_back(pair<char, int>(s.at(i), 1));
+		}
+	}
+public:
+    bool isLongPressedName(string n, string t) {
+        vector<pair<char, int>> vn;
+        vector<pair<char, int>> vt;
+
+        makeVector(vn, n);
+        makeVector(vt, t);
+
+        if(vn.size() != vt.size()) return false;
+        for(int i=0;i<vn.size();i++){
+            if( (vn[i].first == vt[i].first) && (vn[i].second<=vt[i].second) ) continue;
+            return false;
+        }
+
+        return true;
+    }
+};
