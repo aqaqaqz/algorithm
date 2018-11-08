@@ -1,0 +1,16 @@
+class Solution {
+public:
+    int smallestRangeII(vector<int>& a, int k) {
+        if(a.size() < 2) return 0;
+        sort(a.begin(), a.end());
+        
+        int result = a.back()-a.front();
+        for (int i=0;i<a.size()-1;i++) {
+            int maxV = max(a.back()-k, a[i]+k);
+            int minV = min(a.front()+k, a[i+1]-k);
+            result = min(result, maxV - minV);
+        }
+        
+        return result;
+    }
+};
