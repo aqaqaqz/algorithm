@@ -1,0 +1,60 @@
+package test;
+
+public class Level2_2 {
+    private static int k;
+    private static int b;
+    private static String str;
+
+    private static String getString(char[] charArr1, char[] charArr2){
+        String result = "";
+        boolean upper = false;
+        for(int i=k-1;i>=0;i--){
+            int ia = (int)(charArr1[i]-(upper?1:0)-'0');
+            int ib = (int)(charArr2[i]-'0');
+            upper = false;
+            if(ib > ia){
+                upper = true;
+            }
+            result = result + (char)( (ia+(upper?b:0)-ib) + (int)('0') );
+        }
+        
+        return result;
+    }
+    
+    private static String getNext(String n){
+        char[] a = n.toCharArray();
+        char[] b = new char[n.length()];
+        
+        for(int i=0;i<a.length-1;i++){
+            for(int j=0;j<a.length-1-i;j++){
+                if((int)a[j] < (int)a[j+1]){
+                    char temp = a[j];
+                    a[j] = a[j+1];
+                    a[j+1] = temp;
+                }
+            }
+        }
+        
+        for(int i=0;i<a.length;i++)
+            b[a.length-1-i] = a[i];
+        
+        return getString( a, b );
+    }
+    
+    public static int answer(String n, int _b) { 
+        str = n;
+        b = _b;
+        k = n.length();
+        int idx;
+        String next = n;
+        while(true){
+            next = getNext(next);
+            System.out.println("next : " + next);
+            idx = str.indexOf(next);
+            if(idx == -1) str = str + next;
+            else break;
+        }
+        
+        return (str.length() - idx)/k;
+    } 
+}

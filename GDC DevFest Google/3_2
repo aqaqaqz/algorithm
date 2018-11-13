@@ -1,0 +1,28 @@
+public class Lebel3_2 {
+	public static int[][] cache;
+	public static int getStairs(int s, int e) {
+		if(s<0 || e<0) return 0;
+		if(cache[s][e] != -1) return cache[s][e];
+		if(s>=e) return 0;
+		int result = 0;
+		result += (e-s+1)/2;
+		for(int i=s;i<e;i++) {
+			int temp = getStairs(i+1, s+e-2*i-1);
+			if(temp == 0) break;
+			result += temp;
+		}
+		
+		cache[s][e] = result;
+		return result;
+	}	
+	
+    public static int answer(int n) { 
+    	cache = new int[201][201];
+    	for(int i=0;i<201;i++){
+    		for(int j=0;j<201;j++) {
+    			cache[i][j] = -1;
+    		}
+    	}
+    	return getStairs(1, n-1);
+	}
+}
