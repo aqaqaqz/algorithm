@@ -1,5 +1,3 @@
-package test;
-
 public class Level2_2 {
     private static int k;
     private static int b;

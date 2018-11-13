@@ -1,4 +1,4 @@
-public class Lebel3_2 {
+public class Level3_2 {
 	public static int[][] cache;
 	public static int getStairs(int s, int e) {
 		if(s<0 || e<0) return 0;
