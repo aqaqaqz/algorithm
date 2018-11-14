@@ -1,0 +1,24 @@
+class Solution {
+public:
+    string getHint(string s, string g) {
+        unordered_map<int, int> sm;
+        unordered_map<int, int> gm;
+        
+        int bulls = 0;
+        int cows = 0;
+        
+        for(int i=0;i<s.size();i++){
+            if(s.at(i) == g.at(i)) bulls++;
+            else{
+                sm[(int)(s.at(i)-'0')]++;
+                gm[(int)(g.at(i)-'0')]++;
+            }
+        }
+        unordered_map<int, int>::iterator iter;
+        for(iter=sm.begin();iter!=sm.end();iter++){
+            cows += min(iter->second, gm[iter->first]);
+        }
+
+        return (to_string(bulls)+"A"+to_string(cows)+"B");
+    }
+};
