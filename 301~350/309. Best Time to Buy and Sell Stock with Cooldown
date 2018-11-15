@@ -1,0 +1,19 @@
+class Solution {
+	vector<int> cache;
+	vector<int> p;
+	int getMaxProfit(int pos, int gPrice){
+		if(pos >= p.size()) return 0;
+		if(gPrice==-1){
+			if(cache[pos] != -1) return cache[pos];
+			cache[pos] = max(getMaxProfit(pos+1, -1), getMaxProfit(pos+2, p[pos]));
+			return cache[pos];
+		}
+
+		return max(getMaxProfit(pos+1, gPrice), getMaxProfit(pos+2, -1)+p[pos]-gPrice);
+	}
+public:
+	int maxProfit(vector<int>& prices) {
+		p = prices;
+		return getMaxProfit(0, -1);
+	}
+};
