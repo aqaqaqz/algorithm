@@ -1,0 +1,21 @@
+class Solution {
+    string p;
+    int pos;
+    bool checkValid(){
+        if(pos>=p.size()) return false;
+        char temp = p.at(pos);
+        while(pos<p.size() && (isalnum(p.at(pos)) || '#'==p.at(pos)) ) pos++;
+        pos++; //pass ,
+        if(temp == '#') return true;
+        
+        return checkValid()&&checkValid();
+    }
+public:
+    bool isValidSerialization(string p) {
+        this->p = p;
+        pos = 0;
+        bool temp = checkValid();
+        if(temp) return (pos==p.size()+1);
+        return false;
+    }
+};
