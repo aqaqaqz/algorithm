@@ -1,0 +1,20 @@
+class Solution {
+public:
+    bool validMountainArray(vector<int>& a) {
+        if(a.size() < 3) return false;
+        int stat = 0;
+        for(int i=1;i<a.size();i++){
+            if(a[i]>a[i-1]){
+                if(stat==-1) return false;
+                stat = 1;
+                continue;
+            }else if(a[i]<a[i-1]){
+                if(stat==0) return false;
+                stat = -1;
+                continue;
+            }
+            return false;
+        }
+        return (stat==-1);
+    }
+};
