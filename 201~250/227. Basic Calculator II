@@ -1,0 +1,48 @@
+class Solution {
+    vector<string> v;
+    string s;
+    void devideString(){
+        string temp = "";
+        for(int i=0;i<s.size();i++){
+            if(s.at(i)=='/' || s.at(i)=='*' || s.at(i)=='+' || s.at(i)=='-'){
+                v.push_back(temp);
+                temp = "";
+                v.push_back(s.substr(i, 1));
+            }
+            if(isdigit(s.at(i))) temp += s.at(i);
+        }
+        v.push_back(temp);
+    }
+    int getNumPos(int pos, int dir){
+        while(v[pos]=="e") pos += dir;
+        return pos;
+    }
+    void cal(int pos){
+        int fp = getNumPos(pos-1, -1);
+        int ep = getNumPos(pos+1, +1);
+        int f = atoi(v[fp].c_str());
+        int e = atoi(v[ep].c_str());
+
+        int result;
+        if(v[pos]=="*")      result = f*e;
+        else if(v[pos]=="/") result = f/e;
+        else if(v[pos]=="+") result = f+e;
+        else                 result = f-e;
+        v[fp] = "e";
+        v[pos] = "e";
+        v[ep] = to_string(result);
+    }
+public:
+    int calculate(string _s) {
+        s = _s;
+        devideString();
+
+        for(int i=0;i<v.size();i++)
+            if(v[i] == "*" || v[i] == "/") cal(i);
+        
+        for(int i=0;i<v.size();i++)
+            if(v[i] == "+" || v[i] == "-") cal(i);
+
+        return atoi(v.back().c_str());
+    }
+};
