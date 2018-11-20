@@ -1,0 +1,43 @@
+class Solution {
+    vector<string> v;
+    vector<int> makeComputeResult(int s, int e){
+        vector<int> result;
+        if(s==e){
+            result.push_back(atoi(v[s].c_str()));
+            return result;
+        }
+        for(int i=0;i<(e-s)/2;i++){
+            vector<int> pre = makeComputeResult(s, s+i*2);
+            vector<int> next = makeComputeResult(s+(i+1)*2, e);
+            string compute = v[s+i*2+1];
+            
+            for(int i=0;i<pre.size();i++){
+                for(int j=0;j<next.size();j++){
+                    int temp;
+                    if(compute == "-")      temp = pre[i]-next[j];
+                    else if(compute == "+") temp = pre[i]+next[j];
+                    else if(compute == "*") temp = pre[i]*next[j];
+                    result.push_back(temp);
+                }
+            }
+        }
+        
+        return result;
+    }
+public:
+    vector<int> diffWaysToCompute(string str) {
+        string temp = "";
+        for(int i=0;i<str.size();i++){
+            if(str.at(i)=='-' || str.at(i)=='+' || str.at(i)=='*'){
+                v.push_back(temp);
+                temp = "";
+                v.push_back(str.substr(i, 1));
+                continue;
+            }
+            temp += str.at(i);
+        }
+        v.push_back(temp);
+        
+        return makeComputeResult(0, v.size()-1);
+    }
+};
