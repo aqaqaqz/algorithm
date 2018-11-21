@@ -1,0 +1,64 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+	vector<vector<TreeNode*>> v;
+	int l, lp, ld;
+	int r, rp, rd;
+	void makeVectorList(TreeNode *node, int depth){
+		if(v.size() == depth){
+			vector<TreeNode*> tv;
+			v.push_back(tv);
+		}
+		v[depth].push_back(node);
+		if(node == NULL) return;
+		if(l == node->val){
+			lp = v[depth].size()-1;
+			ld = depth;
+		}
+		if(r == node->val){
+			rp = v[depth].size()-1;
+			rd = depth;
+		}
+        makeVectorList(node->left, depth+1);
+        makeVectorList(node->right, depth+1);
+	}
+public:
+	int rangeSumBST(TreeNode* root, int L, int R) {
+		if(L == R) return L;
+		l = min(L, R);
+		r = max(L, R);
+		makeVectorList(root, 0);
+		int result = 0;
+
+		while( !(lp==rp && ld==rd) ){
+			if(ld > rd){
+				int val = v[ld][lp]->val;
+				if(val >= l && val <= r) result += val;
+                ld--; lp /= 2;
+			}else if(rd > ld){
+				int val = v[rd][rp]->val;
+				if(val >= l && val <= r) result += val;
+                rd--; rp /= 2;
+			}else{
+				int val = v[ld][lp]->val;
+				if(val >= l && val <= r) result += val;
+				val = v[rd][rp]->val;
+				if(val >= l && val <= r) result += val;
+                ld--; lp /= 2;
+				rd--; rp /= 2;
+			}
+        }
+        int val = v[ld][lp]->val;
+        if(val >= l && val <= r) result += val;
+        ld--; lp /= 2;
+
+		return result;
+	}
+};
