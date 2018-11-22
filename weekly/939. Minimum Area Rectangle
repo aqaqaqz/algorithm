@@ -1,0 +1,33 @@
+class Solution {
+public:
+    int minAreaRect(vector<vector<int>>& points) {
+        unordered_map<int, set<int>> xm; //y->xList
+        unordered_map<int, set<int>> ym; //x->yList
+        
+        for(vector<int> v : points){
+            ym[v[0]].insert(v[1]);
+            xm[v[1]].insert(v[0]);
+        }
+        
+        set<int>::iterator x, y;
+        
+        int result = INT_MAX;
+        for(vector<int> v : points){
+            set<int> xSet = xm[v[1]];
+            set<int> ySet = ym[v[0]];
+            
+            for(x=xSet.find(v[0]);x!=xSet.end();x++){
+                if(*x == v[0]) continue;
+                for(y=ySet.find(v[1]);y!=ySet.end();y++){
+                    if(*y == v[1]) continue;
+                    if(abs(*x-v[0])*abs(*y-v[1]) >= result) break;
+                    if(xm[*y].find(*x)!=xm[*y].end()){
+                        result = min(result, abs(*x-v[0])*abs(*y-v[1]));
+                    }
+                }
+            }
+        }
+        if(result == INT_MAX) result = 0;
+        return result;
+    }
+};
