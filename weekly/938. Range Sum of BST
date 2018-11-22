@@ -1,0 +1,17 @@
+class Solution {
+    int l, r, result;
+	void makeSumResult(TreeNode *node){
+        if(node == NULL) return;
+        if(l<=node->val && r>=node->val) result += node->val;
+        makeSumResult(node->left);
+        makeSumResult(node->right);
+	}
+public:
+	int rangeSumBST(TreeNode* root, int L, int R) {
+        result = 0;
+        l = min(L, R);
+        r = max(L, R);
+        makeSumResult(root);
+        return result;
+	}
+};
