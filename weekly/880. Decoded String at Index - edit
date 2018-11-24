@@ -1,0 +1,20 @@
+class Solution {
+public:
+    string decodeAtIndex(string s, int k) {
+        long long len = 0;
+        for(int i=0;i<s.size();i++){
+            if(isalpha(s.at(i))) len++;
+            else if(isdigit(s.at(i))) len *= (s.at(i)-'0');
+        }
+        
+        for(int i=s.size()-1;i>=0;i--){
+            if(k >= len) k%=len;
+            if(k==0){
+                while(!isalpha(s.at(i))) i--;
+                return (string)"" + s.at(i);
+            }
+            if(isalpha(s.at(i))) len--;
+            else if(isdigit(s.at(i))) len /= (s.at(i)-'0');
+        }
+    }
+};
