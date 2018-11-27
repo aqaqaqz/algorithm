@@ -1,0 +1,26 @@
+class Solution {
+	set<int> s;
+public:
+	int minIncrementForUnique(vector<int>& a) {
+		int result = 0;
+
+		if(a.size() < 2) return 0;
+		sort(a.begin(), a.end());
+
+		int last = a[0];
+		s.insert(a[0]);
+
+		for(int i=1;i<a.size();i++){
+			if(s.find(a[i]) == s.end()){
+				s.insert(a[i]);
+				last = a[i];
+			}else{
+				last = last+1;
+				s.insert(last);
+				result += (last - a[i]);
+			}
+		}
+
+		return result;
+	}
+};
