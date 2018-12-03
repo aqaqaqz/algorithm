@@ -1,0 +1,32 @@
+class Solution {
+	int result;
+	vector<bool> visit;
+	void makeVector(vector<int> &a, int pos, int dep, int temp){
+		visit[pos] = true;
+        
+		temp += (dep*a[pos]);
+		if(dep == 1000){
+			if( (temp/100)<24 && (temp%100)<60 )
+				result = max(result, temp);
+		}else{
+            dep *= 10;
+			for(int i=0;i<4;i++)
+				if(!visit[i]) makeVector(a, i, dep, temp);
+		}
+
+		visit[pos] = false;
+	}
+public:
+	string largestTimeFromDigits(vector<int>& a) {
+		result = -1;
+        visit.resize(4, false);
+		for(int i=0;i<4;i++) makeVector(a, i, 1, 0);
+		if(result == -1) return "";
+
+		string h = to_string(result/100);
+		string m = to_string(result%100);
+		if(h.size() == 1) h = "0"+h;
+		if(m.size() == 1) m = "0"+m;
+		return (h+":"+m);
+	}
+};
