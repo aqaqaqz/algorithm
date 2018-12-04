@@ -1,0 +1,28 @@
+class Solution {
+    vector<int> result;
+    int getNextPos(int p){
+        int cnt = 0;
+        if(result[p] == -1) return p;
+        else{
+            while(true){
+                if(result[p] == -1) cnt++;
+                if(cnt == 2) return p;
+                p++;
+                if(p == result.size()) p = 0;
+            }
+        }
+    }
+public:
+    vector<int> deckRevealedIncreasing(vector<int>& deck) {
+        result.resize(deck.size(), -1);
+        sort(deck.begin(), deck.end());
+        
+        int pos = 0;
+        for(int n : deck){
+            pos = getNextPos(pos);
+            result[pos] = n;
+        }
+
+        return result;
+    }
+};
