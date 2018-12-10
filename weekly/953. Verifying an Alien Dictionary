@@ -1,0 +1,21 @@
+class Solution {
+public:
+    bool isAlienSorted(vector<string>& words, string order) {
+        unordered_map<char, int> m;
+        for(int i=0;i<order.size();i++){
+            m[order.at(i)] = i;
+        }
+
+        for(int i=1;i<words.size();i++){
+            int cnt = min(words[i-1].size(), words[i].size());
+            for(int j=0;j<cnt;j++){
+                if( m[words[i-1].at(j)] > m[words[i].at(j)] ) return false;
+                else if(m[words[i-1].at(j)] < m[words[i].at(j)]) break;
+                if(j+1 == cnt){
+                    if(words[i-1].size() > words[i].size()) return false;
+                }
+            }
+        }
+        return true;
+    }
+};
