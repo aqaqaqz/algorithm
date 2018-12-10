@@ -1,0 +1,21 @@
+class Solution {
+public:
+    bool canReorderDoubled(vector<int>& a) {
+        map<int, int> m;
+        for(int n:a) m[n]++;
+
+        auto iter = m.begin();
+        for(iter;iter!=m.end();iter++){
+            while(iter->second != 0){
+                int val = iter->first;
+                m[val]--;
+                
+                int target = (val>0?val*2:val/2);
+                if(m[target]==0) return false;
+                m[target]--;
+            }
+        }
+
+        return true;
+    }
+};
