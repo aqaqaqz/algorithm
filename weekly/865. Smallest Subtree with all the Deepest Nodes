@@ -1,0 +1,45 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+    vector<vector<TreeNode*>> v;
+    int depth;
+    void makeTreeVector(TreeNode *node, vector<TreeNode*> path, int d){
+        if(node == NULL) {
+            if(d >= depth){
+                if(d > depth) v.clear();
+                v.push_back(path);
+                depth = d;
+            }
+            return;
+        };
+
+        path.push_back(node);
+        makeTreeVector(node->left, path, d+1);
+        makeTreeVector(node->right, path, d+1);
+    }
+public:
+    TreeNode* subtreeWithAllDeepest(TreeNode* root) {
+        depth = -1;
+        vector<TreeNode*> path;
+        makeTreeVector(root, path, 0);
+
+        if(v.size() == 1) return v[0].back();
+        TreeNode* result = root;
+        for(int i=0;i<depth;i++){
+            TreeNode* temp = v[0][i];
+            for(int j=1;j<v.size();j++){
+                if(temp != v[j][i]) return result;
+            }
+            result = temp;
+        }
+
+        return result;
+    }
+};
