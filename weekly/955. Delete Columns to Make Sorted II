@@ -1,0 +1,26 @@
+class Solution {
+    vector<string> v;        
+    bool checkOrder(int pos){
+        for(int i=1;i<v.size();i++){
+            for(int j=0;j<=pos;j++){
+                if(v[i-1].at(j) < v[i].at(j)) break;
+                if(v[i-1].at(j) == v[i].at(j)) continue;
+                return false;
+            }
+        }
+        return true;
+    }
+public:
+    int minDeletionSize(vector<string>& a) {
+        int cnt = 0;
+        v = a;
+        for(int i=0;i<v[0].size();i++){
+            if(!checkOrder(i)){
+                for(string &s : v) s = s.erase(i, 1);
+                i--;
+                cnt++;
+            }
+        }
+        return cnt;
+    }
+};
