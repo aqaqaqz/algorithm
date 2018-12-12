@@ -1,0 +1,52 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+    vector<TreeNode*> path;
+    vector<int> result;
+    TreeNode *target;
+    void searchPath(TreeNode* node, vector<TreeNode*>& p){
+        if(node == NULL) return;
+        if(!path.empty()) return;
+
+        p.push_back(node);
+        if(node == target) {
+            path=p;
+            return;
+        }
+        searchPath(node->left, p);
+        searchPath(node->right, p);
+        p.pop_back();
+    }
+
+    void makeResult(TreeNode* node, TreeNode* pre, int d){
+        if(node==NULL) return;
+        if(d == 0){
+            result.push_back(node->val);
+            return;
+        }
+        if(pre==NULL || (pre!=NULL && pre!=node->left))
+            makeResult(node->left, NULL, d-1);
+        if(pre==NULL || (pre!=NULL && pre!=node->right))
+            makeResult(node->right, NULL, d-1);
+    }
+public:
+    vector<int> distanceK(TreeNode* r, TreeNode* t, int k) {
+        target = t;
+        vector<TreeNode*> tempP;
+        searchPath(r, tempP);
+
+        int dep = path.size()-1;
+        for(int i=dep;i>=0;i--){
+            makeResult(path[i], (i==dep?NULL:path[i+1]), k-- );
+        }
+
+        return result;
+    }
+};
