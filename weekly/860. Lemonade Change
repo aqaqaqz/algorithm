@@ -1,0 +1,23 @@
+class Solution {
+public:
+    bool lemonadeChange(vector<int>& bills) {
+        unordered_map<int, int> cnt;
+        for(int n : bills){
+            if(n==5) cnt[5]++;
+            else if(n==10){
+                if(cnt[5] == 0) return false;
+                cnt[10]++;
+                cnt[5]--;
+            }else{
+                if(cnt[5]>0 && cnt[10]>0){
+                    cnt[5]--;
+                    cnt[10]--;
+                }else if(cnt[5]>=3){
+                    cnt[5] -= 3;
+                }else return false;
+            }
+        }
+
+        return true;
+    }
+};
