@@ -1,0 +1,23 @@
+class Solution {
+public:
+    bool buddyStrings(string a, string b) {
+        if(a.size() != b.size()) return false;
+        
+        vector<int> v(26, 0);
+        bool duple = false;
+        int cnt = 0;
+        vector<int> p(2, 0);
+        for(int i=0;i<a.size();i++){
+            v[a.at(i)-'a']++;
+            if(v[a.at(i)-'a'] >= 2) duple = true;
+            if(a.at(i) != b.at(i)){
+                p[cnt++] = i;
+                if(cnt > 2) return false;
+            }
+        }
+        
+        if(cnt==0 && duple) return true;
+        if( cnt==2 && a.at(p[0])==b.at(p[1]) && a.at(p[1])==b.at(p[0]) ) return true;
+        return false;
+    }
+};
