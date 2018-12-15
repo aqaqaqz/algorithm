@@ -1,0 +1,28 @@
+class Solution {
+public:
+    int matrixScore(vector<vector<int>>& a) {
+        if(a.empty()) return 0;
+        int h = a.size();
+        int w = a[0].size();
+        for(int i=0;i<h;i++){
+            if(a[i][0] == 0)
+                for(int j=0;j<w;j++) a[i][j] = a[i][j]==0?1:0;
+        }
+        
+        for(int i=1;i<w;i++){
+            int cnt = 0;
+            for(int j=0;j<h;j++) if(a[j][i]==0) cnt++;
+            if(cnt>h/2)
+                for(int j=0;j<h;j++) a[j][i] = a[j][i]==0?1:0;
+        }
+        
+        int result = 0;
+        int sq = 1;
+        for(int i=w-1;i>=0;i--){
+             for(int j=0;j<h;j++) if(a[j][i]==1) result += sq;
+            sq *= 2;
+        }
+        
+        return result;
+    }
+};
