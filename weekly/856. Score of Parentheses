@@ -1,0 +1,28 @@
+class Solution {
+    string s;
+    int p;
+    int getScore(){
+        p++;
+        if(s.at(p) == ')'){
+            p++;
+            return 1;  
+        }
+
+        int temp = 0;
+        while(s.at(p) != ')'){
+            temp += getScore();
+        }
+        p++;
+        return (temp*2);
+    }
+public:
+    int scoreOfParentheses(string str) {
+        int score = 0;
+        s = str;
+        p = 0;
+        while(p != str.size())
+            score += getScore();
+        
+        return score;
+    }
+};
