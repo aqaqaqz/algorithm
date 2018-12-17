@@ -1,0 +1,53 @@
+class Solution {
+    vector<int> p;
+    unordered_map<int, int> m;
+    vector<int> v;
+    int makeNextP(){
+        vector<int> temp(8, 0);
+        for(int i=1;i<7;i++){
+            if(p[i+1]==p[i-1]) temp[i] = 1;
+        }
+        p = temp;
+
+        return makeValPType();
+    }   
+    int makeValPType(){
+        int result = 0;
+        int two = 1;
+        for(int i=7;i>=0;i--){
+            result += p[i]*two;
+            two *= 2;
+        }
+        return result;
+    }
+    void makeP(int val){
+        for(int i=7;i>=0;i--){
+            p[i] = val%2;
+            val /= 2;
+        }
+    }
+public:
+    vector<int> prisonAfterNDays(vector<int>& cells, int N) {
+        p = cells;
+        int s, e=1, val;
+        
+        for(e;e<=N;e++){
+            val = makeNextP();
+            if(m[val] > 0){
+                s = m[val];
+                int len = e-s;
+                int pos = (N-s+1)%len-1;
+                if(pos == -1) pos = len-1;
+                pos += (s-1);
+
+                makeP(v[pos]);
+                return p;
+            }
+            m[val] = e;
+            v.push_back(val);
+        }
+
+        makeP(val);
+        return p;
+    }
+};
