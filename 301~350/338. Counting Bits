@@ -1,0 +1,17 @@
+class Solution {
+public:
+    vector<int> countBits(int num) {
+        vector<int> result(1, 0);
+        int two = 1;
+        for(int i=1;i<=num;i++){
+            if(i == two){
+                two *= 2;
+                result.push_back(1);
+            }else{
+                result.push_back(result[two/2] + result[i-two/2]);
+            }
+        }
+
+        return result;
+    }
+};
