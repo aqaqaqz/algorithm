@@ -1,0 +1,31 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+    vector<int> v;
+    void makeNodePath(TreeNode *n, int d){
+        if(n != NULL) d++;
+        if( n==NULL || (n->left==NULL && n->right==NULL) ){
+            v.push_back(d);
+            return;
+        }
+        makeNodePath(n->left, d);
+        makeNodePath(n->right, d);
+    }
+public:
+    bool isCompleteTree(TreeNode* root) {
+        makeNodePath(root, 0);
+        
+        int s = v[0];
+        for(int i=1;i<v.size();i++){
+            if( s<v[i] || v[i-1]<v[i] || abs(s-v[i])>1 ) return false;
+        }
+        return true;
+    }
+};
