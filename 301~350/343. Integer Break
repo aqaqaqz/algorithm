@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int integerBreak(int n) {
+        if(n==2) return 1;
+        if(n==3) return 2;
+        
+        int n2 = 0;
+        int n3 = 0;
+        while(n>=2){
+            if(n>2){
+                n3++;
+                n-=3;
+                continue;
+            }
+            n2++;
+            n-=2;
+        }
+        if(n==1){
+            n2+=2;
+            n3--;
+        }
+
+        return (pow(2, n2) * pow(3, n3));
+    }
+};
