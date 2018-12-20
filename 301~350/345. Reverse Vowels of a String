@@ -1,0 +1,27 @@
+class Solution {
+    set<char> s;
+public:
+    Solution(){
+        s.insert('a'); s.insert('e'); s.insert('i');
+        s.insert('o'); s.insert('u');
+    }
+    int getNextPos(int p, string &str, int d){
+        while(p>=0 && p<str.size()){
+            if(s.find(tolower(str[p])) != s.end()) break;
+            p += d;
+        }
+        return p;
+    }
+    string reverseVowels(string str) {
+        int s = getNextPos(0, str, 1);
+        int e = getNextPos(str.size()-1, str, -1);
+        while(s < e){
+            char temp = str[s];
+            str[s] = str[e];
+            str[e] = temp;
+            s = getNextPos(s+1, str, 1);
+            e = getNextPos(e-1, str, -1);
+        }
+        return str;
+    }
+};
