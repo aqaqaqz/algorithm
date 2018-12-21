@@ -1,0 +1,16 @@
+class Solution {
+public:
+    vector<int> intersect(vector<int>& nums1, vector<int>& nums2) {
+        vector<int> result;
+        map<int, int> m;
+        for(int n : nums1) m[n]++;
+        for(int n : nums2) {
+            if(m[n] > 0){
+                m[n]--;
+                result.push_back(n);
+            }
+        }
+        
+        return result;
+    }
+};
