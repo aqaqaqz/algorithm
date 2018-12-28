@@ -1,0 +1,30 @@
+class Solution {
+    int getCnt(int size, vector<int> &b){
+        int result = 0;
+        for(int i=0;i<b.size();i++){
+            result *= 10;
+            result += b[i];
+            result %= size;
+        }
+        return result;
+    }
+public:
+    int superPow(int a, vector<int>& b) {
+        set<int> s;
+        vector<int> v;
+        
+        a %= 1337;
+        int val = a;
+                
+        while(s.find(val) == s.end()){
+            s.insert(val);
+            v.push_back(val);
+            val = (val*a) % 1337;
+        }
+
+        int cnt = getCnt(v.size(), b);
+        cnt--;
+        if(cnt == -1) cnt = v.size()-1;
+        return v[cnt];
+    }
+};
