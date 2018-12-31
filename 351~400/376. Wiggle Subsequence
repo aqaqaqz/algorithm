@@ -1,0 +1,29 @@
+class Solution {
+    int getLen(vector<int> &v, bool flag){
+        int result = 0;
+        for(int n : v){
+            if(flag){
+                if(n < 0){
+                    result++;
+                    flag = !flag;
+                }
+            }else{
+                if(n > 0){
+                    result++;
+                    flag = !flag;
+                }
+            }
+        }
+        return result;
+    }
+public:
+    int wiggleMaxLength(vector<int>& nums) {
+        if(nums.empty()) return 0;
+        
+        vector<int> v;
+        for(int i=1;i<nums.size();i++)
+            v.push_back(nums[i]-nums[i-1]);
+        
+        return max(getLen(v, true), getLen(v, false))+1;
+    }
+};
