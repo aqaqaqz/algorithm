@@ -1,0 +1,33 @@
+class MySort{
+public:
+    MySort(){}
+    bool operator() (const pair<int, int> &p1, const pair<int, int> &p2){
+        return (p1.first+p1.second) > (p2.first+p2.second); 
+    }
+};
+
+class Solution {
+public:
+    vector<pair<int, int>> kSmallestPairs(vector<int>& n1, vector<int>& n2, int k) {
+        vector<pair<int, int>> result;
+        priority_queue<pair<int, int>, vector<pair<int, int>>, MySort> pq;
+        k = min(k, (int)(n1.size()*n2.size()));
+        if(k == 0) return result;
+        
+        for(int i:n1) pq.push(pair<int, int>(i, n2[0]));
+
+        int next = 1;
+        while(result.size() < k){
+            if(next < n2.size()){
+                if(pq.empty() ||  (n1[0] + n2[next] < pq.top().first+pq.top().second) ){
+                    for(int i:n1) pq.push(pair<int, int>(i, n2[next]));
+                    next++;
+                }
+            }
+            result.push_back(pq.top());
+            pq.pop();
+        }
+        
+        return result;
+    }
+};

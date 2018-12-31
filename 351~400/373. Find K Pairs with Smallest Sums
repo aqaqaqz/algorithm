@@ -1,0 +1,20 @@
+class Solution {
+    static bool mySort(pair<int, int> &p1, pair<int, int> &p2){
+        int sum1 = p1.first+p1.second;
+        int sum2 = p2.first+p2.second;
+        
+        return sum1 < sum2;
+    }
+public:
+    vector<pair<int, int>> kSmallestPairs(vector<int>& n1, vector<int>& n2, int k) {
+        vector<pair<int, int>> result;
+        if(n1.empty() || n2.empty()) return result;
+        
+        for(int i:n1) for(int j:n2) result.push_back(pair<int, int>(i, j));
+        
+        sort(result.begin(), result.end(), mySort);
+        result.resize(min(k, (int)result.size()));
+        
+        return result;
+    }
+};
