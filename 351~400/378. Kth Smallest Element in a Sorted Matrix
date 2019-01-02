@@ -1,0 +1,43 @@
+struct MyPoint{
+    int h;
+    int w;
+    int v;
+    MyPoint(){}
+    MyPoint(int _h, int _w, int _v){
+        h = _h;
+        w = _w;
+        v = _v;
+    }
+};
+class MyQueue{
+public:
+    bool operator() (const MyPoint a, const MyPoint b){
+        return a.v>b.v;
+    }
+};
+
+class Solution {
+    priority_queue<MyPoint, vector<MyPoint>, MyQueue> pq;
+    
+public:
+    int kthSmallest(vector<vector<int>>& matrix, int k) {
+        vector<vector<bool>> visit(matrix.size(), vector<bool>(matrix[0].size(), false));
+        pq.push(MyPoint(0, 0, matrix[0][0]));
+        MyPoint t;
+        while(k--){
+            t = pq.top();
+            pq.pop();
+            
+            if(t.h+1 < matrix.size() && !visit[t.h+1][t.w]){
+                pq.push(MyPoint(t.h+1, t.w, matrix[t.h+1][t.w]));
+                visit[t.h+1][t.w] = true;
+            }
+
+            if(t.w+1 < matrix[0].size() && !visit[t.h][t.w+1]){
+                pq.push(MyPoint(t.h, t.w+1, matrix[t.h][t.w+1]));
+                visit[t.h][t.w+1] = true;
+            }
+        }
+        return t.v;        
+    }
+};
