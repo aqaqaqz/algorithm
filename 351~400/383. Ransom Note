@@ -1,0 +1,14 @@
+class Solution {
+public:
+    bool canConstruct(string rs, string ms) {
+        vector<int> v(26, 0);
+        for(char c : ms) v[c-'a']++;
+        
+        for(char c : rs){
+            if(v[c-'a'] == 0) return false;
+            v[c-'a']--;
+        }
+        
+        return true;
+    }
+};
