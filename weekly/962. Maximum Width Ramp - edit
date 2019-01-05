@@ -1,0 +1,23 @@
+class Solution {
+    static bool mySort(pair<int, int> a, pair<int, int> b){
+        return a.first < b.first;
+    }
+public:
+    int maxWidthRamp(vector<int>& A) {
+        vector<pair<int, int>> v;
+        int idx = 0;
+        for(int n : A){
+            v.push_back(pair<int, int>(n, idx++));
+        }
+        sort(v.begin(), v.end(), mySort);
+        
+        int result = 0;
+        idx = A.size()-1;
+        for(pair<int, int> p : v){
+            while(idx>=0 && A[idx]<p.first) idx--;
+            if(idx == -1) break;
+            result = max(result, idx - p.second);
+        }
+        return result;
+    }
+};
