@@ -1,0 +1,45 @@
+class Solution {
+    string changeToChecker(string str){
+        return changeToChecker(str, true);
+    }
+    string changeToChecker(string str, bool vowel){
+        for(char &c : str){
+            c = tolower(c);
+            if( vowel && (c=='a' || c=='e' || c=='i' || c=='o' || c=='u') )
+                c = '!';
+        }
+        return str;
+    }
+public:
+    vector<string> spellchecker(vector<string>& wordlist, vector<string>& queries) {
+        unordered_map<string, int> oriMap;
+        unordered_map<string, int> lowerMap;
+        unordered_map<string, int> transMap;
+
+        for(int i=0;i<wordlist.size();i++){
+            oriMap[wordlist[i]] = i+1;
+            
+            string lowerStr = changeToChecker(wordlist[i], false);
+            string transStr = changeToChecker(wordlist[i]);
+            if(transMap[transStr] == 0){
+                transMap[transStr] = i+1;
+            }
+            if(lowerMap[lowerStr] == 0){
+                lowerMap[lowerStr] = i+1;
+            }
+        }
+        
+        vector<string> result;
+        for(string str : queries){
+            string transStr = changeToChecker(str);
+            string lowerStr = changeToChecker(str, false);
+            
+            if(oriMap[str]!=0) result.push_back(str);
+            else if(lowerMap[lowerStr]!=0) result.push_back(wordlist[lowerMap[lowerStr]-1]);
+            else if(transMap[transStr]!=0) result.push_back(wordlist[transMap[transStr]-1]);
+            else result.push_back("");
+        }
+        
+        return result;
+    }
+};
