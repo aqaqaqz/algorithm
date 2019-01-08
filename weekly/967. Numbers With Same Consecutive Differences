@@ -1,0 +1,40 @@
+class Solution {
+    vector<int> result;
+    int getNum(vector<int> &v){
+        int ten = 1;
+        int result = 0;
+        for(int i=v.size()-1;i>=0;i--){
+            result += v[i]*ten;
+            ten *= 10;
+        }
+        
+        return result;
+    }
+    void makeOriList(int pos, vector<int> &v, int k){
+        if(pos==v.size()){
+            result.push_back(getNum(v));
+            return;
+        }
+        
+        if(v[pos-1]+k < 10){
+            v[pos] = v[pos-1]+k;
+            makeOriList(pos+1, v, k);
+        }
+        if(v[pos-1]-k >=0 && k != 0){
+            v[pos] = v[pos-1]-k;
+            makeOriList(pos+1, v, k);
+        }
+    }
+public:
+    vector<int> numsSameConsecDiff(int n, int k) {
+        vector<int> temp(n, 0);
+        
+        if(n == 1) result.push_back(0);
+        for(int i=1;i<10;i++){
+            temp[0] = i;
+            makeOriList(1, temp, k);
+        }
+        
+        return result;
+    }
+};
