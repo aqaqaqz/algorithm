@@ -1,0 +1,27 @@
+class Solution {
+    static bool mySort(pair<int, double> a, pair<int, double> b){
+        return a.first > b.first;
+    }
+public:
+    int carFleet(int target, vector<int>& p, vector<int>& s) {
+        vector<pair<int, double>> v;
+        for(int i=0;i<p.size();i++){
+            double speed = 0;
+            if(s[i] != 0) speed = (double)(target-p[i])/s[i];
+            v.push_back(pair<int, double>(p[i], speed));
+        }
+        
+        sort(v.begin(), v.end(), mySort);
+        
+        double temp = -1;
+        int result = 0;
+        for(pair<int, double> p : v){
+            if(temp < p.second){
+                temp = p.second;
+                result++;
+            }
+        }
+        
+        return result;
+    }
+};
