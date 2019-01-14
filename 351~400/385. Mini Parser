@@ -1,0 +1,30 @@
+class Solution {
+    NestedInteger getNest(string &s, int &p){
+        NestedInteger n;
+
+        if(isdigit(s[p]) || s[p]=='-'){
+            string num = "";
+            while(isdigit(s[p]) || s[p]=='-'){
+                num += s[p++];
+            }
+            n.setInteger(atoi(num.c_str()));
+            return n;
+        }else if(s[p] == '['){
+            p++;
+            while(s[p] != ']'){
+                if(s[p] == ',')
+                    n.add(getNest(s, ++p));
+                else
+                    n.add(getNest(s, p));
+            }
+            p++;
+        }
+        
+        return n;        
+    }
+public:
+    NestedInteger deserialize(string s) {
+        int pos = 0;
+        return getNest(s, pos);
+    }
+};
