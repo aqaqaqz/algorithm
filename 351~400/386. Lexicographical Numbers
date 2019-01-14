@@ -1,0 +1,26 @@
+class Solution {
+    vector<int> result;
+    int n;
+    void makeList(int p){
+        for(int i=0;i<10;i++){
+            if(n >= result[p]*10+i){
+                result.push_back(result[p]*10+i);
+                if(n >= result.back()*10) makeList(result.size()-1);
+            }
+        }
+    }
+public:
+    vector<int> lexicalOrder(int _n) {
+        n = _n;
+        if(n==0) return result;
+
+        for(int l=1;l<10;l++){
+            if(n >= l){
+                result.push_back(l);
+                makeList(result.size()-1);
+            }
+        }
+        
+        return result;
+    }
+};
