@@ -1,0 +1,15 @@
+class Solution {
+    int getLastRemaining(int n, bool reverse){
+        if(n==1) return 1;
+        else if(n==2) return (reverse?1:2);
+        bool r = false; //0->left, 1->right
+        if(reverse && n%2==0) r = true;
+        if(n%2 == 1) n--;
+        
+        return 2*getLastRemaining(n/2, !reverse)-(r?1:0);
+    }
+public:
+    int lastRemaining(int n) {
+        return getLastRemaining(n, false);
+    }
+};
