@@ -1,0 +1,25 @@
+class Solution {
+    string getDecodeStr(string &s, int &pos){
+        if(pos >= s.size()) return "";
+        string result = "";
+        string loop = "";
+        while(pos < s.size()){
+            if(isdigit(s[pos])) loop += s[pos++];
+            else if(isalpha(s[pos])) result += s[pos++];
+            else if(s[pos]=='['){
+                string temp = getDecodeStr(s, ++pos);
+                int l = 1;
+                if(loop != "") l = atoi(loop.c_str());
+                loop = "";
+                for(int i=0;i<l;i++)  result += temp;
+                pos++; //pass ']'
+            }else break; //s[pos] is ']'
+        }
+        return result;
+    }
+public:
+    string decodeString(string s) {
+        int pos = 0;
+        return getDecodeStr(s, pos);
+    }
+};
