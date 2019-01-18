@@ -1,0 +1,35 @@
+class Solution {
+    string str;
+    int k;
+    int getSubstr(int s, int e){
+        if(s>e) return 0;
+        
+        vector<int> v(26, 0);
+        for(int i=s;i<=e;i++) v[str[i]-'a']++;
+        bool check = true;
+        for(int i=0;i<26;i++){
+            if(v[i]==0) continue;
+            else if(v[i] < k) check=false;
+        }
+        if(check) return e-s+1;
+        
+        int result = 0;
+        int n = s;
+        for(int i=s;i<=e;i++){
+            int temp = v[str[i]-'a'];
+            if(temp!=0 && temp<k){
+                result = max(result, getSubstr(n, i-1));
+                n = i+1;
+            }
+        }
+        result = max(result, getSubstr(n, e));
+        return result;
+    }
+public:
+    int longestSubstring(string _str, int _k) {
+        str = _str;
+        k = _k;
+        if(str=="" || k==0) return 0;
+        return getSubstr(0, str.size()-1);
+    }
+};
