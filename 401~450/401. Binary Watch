@@ -1,0 +1,39 @@
+class Solution {
+    vector<string> result;
+    vector<pair<int, int>> clock;
+    void makeResult(int n, int p, pair<int, int> c){
+        if(n==0){
+            string hour = to_string(c.first);
+            if(hour.size()==1) hour = "0"+hour;
+            string min = to_string(c.second);
+            if(min.size()==1) min = "0"+min;
+            string temp = hour+":"+min;
+            result.push_back(temp);
+            return;
+        }
+        if(p>=clock.size()) return;
+        makeResult(n, p+1, c);
+        c.first += clock[p].first;
+        c.second += clock[p].second;
+        if(c.first>=12 || c.second>=60) return;
+
+        makeResult(n-1, p+1, c);
+    }
+public:
+    Solution(){
+        clock.push_back(pair<int, int>(1, 0));
+        clock.push_back(pair<int, int>(2, 0));
+        clock.push_back(pair<int, int>(4, 0));
+        clock.push_back(pair<int, int>(8, 0));
+        clock.push_back(pair<int, int>(0, 1));
+        clock.push_back(pair<int, int>(0, 2));
+        clock.push_back(pair<int, int>(0, 4));
+        clock.push_back(pair<int, int>(0, 8));
+        clock.push_back(pair<int, int>(0, 16));
+        clock.push_back(pair<int, int>(0, 32));
+    }
+    vector<string> readBinaryWatch(int num) {
+        makeResult(num, 0, pair<int, int>(0, 0));
+        return result;
+    }
+};
