@@ -1,0 +1,32 @@
+class Solution {
+    void rmLeadingZero(string &str){
+        int len = 0;
+        while(str[len] == '0') len++;
+        str.erase(0, len);
+    }
+public:
+    string removeKdigits(string num, int k) {
+        if(k==0) return num;
+
+        int cnt = 0;
+        for(int i=1;i<num.size();i++){
+            if(num[i-1]>num[i]){
+                num.erase(i-1, 1);
+                rmLeadingZero(num);
+                if(++cnt==k) break;
+                if(num.size()==1){
+                    num = "";
+                    break;
+                }
+                i -= 2;
+                if(i<0) i=0;
+            }
+        }
+        while(num.size()>0 && k>cnt){
+            num.erase(num.size()-1, 1);
+            cnt++;
+        }
+
+        return (num==""?"0":num);
+    }
+};
