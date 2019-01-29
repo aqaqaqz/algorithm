@@ -1,0 +1,23 @@
+class Solution {
+    vector<int> v;
+    void swap(int &a, int &b){
+        int temp = a;
+        a = b;
+        b = temp;
+    }
+    void inputVal(int val){
+        for(int i=0;i<v.size();i++) if(v[i]==val) return;
+        v.push_back(val);
+        int p = v.size()-1;
+        while(p>0 && v[p]>v[p-1]){
+            swap(v[p], v[p-1]);
+            p--;
+        }
+        if(v.size()>3) v.resize(3);
+    }
+public:
+    int thirdMax(vector<int>& nums) {
+        for(int n : nums) inputVal(n);
+        return (v.size()==3?v[2]:v[0]);
+    }
+};
