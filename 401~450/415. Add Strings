@@ -1,0 +1,26 @@
+class Solution {
+public:
+    string addStrings(string num1, string num2) {
+        string result;
+        int len = max(num1.size(), num2.size());
+        while(num1.size()!=len) num1 = '0'+num1;
+        while(num2.size()!=len) num2 = '0'+num2;
+        len--;
+        
+        bool upper = false;
+        for(int i=len;i>=0;i--){
+            int temp = upper?1:0;
+            temp += (num1[i]+num2[i]-2*'0');
+            if(temp >= 10){
+                upper = true;
+                temp -= 10;
+            }else upper = false;
+            result = (char)(temp+'0')+result;
+        }
+        
+        if(upper){
+            result = "1"+result;
+        }
+        return result;
+    }
+};
