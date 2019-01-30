@@ -1,0 +1,20 @@
+class Solution {
+    unordered_map<int, int> m;
+public:
+    bool canPartition(vector<int>& nums) {
+        m[0] = 1;
+        int find = 0;
+        for(int n:nums) find+=n;
+        if(find%2 == 1) return false;
+        find /= 2;
+
+        for(int n : nums){
+            for(auto iter=m.begin();iter!=m.end();iter++){
+                int next = iter->first+n;
+                if(next == find) return true;
+                else if(next < find) m[next]++;
+            }
+        }
+        return false;
+    }
+};

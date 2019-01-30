@@ -1,0 +1,21 @@
+class Solution {
+    set<int> sums;
+public:
+    bool canPartition(vector<int>& nums) {
+        sums.insert(0);
+        int find = 0;
+        for(int n:nums) find+=n;
+        if(find%2 == 1) return false;
+        find /= 2;
+        for(int n : nums){
+            vector<int> temp;
+            for(auto iter=sums.begin();iter!=sums.end();iter++){
+                int next = *iter+n;
+                if(next == find) return true;
+                else if(next < find) temp.push_back(*iter+n);
+            }
+            for(int t : temp) sums.insert(t);
+        }
+        return false;
+    }
+};
