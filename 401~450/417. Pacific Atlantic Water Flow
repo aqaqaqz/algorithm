@@ -1,0 +1,38 @@
+class Solution {
+    vector<vector<int>> m;
+    void makeMap(vector<vector<int>> &map, int h, int w, int pre){
+        if(h<0 || w<0 || h>=map.size() || w>=map[0].size()) return;
+        if(map[h][w] != -1 || m[h][w] < pre) return;
+        map[h][w] = 1;
+        makeMap(map, h+1, w, m[h][w]);
+        makeMap(map, h, w+1, m[h][w]);
+        makeMap(map, h-1, w, m[h][w]);
+        makeMap(map, h, w-1, m[h][w]);
+    }
+public:
+    vector<pair<int, int>> pacificAtlantic(vector<vector<int>>& matrix) {
+        vector<pair<int, int>> result;
+        if(matrix.empty()) return result;
+        m = matrix;
+        vector<vector<int>> pacific(m.size(), vector<int>(m[0].size(), -1));
+        vector<vector<int>> atlantic(m.size(), vector<int>(m[0].size(), -1));
+
+        for(int i=0;i<m.size();i++){
+            makeMap(pacific, i, 0, -1);
+            makeMap(atlantic, i, m[0].size()-1, -1);
+        }
+        for(int i=0;i<m[0].size();i++){
+            makeMap(pacific, 0, i, -1);
+            makeMap(atlantic, m.size()-1, i, -1);
+        }
+
+        for(int h=0;h<m.size();h++){
+            for(int w=0;w<m[0].size();w++){
+                if(pacific[h][w]==1 && atlantic[h][w]==1) 
+                    result.push_back(pair<int, int>(h, w));
+            }
+        }
+
+        return result;
+    }
+};
