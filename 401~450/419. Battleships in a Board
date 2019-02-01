@@ -1,0 +1,30 @@
+class Solution {
+    void updateBoard(vector<vector<char>> &board, int h, int w){
+        int dh=0, dw=0;
+        if(h-1>=0 && board[h-1][w]=='X') dh = -1;
+        else if(h+1<board.size() && board[h+1][w]=='X') dh = 1;
+        else if(w-1>=0 && board[h][w-1]=='X') dw = -1;
+        else if(w+1<board[0].size() && board[h][w]=='X') dw = 1;
+        
+        while(board[h][w] == 'X'){
+            board[h][w] = '!';
+            h += dh;
+            w += dw;
+            if(h<0 || w<0 || h>=board.size() || w>=board[0].size()) break;
+        }
+    }
+public:
+    int countBattleships(vector<vector<char>>& board) {
+        int result = 0;
+        for(int h=0;h<board.size();h++){
+            for(int w=0;w<board[0].size();w++){
+                if(board[h][w] == '!' || board[h][w] == '.') continue;
+                else if(board[h][w] == 'X'){
+                    result++;
+                    updateBoard(board, h, w);
+                }
+            }
+        }
+        return result;
+    }
+};
