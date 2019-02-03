@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int minimumLengthEncoding(vector<string>& words) {
+        for(int i=0;i<words.size();i++){
+            for(int j=0;j<words.size();j++){
+                if(i==j) continue;
+                auto size = words[j].find(words[i]);
+                if(size < words[j].size()){
+                    if(words[j].size() != size+words[i].size()) continue;
+                    words[i] = "";
+                    break;
+                }
+            }
+        }
+        
+        int result = 0;
+        for(string str : words){
+            if(str == "") continue;
+            result += str.size();
+            result++;
+        }
+        
+        return result;
+    }
+};

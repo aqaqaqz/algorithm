@@ -1,0 +1,33 @@
+class Solution {
+    void change(string &str, int pos){
+        if(str[pos] == 'R'){
+            int rp = pos;
+            while(rp<str.size()){
+                if(str[rp]=='R') rp++;
+                else if(str[rp]=='L') break;
+                else{
+                    str[rp] = 'R';
+                    str[pos] = 'X';
+                    break;
+                }
+            }
+        }else if(str[pos] == 'X'){
+            int lp = pos;
+            while(lp<str.size() && str[lp]=='X') lp++;
+            if(lp!=str.size() && str[lp]=='L'){
+                str[pos] = 'L';
+                str[lp] = 'X';
+            }
+        }
+    }
+public:
+    bool canTransform(string s, string e) {
+        if(s.size() != e.size()) return false;
+        for(int i=0;i<s.size();i++){
+            if(s[i] == e[i]) continue;
+            change(s, i);
+            if(s[i] != e[i]) return false;
+        }
+        return true;
+    }
+};
