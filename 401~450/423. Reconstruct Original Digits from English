@@ -1,0 +1,26 @@
+class Solution {
+    unordered_map<char, int> m;
+public:
+    string originalDigits(string &s) {
+        for(char c : s) m[c]++;
+        
+        vector<char> key{'z', 'w', 'u', 'x', 'g', 'o', 'f', 's', 'r', 'i'};
+        vector<char> val{'0', '2', '4', '6', '8', '1', '5', '7', '3', '9'};
+        vector<string> num{"zero", "two", "four", "six", "eight", "one", "five", "seven", "three", "nine"};
+        
+        string result;
+        
+        for(int i=0;i<10;i++){
+            int cnt = m[key[i]];
+            string &str = num[i];
+            
+            for(int i=0;i<str.size();i++)
+                m[str[i]]-=cnt;
+            while(cnt--)
+                result += val[i];
+        }
+        
+        sort(result.begin(), result.end());
+        return result;
+    }
+};
