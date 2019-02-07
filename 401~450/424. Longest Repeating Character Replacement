@@ -1,0 +1,45 @@
+class Solution {
+    unordered_map<char, vector<pair<int, int>>> m;
+    string s;
+    int getValue(const vector<pair<int, int>> &v, int p, int k){
+        int result = v[p].second-v[p].first+1;
+        int lp = p;
+        for(int i=p;i<v.size()-1;i++){
+            int interval = v[i+1].first-v[i].second-1;
+            if(k>=interval){
+                result += (interval+v[i+1].second-v[i+1].first+1);
+                k -= interval;
+                lp = i+1;
+            }else break;
+        }
+        result += min(k, (int)s.size()-v[lp].second-1);
+        
+        return result;
+    }
+public:
+    int characterReplacement(string str, int k) {
+        s = str;
+        char pre = '0';
+        int sp = 0;
+        for(int i=0;i<s.size();i++){
+            char c = s[i];
+            if(pre != c){
+                if(m[pre].empty()) m[pre].push_back(pair<int, int>(0, -1));
+                m[pre].push_back(pair<int, int>(sp, i-1));
+                pre = c;
+                sp = i;
+            }
+        }
+        if(m[s[s.size()-1]].empty()) m[s[s.size()-1]].push_back(pair<int, int>(0, -1));
+        m[s[s.size()-1]].push_back(pair<int, int>(sp, s.size()-1));
+        m.erase('0');
+
+        int result = 0;
+        for(auto iter=m.begin();iter!=m.end();iter++){
+            for(int i=0;i<iter->second.size();i++){
+                result = max(result, getValue(iter->second, i, k));
+            }
+        }
+        return result;
+    }
+};
