@@ -1,9 +1,9 @@
 Answer is slow...
 211. Add and Search Word - Data structure design
 309. Best Time to Buy and Sell Stock with Cooldown
+424. Longest Repeating Character Replacement
 916. Word Subsets
 
 
 View the discussTab...
 368. Largest Divisible Subset
-424. Longest Repeating Character Replacement
