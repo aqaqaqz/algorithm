@@ -1,0 +1,23 @@
+class Solution {
+public:
+    Node* flatten(Node* head) {
+        Node* result = head;
+        vector<Node*> v;
+        while( head != NULL ){
+            if(head->child != NULL){
+                v.push_back(head->next);
+                head->next = head->child;
+                head->child = NULL;
+                head->next->prev = head;
+            }
+            if(head->next == NULL && !v.empty()){
+                head->next = v.back();
+                if(v.back() != NULL)
+                    v.back()->prev = head;
+                v.pop_back();
+            }
+            head = head->next;
+        }
+        return result;
+    }
+};
