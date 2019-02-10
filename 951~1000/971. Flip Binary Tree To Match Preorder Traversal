@@ -1,0 +1,25 @@
+class Solution {
+    int p;
+    vector<int> result;
+    bool makeFlip(TreeNode *n, vector<int> &v){
+        if(n==NULL) return true;
+        if(v[p] != n->val) return false;
+        p++;
+        if(!makeFlip(n->left, v)){
+            result.push_back(n->val);
+            if(makeFlip(n->right, v))
+                return makeFlip(n->left, v);
+            return false;
+        }
+        return makeFlip(n->right, v);
+    }
+public:
+    vector<int> flipMatchVoyage(TreeNode* root, vector<int>& voyage) {
+        p = 0;
+        if(!makeFlip(root, voyage)){
+            result.clear();
+            result.resize(1, -1);   
+        }
+        return result;
+    }
+};
