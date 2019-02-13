@@ -1,0 +1,31 @@
+class MyCalendar {
+    map<int, int> m;
+public:
+    MyCalendar() { }
+    
+    bool book(int s, int e) {
+        e--;
+        if(m.find(s)!=m.end()) return false;
+
+        bool check = true;
+        m[s] = e;
+        auto iter1 = m.lower_bound(s);
+        auto iter2 = m.upper_bound(s);
+        
+        if(iter1!=m.begin()){
+            iter1--;
+            if(iter1->second>=s) check = false;   
+        } 
+        if(iter2!=m.end() && iter2->first<=e) check = false;
+        
+        if(!check) m.erase(s);
+        
+        return check;
+    }
+};
+
+/**
+ * Your MyCalendar object will be instantiated and called as such:
+ * MyCalendar obj = new MyCalendar();
+ * bool param_1 = obj.book(start,end);
+ */
