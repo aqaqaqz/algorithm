@@ -1,0 +1,28 @@
+/**
+ * Definition for an interval.
+ * struct Interval {
+ *     int start;
+ *     int end;
+ *     Interval() : start(0), end(0) {}
+ *     Interval(int s, int e) : start(s), end(e) {}
+ * };
+ */
+class Solution {
+    static bool mySort(Interval a, Interval b){
+        if(a.start == b.start) return a.start<b.start;
+        return a.end<b.end;
+    }
+public:
+    int eraseOverlapIntervals(vector<Interval>& v) {
+        sort(v.begin(), v.end(), mySort);
+        int result = 0;
+        if(v.empty()) return result;
+        for(int i=0;i<v.size()-1;i++){
+            if(v[i].start<v[i+1].end && v[i].end>v[i+1].start){
+                if(v[i].end < v[i+1].end) v[i+1] = v[i];   
+                result++;
+            }
+        }
+        return result;
+    }
+};
