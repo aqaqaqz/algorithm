@@ -1,0 +1,47 @@
+class Solution {
+    vector<vector<int>> result;
+    vector<pair<int, int>> v;
+    void update(int depth){
+        vector<pair<int, int>> temp;
+        for(pair<int, int> p : v){
+            int h = p.first;
+            int w = p.second;
+            
+            if(h-1 >= 0 && result[h-1][w] == -1){
+                temp.push_back(pair<int, int>(h-1, w));
+                result[h-1][w] = depth;
+            }
+            if(w-1 >= 0 && result[h][w-1] == -1){
+                temp.push_back(pair<int, int>(h, w-1));
+                result[h][w-1] = depth;
+            }
+            if(h+1 < result.size() && result[h+1][w] == -1){
+                temp.push_back(pair<int, int>(h+1, w));
+                result[h+1][w] = depth;
+            }
+            if(w+1 < result[0].size() && result[h][w+1] == -1){
+                temp.push_back(pair<int, int>(h, w+1));
+                result[h][w+1] = depth;
+            }
+        }
+        v = temp;
+    }
+public:
+    vector<vector<int>> updateMatrix(vector<vector<int>>& matrix) {
+        if(matrix.empty()) return result;
+        result.resize(matrix.size(), vector<int>(matrix[0].size(), -1));
+        
+        for(int h=0;h<matrix.size();h++)
+            for(int w=0;w<matrix[0].size();w++)
+                if(matrix[h][w] == 0){
+                    v.push_back(pair<int, int>(h, w));
+                    result[h][w] = 0;
+                }
+        
+        int depth = 1;
+        while(!v.empty())
+            update(depth++);
+        
+        return result;
+    }
+};
