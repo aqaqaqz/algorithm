@@ -1,0 +1,84 @@
+class Solution {
+    void nextStep(vector<string> &grid, vector<vector<pair<bool, bool>>>  &v, int h, int w, char dir){
+        if(h<0 || w<0 || h>=grid.size() || w>=grid[0].size()) return;
+        if(grid[h][w] == ' '){
+            if(!v[h][w].first){
+                v[h][w].first = true;
+                nextStep(grid, v, h+1, w, 'd');
+                nextStep(grid, v, h-1, w, 'u');
+                nextStep(grid, v, h, w+1, 'r');
+                nextStep(grid, v, h, w-1, 'l');
+            }
+        }else if(grid[h][w] == '/'){
+            if((dir=='d' || dir=='r') && !v[h][w].first){
+                v[h][w].first = true;
+                nextStep(grid, v, h-1, w, 'u');
+                nextStep(grid, v, h, w-1, 'l');
+            }
+            if((dir=='u' || dir=='l') && !v[h][w].second){
+                v[h][w].second = true;
+                nextStep(grid, v, h+1, w, 'd');
+                nextStep(grid, v, h, w+1, 'r');
+            }
+        }else{
+            if((dir=='u' || dir=='r') && !v[h][w].first){
+                v[h][w].first = true;
+                nextStep(grid, v, h, w-1, 'l');
+                nextStep(grid, v, h+1, w, 'd');
+            }
+            if((dir=='d' || dir=='l') && !v[h][w].second){
+                v[h][w].second = true;
+                nextStep(grid, v, h-1, w, 'u');   
+                nextStep(grid, v, h, w+1, 'r');
+            }
+        }
+    }
+public:
+    int regionsBySlashes(vector<string>& grid) {
+        int result = 0;
+        vector<vector<pair<bool, bool>>> v(grid.size(), vector<pair<bool, bool>>(grid[0].size(), pair<bool, bool>(false, false)));
+        
+        for(int h=0;h<grid.size();h++){
+            for(int w=0;w<grid.size();w++){
+                if(grid[h][w] == ' '){
+                    if(!v[h][w].first){
+                        v[h][w].first = true;
+                        result++;
+                        nextStep(grid, v, h+1, w, 'd');
+                        nextStep(grid, v, h-1, w, 'u');
+                        nextStep(grid, v, h, w+1, 'r');
+                        nextStep(grid, v, h, w-1, 'l');
+                    }
+                }else if(grid[h][w] == '/'){
+                    if(!v[h][w].first){
+                        v[h][w].first = true;
+                        result++;
+                        nextStep(grid, v, h-1, w, 'u');
+                        nextStep(grid, v, h, w-1, 'l');
+                    }
+                    if(!v[h][w].second){
+                        v[h][w].second = true;
+                        result++;
+                        nextStep(grid, v, h+1, w, 'd');
+                        nextStep(grid, v, h, w+1, 'r');
+                    }
+                }else{
+                    if(!v[h][w].first){
+                        v[h][w].first = true;
+                        result++;
+                        nextStep(grid, v, h, w-1, 'l');
+                        nextStep(grid, v, h+1, w, 'd');
+                    }
+                    if(!v[h][w].second){
+                        v[h][w].second = true;
+                        result++;
+                        nextStep(grid, v, h-1, w, 'u');   
+                        nextStep(grid, v, h, w+1, 'r');
+                    }
+                }
+            }
+        }
+        
+        return result;
+    }
+};
