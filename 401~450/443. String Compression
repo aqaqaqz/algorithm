@@ -1,0 +1,26 @@
+class Solution {
+public:
+    int compress(vector<char>& chars) {
+        int pos = 0;
+        int rPos = 0;
+        while(pos < chars.size()){
+            int cnt = 1;
+            if(pos+1<chars.size() && chars[pos+1]==chars[pos]){
+                while(pos+1<chars.size() && chars[pos+1]==chars[pos]){ 
+                    pos++; 
+                    cnt++; 
+                }
+            }
+            pos++;
+            
+            chars[rPos++] = chars[pos-1];
+            if(cnt > 1){
+                string temp = to_string(cnt);
+                for(char c : temp) chars[rPos++] = c;
+            }
+        }
+        chars.resize(rPos);
+        
+        return rPos;
+    }
+};
