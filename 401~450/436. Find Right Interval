@@ -1,0 +1,46 @@
+/**
+ * Definition for an interval.
+ * struct Interval {
+ *     int start;
+ *     int end;
+ *     Interval() : start(0), end(0) {}
+ *     Interval(int s, int e) : start(s), end(e) {}
+ * };
+ */
+class Solution {
+    static bool mySort(pair<int, int> a, pair<int, int> b){
+        return a.first < b.first;
+    }
+    
+    int findPos(vector<pair<int, int>> &v, int key, int p){
+        int s = 0;
+        int e = v.size()-1;
+        int m;
+        
+        while(s < e){
+            m = (s+e)/2;
+            if(v[m].first == key) break;
+            else if(v[m].first < key) s = m+1;
+            else e = m-1;
+        }
+        m = (s+e)/2; 
+        while(m<v.size() && key>v[m].first) m++;
+        if(m >= v.size()) return -1;
+        
+        return v[m].second;
+    }
+public:
+    vector<int> findRightInterval(vector<Interval>& intervals) {
+        vector<pair<int, int>> v;
+        vector<int> result;
+        
+        for(int i=0;i<intervals.size();i++)
+            v.push_back(pair<int, int>(intervals[i].start, i));
+        sort(v.begin(), v.end(), mySort);
+        
+        for(int i=0;i<intervals.size();i++)
+            result.push_back(findPos(v, intervals[i].end, i));
+        
+        return result;
+    }
+};
