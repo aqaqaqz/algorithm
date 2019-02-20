@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int numberOfBoomerangs(vector<pair<int, int>>& points) {
+        int result = 0;
+        
+        for(pair<int, int> &p1 : points){
+            unordered_map<int, int> dis;
+            for(pair<int, int> &p2 : points){
+                if(p1 == p2) continue;
+                int a = p1.first-p2.first;
+                int b = p1.second-p2.second;
+                int c = a*a+b*b;
+                dis[c]++;
+            }
+            for(auto iter=dis.begin();iter!=dis.end();iter++){
+                if(iter->second > 1){
+                    int cnt = iter->second;
+                    result += cnt*(cnt-1);
+                }
+            }
+        }
+        
+        return result;
+    }
+};
