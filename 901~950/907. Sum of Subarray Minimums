@@ -1,0 +1,53 @@
+class Solution {
+    unordered_map<string, bool> m;
+    long long getSubarrMin(vector<int> &v, int p){
+        long long l = 1;
+        long long r = 1;
+        bool validL = true;
+        bool validR = true;
+        string strP = to_string(p);
+        while(strP.size() != 5) strP = '0'+strP;
+        
+        while(validL || validR){
+            if(validL && p-l>=0 && v[p-l]>=v[p]){
+                if(v[p-l] == v[p]){
+                    string strL = to_string(p-l);
+                    while(strL.size() != 5) strL = '0'+strL;
+                    
+                    if(!m[strP+strL]){
+                        m[strL+strP] = true;
+                        l++;
+                    }else{
+                        validL = false;
+                    }
+                }else l++;
+            }else validL = false;
+            
+            if(validR && p+r<v.size() && v[p+r]>=v[p]){
+                if(v[p+r] == v[p]){
+                    string strR = to_string(p+r);
+                    while(strR.size() != 5) strR = '0'+strR;
+                    
+                    if(!m[strP+strR]){
+                        m[strR+strP] = true;
+                        r++;
+                    }else{
+                        validR = false;
+                    }
+                }else r++;
+            }else validR = false;
+        }
+        
+        return l*r*(long long)v[p];
+    }
+public:
+    int sumSubarrayMins(vector<int>& a) {
+        long long result = 0;
+        int mod = 1e9+7;
+        for(int i=0;i<a.size();i++){
+            result += getSubarrMin(a, i);
+            while(result >= mod) result %= mod;
+        }
+        return (int)result;
+    }
+};
