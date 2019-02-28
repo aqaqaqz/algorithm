@@ -1,0 +1,28 @@
+class MyHeap{
+public:
+    bool operator () (string &a, string &b){
+        return a.size()<b.size();
+    }
+};
+class Solution {
+    unordered_map<char, int> m;
+public:
+    string frequencySort(string s) {
+        for(char c : s) m[c]++;
+        
+        priority_queue<string, vector<string>, MyHeap> q;
+        for(auto iter=m.begin();iter!=m.end();iter++){
+            string temp = "";
+            for(int i=0;i<iter->second;i++) temp += iter->first;
+            q.push(temp);
+        }
+        
+        string result = "";
+        while(!q.empty()){
+            result += q.top();
+            q.pop();
+        }
+        
+        return result;
+    }
+};
