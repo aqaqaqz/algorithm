@@ -1,0 +1,23 @@
+class Solution {
+    vector<vector<int>> result;
+    void makePath(vector<vector<int>> &map, vector<int> &path, int p){
+        path.push_back(p);
+        
+        if(p == map.size()-1){
+            result.push_back(path);
+            path.pop_back();
+            return;
+        }
+        
+        for(int n : map[p])
+            makePath(map, path, n);
+        
+        path.pop_back();
+    }
+public:
+    vector<vector<int>> allPathsSourceTarget(vector<vector<int>>& graph) {
+        vector<int> path;
+        makePath(graph, path, 0);
+        return result;
+    }
+};
