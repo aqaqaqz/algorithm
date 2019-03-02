@@ -1,0 +1,18 @@
+class Solution {
+    int leftGas;
+public:
+    int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
+        for(int i=0;i<gas.size();i++){
+            leftGas = 0;
+            for(int j=0;j<cost.size();j++){
+                int pos = i+j;
+                if(pos >= cost.size()) pos -= cost.size();
+                leftGas += gas[pos];
+                leftGas -= cost[pos];
+                if(leftGas < 0) break;
+            }
+            if(leftGas >= 0) return i;
+        }
+        return -1;
+    }
+};
