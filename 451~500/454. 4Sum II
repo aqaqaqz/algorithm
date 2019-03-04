@@ -1,0 +1,16 @@
+class Solution {
+public:
+    int fourSumCount(vector<int>& a, vector<int>& b, vector<int>& c, vector<int>& d) {
+        unordered_map<long long, int> map;
+        for(long long n : c) 
+            for(long long m : d)
+                map[n+m]++;
+        
+        int result = 0;
+        for(long long n : a) 
+            for(long long m : b)
+                result += map[-1*(n+m)];
+        
+        return result;
+    }
+};
