@@ -1,0 +1,26 @@
+class Solution {
+public:
+    bool find132pattern(vector<int>& nums) {
+        if(nums.empty()) return false;
+        vector<int> r(nums.size());
+
+        set<int> s;
+        for(int i=nums.size()-1;i>=0;i--){
+            s.insert(nums[i]);
+            auto iter = s.find(nums[i]);
+            if(iter==s.begin()) r[i] = INT_MAX;
+            else{
+                iter--;
+                r[i] = *iter;
+            }
+        }
+
+        int t = nums[0];
+        for(int i=0;i<nums.size();i++){
+            t = min(t, nums[i]);
+            if(t < r[i] && r[i] < nums[i]) return true;
+        } 
+
+        return false;
+    }
+};
