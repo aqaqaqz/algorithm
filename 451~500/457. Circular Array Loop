@@ -1,0 +1,38 @@
+class Solution {
+    int nextPos(int p, int s){
+        if(p >= s){
+            p %= s;
+        }else if(p < 0){
+            p %= s;
+            p += s;
+        }
+        return p;
+    }
+public:
+    bool circularArrayLoop(vector<int>& nums) {
+        if(nums.size() < 2) return false;
+        
+        for(int i=0;i<nums.size();i++){
+            if(nums[i] >= 1001) continue;
+            bool dir = nums[i]>0; //true->right, false->left;      
+            
+            int p = nextPos(i+nums[i], nums.size());
+            nums[i] = 1001+i;
+            if(p==i) continue;
+            
+            while(true){
+                if(nums[p] == 1001+i) return true;
+                if(nums[p] >= 1001) break;
+                if(dir && nums[p]<0) break;
+                if(!dir && nums[p]>0) break;
+                
+                int preP = p;
+                p = nextPos(p+nums[p], nums.size());
+                nums[preP] = 1001+i;
+                if(p == preP) break;
+            }
+           
+        }
+        return false;
+    }
+};
