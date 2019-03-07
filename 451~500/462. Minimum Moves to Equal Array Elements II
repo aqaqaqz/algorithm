@@ -1,0 +1,31 @@
+class Solution {
+    long long getVal(int p, vector<int> &v){
+        long long result = 0;
+        for(int n : v) result+=abs(v[p]-n);
+        return result;
+    }
+public:
+    int minMoves2(vector<int>& nums) {
+        if(nums.size() < 2) return 0;
+        if(nums.size() == 2) return (abs(nums[0]-nums[1]));
+
+        sort(nums.begin(), nums.end());
+        long long lv=0, rv=0, mv=INT_MAX;
+        int s = 0;
+        int e = nums.size()-1;
+        int m;
+
+        while( !(lv>mv && rv>mv) ){
+            m = (s+e)/2;
+            lv = getVal(m-1, nums);
+            rv = getVal(m+1, nums);
+            mv = getVal(m, nums);
+
+            if(lv>mv && mv>rv)      s = m;
+            else if(lv<mv && mv<rv) e = m;
+            if(lv==mv || rv==mv) break;
+        }
+
+        return mv;
+    }
+};
