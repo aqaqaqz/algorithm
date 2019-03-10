@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int findRadius(vector<int>& h1, vector<int>& h2) {
+        sort(h1.begin(), h1.end());
+        sort(h2.begin(), h2.end());
+        
+        int result = 0;
+        result = max(result, h2[0]-h1[0]);
+        result = max(result, h1.back()-h2.back());
+        
+        int hp = 0;
+        for(int i=1;i<h2.size();i++){
+            while(hp<h1.size() && h1[hp]<h2[i]){
+                int temp = min(abs(h2[i-1]-h1[hp]), abs(h2[i]-h1[hp]));
+                result = max(result, temp);
+                hp++;
+            }
+        }
+        
+        return result;
+    }
+};

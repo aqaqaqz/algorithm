@@ -1,0 +1,42 @@
+class Solution {
+public:
+    string validIPAddress(string IP) {
+        string result = "Neither";
+        int cnt = 0;
+        if(IP.find(".") != string::npos){
+            string temp = "";
+            for(char c : IP){
+                if(isdigit(c)){
+                    temp += c;
+                    if(temp.size() > 3) return result;
+                }
+                else if(c == '.'){
+                    cnt++;
+                    int t = atoi(temp.c_str());
+                    if(t > 255 || temp=="" || (temp[0]=='0' && temp.size()>1) ) return result;
+                    temp = "";
+                }else return result;
+            }
+            int t = atoi(temp.c_str());
+            if(t > 255 || temp=="" || (temp[0]=='0' && temp.size()>1) ) return result;
+            
+            if(cnt == 3) result = "IPv4";
+        }else if(IP.find(":") != string::npos){
+            string temp = "";
+            for(char c : IP){
+                if( isdigit(c) || (tolower(c)>='a' && tolower(c)<='f') ){
+                    temp += c;
+                    if(temp.size() > 4) return result;
+                }else if(c == ':'){
+                    cnt++;
+                    if(temp == "") return result;
+                    temp = "";
+                }else return result;
+            }
+            if(temp == "") return result;
+            
+            if(cnt == 7) result = "IPv6";
+        }
+        return result;
+    }
+};
