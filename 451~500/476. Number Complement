@@ -1,0 +1,9 @@
+class Solution {
+public:
+    int findComplement(int num) {
+        long long  t = 1;
+        while(t<=num) t *= 2;
+        t--;
+        return t-num;
+    }
+};
