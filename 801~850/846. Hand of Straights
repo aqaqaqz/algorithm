@@ -1,0 +1,18 @@
+class Solution {
+public:
+    bool isNStraightHand(vector<int>& h, int w) {
+        map<int, int> m;
+        for(int n : h) m[n]++;
+        for(auto iter=m.begin();iter!=m.end();iter++){
+            int val = iter->first;
+            int cnt = iter->second;
+            if(cnt == 0) continue;
+            
+            for(int i=1;i<w;i++){
+                m[val+i] -= cnt;
+                if(m[val+i] < 0) return false;
+            }
+        }
+        return true;
+    }
+};

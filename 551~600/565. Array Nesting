@@ -1,0 +1,22 @@
+class Solution {
+    vector<bool> visit;
+public:
+    int arrayNesting(vector<int>& nums) {
+        visit.resize(nums.size(), false);
+        
+        int result = 0;
+        for(int i=0;i<nums.size();i++){
+            if(!visit[i]){
+                int p = i;
+                int t = 0;
+                while(!visit[p]){
+                    t++;
+                    visit[p] = true;
+                    p = nums[p];
+                }
+                result = max(result, t);
+            }
+        }
+        return result;
+    }
+};

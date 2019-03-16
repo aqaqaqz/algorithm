@@ -1,0 +1,40 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    int widthOfBinaryTree(TreeNode* root) {
+        vector<TreeNode*> v;
+        root->val = 0;
+        v.push_back(root);
+        
+        int result = 0;
+        while(!v.empty()){
+            vector<TreeNode*> next;
+            int maxVal = INT_MIN;
+            int minVal = INT_MAX;
+            for(TreeNode* node : v){
+                if(node->left != NULL){
+                    node->left->val = (long long)node->val*2;
+                    next.push_back(node->left);
+                }
+                if(node->right != NULL){
+                    node->right->val = (long long)node->val*2+1;
+                    next.push_back(node->right);
+                }
+                maxVal = max(maxVal, node->val);
+                minVal = min(minVal, node->val);
+            }
+            result = max(result, maxVal-minVal+1);
+            v = next;
+        }
+        
+        return result;
+    }
+};
