@@ -1,0 +1,23 @@
+class Solution {
+    int calFour(int &s){
+        if(s == 0) return 0;
+        
+        int result = s--;
+        if(s > 0) result *= s--;
+        if(s > 0 && s!=0) result /= s--;
+        
+        return result;
+    }
+public:
+    int clumsy(int n) {
+        int result = calFour(n);
+        if(n > 0) result += n--;
+        
+        while(n > 0){
+            result -= calFour(n);
+            if(n > 0) result += n--;
+        }
+        
+        return result;
+    }
+};

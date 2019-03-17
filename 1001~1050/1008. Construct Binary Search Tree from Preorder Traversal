@@ -1,0 +1,32 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+    void makeTree(TreeNode *node, vector<int> &v, int &p, int maxVal){
+        if(p >= v.size()) return;
+        
+        if(node->val > v[p]){
+            node->left = new TreeNode(v[p++]);
+            makeTree(node->left, v, p, node->val);
+        }
+        if(p < v.size() && v[p] < maxVal){
+            node->right = new TreeNode(v[p++]);
+            makeTree(node->right, v, p, maxVal);
+        }
+    }
+public:
+    TreeNode* bstFromPreorder(vector<int>& v) {
+        if(v.empty()) return NULL;
+        int p = 0;
+        TreeNode *root = new TreeNode(v[p++]);
+        
+        makeTree(root, v, p, INT_MAX);
+        return root;
+    }
+};
