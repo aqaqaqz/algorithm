@@ -1,0 +1,25 @@
+class Solution {
+    vector<int> cache;
+    bool makeDp(string &s, vector<string> &dic, int p){
+        if(p>=s.size()) return true;
+        if(cache[p] != -1) return cache[p];
+        cache[p] = 0;
+        for(string str : dic){
+            if(str.size()+p > s.size()) continue;
+            int t = p;
+            for(int i=0;i<str.size();i++){
+                if(str[i] == s[t]) t++;
+                else break;
+                
+                if(i+1 == str.size() && makeDp(s, dic, t))
+                    return true;
+            }
+        }
+        return cache[p];
+    }
+public:
+    bool wordBreak(string s, vector<string>& dic) {
+        cache.resize(s.size(), -1);
+        return makeDp(s, dic, 0);
+    }
+};
