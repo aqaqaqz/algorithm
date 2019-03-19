@@ -1,0 +1,40 @@
+class Solution {
+public:
+    bool canFinish(int num, vector<pair<int, int>>& pre) {
+        unordered_map<int, vector<int>> m;
+        unordered_map<int, vector<int>> m2;
+        vector<bool> v(num, false);
+        
+        for(pair<int, int> p : pre){
+            m[p.second].push_back(p.first);
+            m2[p.first].push_back(p.second);
+            v[p.second] = true;
+        }
+
+        vector<int> course;
+        for(int i=0;i<num;i++)
+            if(!v[i]) course.push_back(i);
+        
+        v.clear();
+        v.resize(num, false);
+        
+        while(!course.empty()){
+            vector<int> temp;
+            for(int n : course){
+                v[n] = true;
+                
+                for(int ableCourse : m2[n]){
+                    bool check = true;
+                    if(v[ableCourse]) continue;
+                    for(int preCourse : m[ableCourse]) check &= v[preCourse];
+                    if(check) temp.push_back(ableCourse);
+                }
+            }
+            course = temp;
+        }
+
+        bool check = true;
+        for(bool b : v) check &= b;
+        return check;
+    }
+};
