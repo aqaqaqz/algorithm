@@ -1,0 +1,43 @@
+class Solution {
+    int makeHeight(unordered_map<int, unordered_map<int, int>> &cache, vector<vector<int>> &m, int p, int pre){
+        if(m[p].size() == 1) return 1;
+        if(cache[p][pre] != NULL) return cache[p][pre];
+
+        int result = INT_MIN;        
+        for(int n : m[p]){
+            if(n == pre) continue;
+            result = max(result, makeHeight(cache, m, n, p));
+        }
+
+        cache[p][pre] = result + 1;
+        return cache[p][pre];
+    }
+public:
+    vector<int> findMinHeightTrees(int n, vector<pair<int, int>>& edges) {
+        unordered_map<int, unordered_map<int, int>> cache;
+        vector<vector<int>> m(n);
+
+        for(pair<int, int> p : edges){
+            m[p.first].push_back(p.second);
+            m[p.second].push_back(p.first);
+        }
+
+        vector<int> result;
+        int minH = INT_MAX;
+        for(int i=0;i<n;i++){
+            int temp = INT_MIN;
+            for(int p : m[i])
+                temp = max(temp, makeHeight(cache, m, p, i));
+            minH = min(minH, temp);
+        }
+       
+        for(int i=0;i<n;i++){
+            int temp = INT_MIN;
+            for(int p : m[i])
+                temp = max(temp, makeHeight(cache, m, p, i));
+            if(temp == minH) result.push_back(i);
+        }
+
+        return result;
+    }
+};
