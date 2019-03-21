@@ -1,0 +1,30 @@
+class Solution {
+public:
+    vector<vector<int>> findSubsequences(vector<int>& nums) {
+        set<vector<int>> s;
+        
+        for(int n : nums){
+            if(s.empty()) s.insert(vector<int>(1, n));
+            else{
+                vector<vector<int>> tList;
+                tList.push_back(vector<int>(1, n));
+                for(auto iter=s.begin();iter!=s.end();iter++){
+                    if(iter->back() <= n){
+                        vector<int> t = *iter;
+                        t.push_back(n);
+                        tList.push_back(t);
+                    }
+                }
+                for(vector<int> &v : tList) s.insert(v);
+            }
+        }
+        
+        vector<vector<int>> result;
+        for(auto iter=s.begin();iter!=s.end();iter++){
+            if(iter->size() > 1)
+                result.push_back(*iter);
+        }
+        
+        return result;
+    }
+};
