@@ -1,0 +1,29 @@
+class Solution {
+    vector<pair<int, int >> cnt;
+    int getMaxPoint(vector<unordered_map<int, int>> &v, vector<string> &strs, int p, int m, int n){
+        if(p>=strs.size()) return 0;
+        int key = m*101+n;
+        if(v[p].find(key) != v[p].end()) return v[p][key];
+
+        v[p][key] = getMaxPoint(v, strs, p+1, m, n);
+        if(m>=cnt[p].first && n>=cnt[p].second){
+            m -= cnt[p].first;
+            n -= cnt[p].second;
+            v[p][key] = max(v[p][key], 1+getMaxPoint(v, strs, p+1, m, n));
+        }
+
+        return v[p][key];
+    }
+public:
+    int findMaxForm(vector<string>& strs, int m, int n) {
+        vector<unordered_map<int, int>> v(strs.size());
+
+        for(string str : strs){
+            cnt.push_back(pair<int, int>(0, 0));
+            for(char c : str)
+                c=='0'?cnt.back().first++:cnt.back().second++;
+        }
+
+        return getMaxPoint(v, strs, 0, m, n);
+    }
+};

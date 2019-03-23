@@ -1,0 +1,23 @@
+class Solution {
+    vector<vector<int>> result;
+    void makeResult(vector<int> &v, vector<int> &nums, int p){
+        if(p >= nums.size()) return;
+
+        unordered_set<int> s;
+        for(int i=p;i<nums.size();i++){
+            if( (v.empty() || v.back()<=nums[i]) && s.find(nums[i])==s.end() ){
+                s.insert(nums[i]);
+                v.push_back(nums[i]);
+                if(v.size() > 1) result.push_back(v);
+                makeResult(v, nums, i+1);
+                v.pop_back();
+            }
+        }
+    }
+public:
+    vector<vector<int>> findSubsequences(vector<int>& nums) {
+        vector<int> v;
+        makeResult(v, nums, 0);
+        return result;
+    }
+};
