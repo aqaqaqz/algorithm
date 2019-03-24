@@ -1,0 +1,15 @@
+class Solution {
+public:
+    int numPairsDivisibleBy60(vector<int>& time) {
+        int result = 0;
+        
+        unordered_map<int, int> m;
+        for(int n : time){
+            n %= 60;
+            result += m[60-(n==0?60:n)];
+            m[n]++;
+        }
+        
+        return result;
+    }
+};
