@@ -1,0 +1,18 @@
+class Solution {
+    int getSumCnt(vector<int> &v, long long s, int p){
+        int cnt = 0;
+        if(p+1 == v.size()){
+            if(v[p] == s) cnt++;
+            if(-v[p] == s) cnt++;
+            return cnt;
+        }
+
+        cnt += getSumCnt(v, s+v[p], p+1);
+        cnt += getSumCnt(v, s-v[p], p+1);
+        return cnt;
+    }
+public:
+    int findTargetSumWays(vector<int>& nums, int s) {
+        return getSumCnt(nums, s, 0);
+    }
+};

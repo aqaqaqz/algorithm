@@ -1,0 +1,24 @@
+class Solution {
+    vector<unordered_map<long long, int>> cache;
+    int getSumCnt(vector<int> &v, long long s, int p){
+        int cnt = 0;
+        if(cache[p].find(s) != cache[p].end()) return cache[p][s];
+
+        if(p+1 == v.size()){
+            cnt += (v[p]==s?1:0);
+            cnt += (-v[p]==s?1:0);
+        }else{
+            cnt += getSumCnt(v, s+v[p], p+1);
+            cnt += getSumCnt(v, s-v[p], p+1);
+        }
+        cache[p][s] = cnt;
+        return cache[p][s];
+    }
+public:
+    int findTargetSumWays(vector<int>& nums, int s) {
+        if(nums.empty()) return 0;
+        
+        cache.resize(nums.size());
+        return getSumCnt(nums, s, 0);
+    }
+};
