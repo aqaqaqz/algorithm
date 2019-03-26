@@ -1,0 +1,27 @@
+class Solution {
+public:
+    vector<string> findWords(vector<string>& words) {
+        unordered_map<char, int> m;
+        string first = "qwertyuiop";
+        string second = "asdfghjkl";
+        string third = "zxcvbnm";
+        for(char c : first) m[c] = 1;
+        for(char c : second) m[c] = 2;
+        for(char c : third) m[c] = 3;
+        
+        vector<string> result;
+        for(string str : words){
+            bool check = true;
+            int row = m[tolower(str[0])];
+            for(char c : str){
+                if(m[tolower(c)] != row){
+                    check = false;
+                    break;
+                }
+            }
+            if(check) result.push_back(str);
+        }
+        
+        return result;
+    }
+};
