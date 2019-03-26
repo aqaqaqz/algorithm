@@ -1,0 +1,20 @@
+class Solution {
+public:
+    vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {
+        unordered_map<int, int> m;
+        for(int i=0;i<nums2.size();i++)
+            m[nums2[i]] = i;
+        
+        vector<int> result;
+        for(int n : nums1){
+            for(int p=m[n];p<nums2.size();p++){
+                if(nums2[p] > n){
+                    result.push_back(nums2[p]);
+                    break;
+                }else if(p+1 == nums2.size()) 
+                    result.push_back(-1);
+            }
+        }
+        return result;
+    }
+};
