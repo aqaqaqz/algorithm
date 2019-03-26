@@ -1,0 +1,26 @@
+class Solution {
+public:
+    int findSubstringInWraproundString(string p) {
+        if(p == "") return 0;
+
+        vector<int> v(26, 0);
+        int pos = 0;
+        while(pos<p.size()){
+            int cnt = 1;
+            int s = pos;
+            while(pos+1<p.size() && (p[pos+1]-p[pos]==1 || (p[pos+1]=='a' && p[pos]=='z' ))){
+                cnt++;
+                pos++;
+            }
+            for(int i=0;i<26;i++){
+                int tp = (p[s]-'a'+i)%26;
+                v[tp] = max(v[tp], cnt-i);
+            }
+            pos++;
+        }
+
+        int result = 0;
+        for(int n : v) result += n;
+        return result;
+    }
+};
