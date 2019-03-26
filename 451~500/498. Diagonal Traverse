@@ -1,0 +1,38 @@
+class Solution {
+public:
+    vector<int> findDiagonalOrder(vector<vector<int>>& matrix) {
+        int x = 0;
+        int y = 0;
+        int dx = 1;
+        int dy = -1;
+        vector<int> result;
+        if(matrix.empty()) return result;
+
+        while(true){
+            result.push_back(matrix[y][x]);
+            if(y+1 == matrix.size() && x+1 == matrix[0].size()) break;
+            if(y+dy>=matrix.size() || y+dy<0 || x+dx>=matrix[0].size() || x+dx < 0){
+                
+                if(dx==1){
+                    if(x+1 == matrix[0].size()) 
+                        y++;
+                    else 
+                        x++;
+                }else{
+                    if(y+1 == matrix.size())
+                        x++;
+                    else
+                        y++;
+                }
+
+                dx *= -1;
+                dy *= -1;
+            }else{
+                x += dx;
+                y += dy;
+            }
+        };
+        
+        return result;
+    }
+};
