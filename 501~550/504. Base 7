@@ -1,0 +1,17 @@
+class Solution {
+public:
+    string convertToBase7(int num) {
+        if(num == 0) return "0";
+        string str = "";
+        bool minus = false;
+        if(num < 0) minus = true;
+        
+        num = abs(num);
+        while(num > 0){
+            str = (char)(num%7 + '0') + str;
+            num /= 7;
+        }
+        if(minus) str = "-"+str;
+        return str;
+    }
+};
