@@ -1,0 +1,50 @@
+class Solution {
+    int findNext(vector<int> &n, vector<int> &v, int p){
+        if(v[p] != -2) return v[p];
+        int np = (p+1)%n.size();
+        if(n[np] >= n[p]) v[p] = np;
+        else{
+            while(true){
+                int t = findNext(n, v, np);
+                if(t==p){
+                    v[p] = -1;
+                    break;
+                }
+                if(n[t] >= n[p]){
+                    v[p] = t;
+                    break;
+                }
+                np = t;
+            }
+        }
+        return v[p];
+    }
+    int makeSameVal(vector<int> &n, vector<int> &v, int p, int s){
+        if(p == s) return -1;
+        int np = v[p];
+        if(n[p] != n[np]){
+            return np;
+        }
+        v[p] = makeSameVal(n, v, np, s);
+        return v[p];
+    }
+public:
+    vector<int> nextGreaterElements(vector<int>& nums) {
+        vector<int> result(nums.size(), -2);
+        for(int i=0;i<nums.size();i++)
+            findNext(nums, result, i);
+
+        for(int i=0;i<nums.size();i++){
+            if(result[i] != -1){
+                if(nums[result[i]] == nums[i]) 
+                    result[i] = makeSameVal(nums, result, result[i], i);
+            }
+        }
+        
+        for(int &n : result){
+            if(n != -1) n = nums[n];
+        }
+        
+        return result;
+    }
+};
