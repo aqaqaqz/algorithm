@@ -1,0 +1,30 @@
+class Solution {
+    int findRank(vector<int> &v, int val){
+        int s = 0;
+        int e = v.size()-1;
+        while(s <= e){
+            int m = (s+e)/2;
+            if(v[m] > val) e = m-1;
+            else if(v[m] < val) s = m+1;
+            else return m;
+        }
+        return -1;
+    }
+public:
+    vector<string> findRelativeRanks(vector<int>& nums) {
+        vector<int> t = nums;
+        vector<string> result;
+        
+        sort(t.begin(), t.end());
+        for(int n : nums){
+            int r = nums.size() - findRank(t, n);
+            string str;
+            if(r == 1) str = "Gold Medal";
+            else if(r==2) str= "Silver Medal";
+            else if(r==3) str= "Bronze Medal";
+            else str = to_string(r);
+            result.push_back(str);
+        }
+        return result;
+    }
+};
