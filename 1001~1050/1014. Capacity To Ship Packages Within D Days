@@ -1,0 +1,33 @@
+class Solution {
+    bool checkDay(vector<int> &w, long long val, int limit){
+        int sum = 0;
+        int day = 1;
+        for(int n : w){
+            if(sum+n <= val){
+                sum += n;
+            }else{
+                if(n > val) return false;
+                day++;
+                sum = n;
+            }
+        }
+        if(day > limit) return false;
+        return true;
+    }
+public:
+    int shipWithinDays(vector<int>& weights, int d) {
+        long long s = 0;
+        long long e = INT_MAX;
+        long long result;
+        
+        while(s <= e){
+            result = (s+e)/2;
+            if(checkDay(weights, result, d)){
+                if(!checkDay(weights, result-1, d)) return result;
+                e = result-1;
+            }else s = result+1;
+        }
+        
+        return -1;
+    }
+};
