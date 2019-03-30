@@ -1,0 +1,21 @@
+class Solution {
+    vector<vector<int>> cache;
+    int makePal(string &str, int s, int e){
+        if(s>e) return 0;
+        else if(s==e) return 1;
+        else if(cache[s][e] != -1) return cache[s][e];
+
+        cache[s][e] = 0;
+        if(str[s] == str[e])
+            cache[s][e] = 2 + makePal(str, s+1, e-1);
+        else
+            cache[s][e] += max(makePal(str, s, e-1), makePal(str, s+1, e));
+        
+        return cache[s][e];
+    }
+public:
+    int longestPalindromeSubseq(string s) {
+        cache.resize(s.size(), vector<int>(s.size(), -1));
+        return makePal(s, 0, s.size()-1);
+    }
+};
