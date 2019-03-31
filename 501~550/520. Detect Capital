@@ -1,0 +1,24 @@
+class Solution {
+public:
+    bool detectCapitalUse(string word) {
+        int p = 0;
+        if(word == "") return true;
+        if((word[p]>='A' && word[p]<='Z')){
+            p++;
+            if(word.size() == p) return true;
+            if((word[p]>='A' && word[p]<='Z')){
+                while(p<word.size()){
+                    if(!(word[p]>='A' && word[p]<='Z')) return false;
+                    p++;
+                }
+                return true;
+            }
+        }
+        
+        while(p<word.size()){
+            if((word[p]>='A' && word[p]<='Z')) return false;
+            p++;
+        }
+        return true;
+    }
+};
