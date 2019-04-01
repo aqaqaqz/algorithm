@@ -1,0 +1,19 @@
+class Solution {
+    int getChangeCnt(vector<vector<int>> &c, vector<int> &coins, int p, int amt){
+        if(amt == 0) return 1;
+        if(p >= coins.size()) return 0;
+        if(c[p][amt] != -1) return c[p][amt];
+
+        c[p][amt] = 0;
+        for(int i=0;i<=amt/coins[p];i++)
+            c[p][amt] += getChangeCnt(c, coins, p+1, amt-coins[p]*i);
+
+        return c[p][amt];
+    }
+public:
+    int change(int amount, vector<int>& coins) {
+        vector<vector<int>> cache(coins.size(), vector<int>(amount+1, -1));
+
+        return getChangeCnt(cache, coins, 0, amount);
+    }
+};
