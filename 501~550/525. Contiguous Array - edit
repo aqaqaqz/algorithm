@@ -1,0 +1,27 @@
+class Solution {
+public:
+    int findMaxLength(vector<int>& nums) {
+        int result = 0;
+        int zCnt = 0;
+        int oCnt = 0;
+        unordered_map<int, int> m;
+        m[0] = -1;
+
+        for(int i=0;i<nums.size();i++){
+            int n = nums[i];
+            if(n==0) zCnt++;
+            else oCnt++;
+            int temp = min(zCnt, oCnt);
+            zCnt -= temp;
+            oCnt -= temp;
+            
+            int key = zCnt^oCnt;
+            if(zCnt > oCnt) key *= -1;
+            
+            if(m.find(key) == m.end()) m[key] = i;
+            else result = max(result, i-m[key]);
+        }
+
+        return result;
+    }
+};

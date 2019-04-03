@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int findMaxLength(vector<int>& nums) {
+        int result = 0;
+        int zCnt = 0;
+        int oCnt = 0;
+        map<pair<int, int>, int> m;
+        m[pair<int, int>(0, 0)] = -1;
+
+        for(int i=0;i<nums.size();i++){
+            int n = nums[i];
+            if(n==0) zCnt++;
+            else oCnt++;
+            int temp = min(zCnt, oCnt);
+            zCnt -= temp;
+            oCnt -= temp;
+
+            pair<int, int> p(zCnt, oCnt);
+            if(m.find(p) == m.end()) m[p] = i;
+            else result = max(result, i-m[p]);
+        }
+
+        return result;
+    }
+};
