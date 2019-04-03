@@ -1,0 +1,50 @@
+class Solution {
+    void updateBoard(vector<vector<char>>& b, vector<vector<int>>& v, int h, int w){
+        if(h<0 || w<0 || h>=b.size() || w>=b[0].size()) return;
+        
+        if(b[h][w] != 'E') return;
+        if(v[h][w] == 0){
+            b[h][w] = 'B';
+            updateBoard(b, v, h-1, w);
+            updateBoard(b, v, h, w-1);
+            updateBoard(b, v, h+1, w);
+            updateBoard(b, v, h, w+1);
+            updateBoard(b, v, h-1, w-1);
+            updateBoard(b, v, h-1, w+1);
+            updateBoard(b, v, h+1, w-1);
+            updateBoard(b, v, h+1, w+1);
+        }else b[h][w] = (char)(v[h][w]+'0');
+    }
+public:
+    vector<vector<char>> updateBoard(vector<vector<char>>& board, vector<int>& click) {
+        int ch = click[0];
+        int cw = click[1];
+
+        if(board[ch][cw] != 'E'){
+            if(board[ch][cw] == 'M') board[ch][cw] = 'X';
+            return board; 
+        }
+
+        vector<vector<int>> v(board.size(), vector<int>(board[0].size(), 0));
+        for(int h=0;h<board.size();h++){
+            for(int w=0;w<board[0].size();w++){
+                if(board[h][w] == 'M'){
+                    v[h][w] = 9;
+                    if(h-1>=0) v[h-1][w]++;
+                    if(w-1>=0) v[h][w-1]++;
+                    if(h+1<v.size()) v[h+1][w]++;
+                    if(w+1<v[0].size()) v[h][w+1]++;
+                    if(h-1>=0 && w-1>=0) v[h-1][w-1]++;
+                    if(h-1>=0 && w+1<v[0].size()) v[h-1][w+1]++;
+                    if(h+1<v.size() && w-1>=0) v[h+1][w-1]++;
+                    if(h+1<v.size() && w+1<v[0].size()) v[h+1][w+1]++;
+                }
+            }
+        }
+
+        if(v[ch][cw] != 0) board[ch][cw] = (char)(v[ch][cw]+'0');
+        else updateBoard(board, v, ch, cw);
+
+        return board;
+    }
+};
