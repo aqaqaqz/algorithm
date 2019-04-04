@@ -1,0 +1,18 @@
+class Solution {
+public:
+    int findPairs(vector<int>& nums, int k) {
+        if(k < 0) return 0;
+        map<int, int> m;
+        for(int n : nums) m[n]++;
+        
+        int result = 0;
+        for(auto iter=m.begin();iter!=m.end();iter++){
+            int t = iter->first+k;
+            if(k==0){
+                if(m[t]>1) result++;  
+            } else if(m.find(t) != m.end()) result++;
+        }
+        
+        return result;
+    }
+};
