@@ -1,0 +1,40 @@
+class Solution {
+    int result = 0;
+    void findArr(vector<set<int>>& v, vector<bool>& visit, int p){
+        if(p == v.size()){
+            result++;
+            return;
+        }
+        for(auto iter=v[p].begin(); iter!=v[p].end();iter++){
+            int np = *iter;
+            if(!visit[np]){
+                visit[np] = true;
+                findArr(v, visit, p+1);
+                visit[np] = false;
+            }
+        }
+    }
+public:
+    int countArrangement(int n) {
+        vector<set<int>> v(n+1);
+        for(int i=1;i<=n;i++){
+            int t =  1;
+            while(i*t <= n){
+                v[i].insert(i*t);
+                t++;
+            }
+            for(int j=1;j<=sqrt(i);j++){
+                if(i%j == 0){
+                    v[i].insert(j);
+                    v[i].insert(i/j);
+                }
+            }
+        }
+        sort(v.begin(), v.end(), [](set<int>& v1, set<int>& v2){return v1.size() < v2.size();});
+
+        vector<bool> visit(n+1, false);
+        findArr(v, visit, 1);
+
+        return result;
+    }
+};
