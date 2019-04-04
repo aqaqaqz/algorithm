@@ -1,0 +1,27 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+    void findNode(TreeNode* n, vector<int>& v){
+        if(n==NULL) return;
+        v.push_back(n->val);
+        findNode(n->left, v);
+        findNode(n->right, v);
+    }
+public:
+    int getMinimumDifference(TreeNode* root) {
+        vector<int> v;
+        findNode(root, v);
+        sort(v.begin(), v.end());
+        int result = v[1]-v[0];
+        for(int i=2;i<v.size();i++)
+            result = min(result, v[i]-v[i-1]);
+        return result;        
+    }
+};
