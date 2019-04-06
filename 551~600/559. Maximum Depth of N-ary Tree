@@ -1,0 +1,30 @@
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    vector<Node*> children;
+
+    Node() {}
+
+    Node(int _val, vector<Node*> _children) {
+        val = _val;
+        children = _children;
+    }
+};
+*/
+class Solution {
+    int result;
+    void getMaxDepth(Node* n, int d){
+        if(n == NULL) return;
+        result = max(d, result);
+        for(Node* tn : n->children)
+            getMaxDepth(tn, d+1);
+    }
+public:
+    int maxDepth(Node* root) {
+        result = 0;
+        getMaxDepth(root, 1);
+        return result;
+    }
+};
