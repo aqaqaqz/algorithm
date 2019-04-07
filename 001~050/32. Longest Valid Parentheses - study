@@ -1,0 +1,39 @@
+class Solution {
+    void changePair(string& s, int& p){
+        if(p >= s.size()) return;
+        int ori = p;
+        if(s[p] == '('){
+            p++;
+            while(p<s.size() && s[p]!=')')
+                changePair(s, p);
+            if(p<s.size()){
+                s[p] = '1';
+                s[ori] = '1';
+                p++;
+            }
+        }
+    }
+public:
+    int longestValidParentheses(string s) {
+        int p = 0;
+        while(p<s.size()){
+            if(s[p] == '(')
+                changePair(s, p);
+            else p++;
+        }
+        
+        int result = 0;
+        int temp = 0;
+        
+        for(char c : s){
+            if(c == '1') temp++;
+            else {
+                result = max(result, temp);
+                temp = 0;
+            }
+        }
+        result = max(result, temp);
+        
+        return result;
+    }
+};

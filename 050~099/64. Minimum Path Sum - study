@@ -1,0 +1,26 @@
+class Solution {
+    int mh;
+    int mw;
+    bool checkValid(int h, int w){
+        if(h<0 || w<0 || h>=mh || w>=mw) return false;
+        return true;
+    }
+public:
+    int minPathSum(vector<vector<int>>& grid) {
+        if(grid.empty()) return -1;
+        mh = grid.size();
+        mw = grid[0].size();
+        for(int h=0;h<mh;h++){
+            for(int w=0;w<mw;w++){
+                if(checkValid(h-1, w) && checkValid(h, w-1))
+                    grid[h][w] += min(grid[h-1][w], grid[h][w-1]);
+                else if(checkValid(h-1, w))
+                    grid[h][w] += grid[h-1][w];
+                else if(checkValid(h, w-1)) 
+                    grid[h][w] += grid[h][w-1];
+            }
+        }
+        
+        return grid.back().back();
+    }
+};
