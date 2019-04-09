@@ -1,0 +1,46 @@
+class Solution {
+    void devideStr(string& str, vector<string>& v){
+        int p = 0;
+        string temp = "";
+        while(p<str.size()){
+            while(p<str.size() && str[p]!='+')
+                temp += str[p++];
+            v.push_back(temp);
+            temp = "";
+            p++;
+        }
+    }
+    
+    void calStr(vector<string>& v1, vector<string>& v2, vector<int>& cal){
+        for(string fs : v1){
+            for(string ss : v2){
+                int p = 0;
+                int digit1, digit2;
+                if(fs.back() == 'i'){
+                    p++;
+                    digit1 = atoi(fs.substr(0, fs.size()-1).c_str());
+                }else digit1 = atoi(fs.c_str());
+                
+                if(ss.back() == 'i'){
+                    p++;
+                    digit2 = atoi(ss.substr(0, ss.size()-1).c_str());
+                }else digit2 = atoi(ss.c_str());
+                
+                cal[p] += digit1*digit2;
+            }
+        }
+    }
+public:
+    string complexNumberMultiply(string a, string b) {
+        vector<string> va;
+        vector<string> vb;
+        
+        devideStr(a, va);
+        devideStr(b, vb);
+        
+        vector<int> cal(3, 0);
+        calStr(va, vb, cal);
+        
+        return (to_string(cal[0]-cal[2]) + "+" + to_string(cal[1]) + "i" );
+    }
+};
