@@ -1,0 +1,24 @@
+class Solution {
+    int getMin(string& time){
+        int h = atoi(time.substr(0, 2).c_str());
+        int m = atoi(time.substr(3, 2).c_str());
+        return h*60+m;
+    }
+public:
+    int findMinDifference(vector<string>& times) {
+        sort(times.begin(), times.end(), [](const string& t1, const string& t2){
+            if(t1[0] != t2[0]) return t1[0]<t2[0];
+            if(t1[1] != t2[1]) return t1[1]<t2[1];
+            if(t1[3] != t2[3]) return t1[3]<t2[3];
+            return t1[4]<t2[4];
+        });
+
+        int result = 60*25;
+        for(int i=1;i<times.size();i++)
+            result = min(result, abs(getMin(times[i])-getMin(times[i-1])));
+
+        result = min(result, abs(60*24 + getMin(times[0]) - getMin(times.back())));
+
+        return result;
+    }
+};
