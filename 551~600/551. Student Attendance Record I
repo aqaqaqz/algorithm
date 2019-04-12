@@ -1,0 +1,18 @@
+class Solution {
+public:
+    bool checkRecord(string s) {
+        int aCnt = 0;
+        int lCnt = 0;
+        for(char c : s){
+            if(c == 'A') aCnt++;
+            if(c == 'L') lCnt++;
+            else lCnt = 0;
+            
+            
+            if(aCnt > 1) return false;
+            if(lCnt > 2) return false;
+        }
+        
+        return true;
+    }
+};
