@@ -1,0 +1,20 @@
+class Solution {
+    void reverseStr2(string &str, int s, int e){
+        while(e > s){
+            char c = str[s];
+            str[s] = str[e];
+            str[e] = c;
+            s++;
+            e--;
+        }
+    }
+public:
+    string reverseStr(string s, int k) {
+        int p = 0;
+        while(p<s.size()){
+            reverseStr2(s, p, min((int)s.size()-1, p+k-1));
+            p += 2*k;
+        }
+        return s;
+    }
+};
