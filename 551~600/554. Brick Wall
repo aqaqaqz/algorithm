@@ -1,0 +1,27 @@
+class Solution {
+public:
+    int leastBricks(vector<vector<int>>& wall) {
+        unordered_map<int, int> m;
+        bool checkWall = true;
+        int end;
+        for(vector<int> v : wall){
+            if(v.size() != 1) checkWall = false;
+            int sum = 0;
+            for(int n : v){
+                sum += n;
+                m[sum]++;
+            }
+            end = sum;
+        }
+        
+        if(checkWall) return wall.size();
+        
+        int result = 10001;
+        for(auto iter=m.begin();iter!=m.end();iter++){
+            if(iter->first == end) continue;
+            result = min(result, (int)wall.size()-iter->second);
+        }
+        
+        return result;
+    }
+};
