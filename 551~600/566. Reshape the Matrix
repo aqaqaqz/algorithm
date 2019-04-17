@@ -1,0 +1,27 @@
+class Solution {
+public:
+    vector<vector<int>> matrixReshape(vector<vector<int>>& nums, int r, int c) {
+        int sum = 0;
+        for(vector<int>& v : nums) sum += v.size();
+        if(sum != r*c) return nums;
+        
+        int h=0;
+        int w=0;
+        vector<vector<int>> result;
+        for(vector<int>& v : nums){
+            for(int& n : v){
+                if(w == c) {
+                    h++;
+                    w = 0;
+                }
+                if(w == 0)
+                    result.push_back(vector<int>());
+                
+                result[h].push_back(n);
+                w++;
+            }
+        }
+        
+        return result;
+    }
+};
