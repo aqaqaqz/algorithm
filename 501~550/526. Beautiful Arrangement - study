@@ -1,0 +1,22 @@
+class Solution {
+    int result;
+    vector<bool> val;
+    void checkArr(int n, int p){
+        if(p>n) result++;
+        for(int i=1;i<=n;i++){
+            if(val[i]) continue;
+            if( i%p==0 || p%i==0){
+                val[i] = true;
+                checkArr(n, p+1);
+                val[i] = false;
+            }
+        }
+    }
+public:
+    int countArrangement(int n) {
+        result = 0;
+        val.resize(n+1, false);
+        checkArr(n, 1);
+        return result;
+    }
+};
