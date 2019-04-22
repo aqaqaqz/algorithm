@@ -1,0 +1,15 @@
+class Solution {
+public:
+    int findLHS(vector<int>& nums) {
+        unordered_map<int, int> m;
+        for(int n : nums) m[n]++;
+        
+        int result = 0;
+        for(auto iter=m.begin();iter!=m.end();iter++){
+            int sub = 0;
+            if(m.find(iter->first+1) != m.end())
+                result = max(result, iter->second +  m[iter->first+1]);
+        }
+        return result;
+    }
+};
