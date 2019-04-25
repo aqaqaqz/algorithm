@@ -1,0 +1,27 @@
+class Solution {
+public:
+    vector<string> findRestaurant(vector<string>& list1, vector<string>& list2) {
+        vector<string> result;
+        
+        unordered_map<string, int> m;
+
+        for(int i=0;i<list1.size();i++)
+            m[list1[i]] = i;
+
+        int idx = -1;
+        for(int i=0;i<list2.size();i++){
+            if(m.find(list2[i]) != m.end()){
+                if(idx == -1) idx = i+m[list2[i]];
+                else idx = min(idx, i+m[list2[i]]);
+            }
+        }
+        if(idx == -1) return result;
+        for(int i=0;i<list2.size();i++){
+            if(m.find(list2[i]) != m.end()){
+                if(idx == i+m[list2[i]]) result.push_back(list2[i]);
+            }
+        }
+        
+        return result;
+    }
+};
