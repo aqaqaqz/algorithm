@@ -1,0 +1,28 @@
+class Solution {
+    int findPos(vector<int>& n, int v){
+        int s = 0;
+        int e = n.size()-1;
+        int m;
+        while(s<=e){
+            m = (s+e)/2;
+            if(n[m]==v && (m==0||(n[m-1]!=n[m]))) return m-1;
+            else if(n[m] >= v) e = m-1;
+            else s = m+1;
+        }
+        if(n[m] < v) return m;
+        return max(m-1, 0);
+    }
+public:
+    int triangleNumber(vector<int>& nums) {
+        sort(nums.begin(), nums.end());
+        int result = 0;
+        for(int i=0;i<nums.size();i++){
+            for(int j=i+1;j<nums.size();j++){
+                int p = findPos(nums, nums[i]+nums[j]);
+                if(p<j) continue;
+                result += p-j;
+            }
+        }
+        return result;
+    }
+};
