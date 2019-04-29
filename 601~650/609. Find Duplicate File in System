@@ -1,0 +1,37 @@
+class Solution {
+    void makeFileList(string str, unordered_map<string, vector<string>>& m){
+        string dir = "";
+        int p = 0;
+        while(p<str.size() && str[p]!=' ')
+            dir += str[p++];
+        dir += '/';
+        p++; // skip space
+        while(p<str.size()){
+            int sp = p;
+            while(str[p] != '(') p++;
+            int ep = p-1;
+            int cps = p+1;
+            while(str[p] != ')') p++;
+            int cpe = p-1;
+
+            m[str.substr(cps, cpe-cps+1)].push_back(dir+str.substr(sp, ep-sp+1));
+            p+=2; //skip ')' and ' '
+        }
+        
+    }
+public:
+    vector<vector<string>> findDuplicate(vector<string>& paths) {
+        vector<vector<string>> result;
+        unordered_map<string, vector<string>> m;
+
+        for(string str : paths)
+            makeFileList(str, m);
+
+        for(auto iter=m.begin();iter!=m.end();iter++){
+            if(iter->second.size() > 1)
+                result.push_back(iter->second);
+        }
+
+        return result;
+    }
+};
