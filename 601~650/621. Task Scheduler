@@ -1,0 +1,38 @@
+class Solution {
+    unordered_map<char, int> m;
+    vector<int> v;
+    char getNext(int p, int n){
+        char next;
+        int maxVal = INT_MIN;
+        for(int i=0;i<26;i++){
+            char temp = 'A'+i;
+            if(v[temp-'A'] > 0){
+                if(v[temp-'A']>maxVal && (m.find(temp)==m.end() || p-m[temp]>n)){
+                    next = temp;
+                    maxVal = v[temp-'A'];
+                }
+            }
+        }
+        if(maxVal == INT_MIN) return '!';
+        v[next-'A']--;
+        m[next] = p;
+        return next;
+    }
+public:
+    int leastInterval(vector<char>& tasks, int n) {
+        v.resize(26, 0);
+        
+        for(char c : tasks) v[c-'A']++;
+        int result = 0;
+        int endCnt = 0;
+
+        while(endCnt != tasks.size()){
+            char c = getNext(result, n);
+            if(c!='!') endCnt++;
+
+            result++;
+        }
+
+        return result;
+    }
+};

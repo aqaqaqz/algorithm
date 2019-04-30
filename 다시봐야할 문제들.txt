@@ -4,6 +4,7 @@ Answer is slow...
 424. Longest Repeating Character Replacement
 474. Ones and Zeroes
 518. Coin Change 2
+621. Task Scheduler
 907. Sum of Subarray Minimums
 916. Word Subsets
 
