@@ -1,0 +1,16 @@
+class Solution {
+public:
+    vector<int> sumEvenAfterQueries(vector<int>& A, vector<vector<int>>& queries) {
+        int sum = 0;
+        for(int n : A) sum+=(n%2==0?n:0);
+        vector<int> result;
+        for(vector<int> &v : queries){
+            int p = v[1];
+            sum-=(A[p]%2==0?A[p]:0);
+            A[p]+=v[0];
+            sum+=(A[p]%2==0?A[p]:0);
+            result.push_back(sum);
+        }
+        return result;
+    }
+};
