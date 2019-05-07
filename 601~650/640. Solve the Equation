@@ -1,0 +1,48 @@
+class Solution {
+    string digit;
+    int xVal;
+    int nVal;
+    bool left;
+    void updateVal(){
+        if(digit == "") return;
+
+        bool x = false;
+        if(digit.back() == 'x') x = true;
+        
+        if(x){
+            digit.pop_back();
+            if(digit == "-") digit = "-1";
+            if(digit == "") digit = "1";
+            xVal += (atoi(digit.c_str()) * (left?1:-1));
+        }else{
+            nVal += (atoi(digit.c_str()) * (left?-1:1));
+        }
+        digit = "";
+    }
+public:
+    string solveEquation(string equation) {
+        digit = "";
+        xVal = 0;
+        nVal = 0;
+        left = true;
+        for(int i=0;i<equation.size();i++){
+            char c = equation[i];
+            if(c=='='){
+                updateVal();
+                left = false;
+            }else if(c=='-' || c=='+'){
+                updateVal();
+                if(c=='-') digit = "-";
+            }else{
+                digit += c;
+                if(i+1==equation.size()) updateVal();
+            }
+        }
+        
+        //cout <<xVal << " " << nVal;
+        
+        if(nVal==0 && xVal==0) return "Infinite solutions";
+        else if(xVal==0) return "No solution";
+        return ("x="+to_string(nVal/xVal));
+    }
+};
