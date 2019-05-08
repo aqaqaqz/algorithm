@@ -1,0 +1,27 @@
+class Solution {
+    void makeResult(vector<int>& nums, int p, vector<int>& result){
+        if(nums[p] == p || nums[p] == -1) return;
+        int np = nums[p];
+        if(nums[np] == np){
+            result.push_back(np);
+            nums[p] = -1;
+        }else{
+            nums[p] = nums[np];
+            nums[np] = np;
+            makeResult(nums, p, result);
+        }
+    }
+public:
+    vector<int> findErrorNums(vector<int>& nums) {
+        vector<int> result;
+        for(int &n : nums) n--;
+        for(int i=0;i<nums.size();i++){
+            makeResult(nums, i, result);
+        }
+        for(int i=0;i<nums.size();i++){
+            if(nums[i] == -1) result.push_back(i);
+        }
+        for(int &n : result) n++;
+        return result;
+    }
+};
