@@ -1,0 +1,41 @@
+class Solution {
+    pair<int, int> parseEx(const string& str, int& p){
+        bool minus = false;
+        if(str[p] == '-'){
+            minus = true;
+        }
+        if(!isdigit(str[p])) p++; //pass '+', '-'
+        int a, b;
+        string t = "";
+        while(isdigit(str[p])) t += str[p++];
+        p++; //pass '/'
+        a = atoi(t.c_str())*(minus?-1:1);
+        t =  "";
+        while(p<str.size() && isdigit(str[p])) t += str[p++];
+        b = atoi(t.c_str());
+
+        return make_pair(a, b);
+    }
+public:
+    string fractionAddition(string expression) {
+        int p = 0;
+        long long sum = 0;
+        while(p<expression.size()){
+            pair<int, int> t = parseEx(expression, p);
+            for(int i=1;i<=10;i++){
+                if(t.second == i) continue;
+                t.first *= i;
+            }
+            sum += t.first;
+        }
+        int under = 1;
+        for(int i=10;i>1;i--) under *= i;
+        for(int i=10;i>1;i--){
+            while(sum%i==0 && under%i==0){
+                under /= i;
+                sum /= i;
+            }
+        }
+        return to_string(sum) + "/" + to_string(under);
+    }
+};
