@@ -1,0 +1,43 @@
+class Solution {
+    pair<int, int> parseLog(const string& log){
+        pair<int, int> rst;
+        string t = "";
+        for(char c : log){
+            if(c == ':') break;
+            t += c;
+        }
+        rst.first = atoi(t.c_str());
+        t = "";
+        for(int i=log.size();i>=0;i--){
+            if(log[i] == ':') break;
+            t = log[i]+t;
+        }
+        rst.second = atoi(t.c_str());
+        return rst;
+    }
+    
+    int updateRst(vector<int>& result, vector<string>& logs, int& p){
+        pair<int, int> t = parseLog(logs[p]);
+        p++;
+        int used = 0;
+        while(logs[p].find("start") < logs[p].size()){
+            used += updateRst(result, logs, p);
+        }
+
+        int use = parseLog(logs[p]).second - t.second + 1 - used;
+        result[t.first] += use;
+        used += use;
+        p++;
+        return used;
+    }
+public:
+    vector<int> exclusiveTime(int n, vector<string>& logs) {
+        vector<int> result(n, 0);
+        int p = 0;
+        while(p < logs.size()){
+            updateRst(result, logs, p);
+        }
+        
+        return result;
+    }
+};
