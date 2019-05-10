@@ -1,0 +1,40 @@
+class Solution {
+    vector<int> v;
+    int findPos(vector<vector<int>>& pairs, int val){
+        int s = 0;
+        int e = pairs.size()-1;
+        while(s<=e){
+            int m = (s+e)/2;
+            if(pairs[m][0] <= val) s = m+1;
+            else e = m-1;
+        }
+        return s;
+    }
+    int getChanges(vector<vector<int>>& pairs, int p){
+        if(p>=pairs.size()) return 0;
+        if(v[p] != -1) return v[p];
+        v[p] = 1;
+        int temp = 0;
+        int np = findPos(pairs, pairs[p][1]);
+        for(np;np<pairs.size();np++){
+            temp = max(temp, getChanges(pairs, np));
+        }
+        v[p] += temp;
+        return v[p];
+    }
+public:
+    int findLongestChain(vector<vector<int>>& pairs) {
+        v.resize(pairs.size(), -1);
+        sort(pairs.begin(), pairs.end(), [](vector<int>& v1, vector<int>& v2){
+            if(v1[0] == v2[0]){
+                return v1[1]<v2[1];
+            }
+            return v1[0]<v2[0];
+        });
+        int result = 0;
+        for(int i=0;i<pairs.size();i++){
+            result = max(result, getChanges(pairs, i));
+        }
+        return result;
+    }
+};
