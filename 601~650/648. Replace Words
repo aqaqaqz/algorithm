@@ -1,0 +1,33 @@
+class Solution {
+    int getNextPos(const string& str, int p){
+        while(p<str.size() && isalpha(str[p])) p++;
+        return p;
+    }
+public:
+    string replaceWords(vector<string>& dict, string sentence) {
+        unordered_set<string> s;
+        for(const string& str : dict) s.insert(str);
+
+        string result = "";
+        int p = 0;
+        while(p<sentence.size()){
+            if(sentence[p] == ' '){
+                result += ' ';
+                p++;
+            }else{
+                int next = getNextPos(sentence, p);
+                string temp = sentence.substr(p, next-p);
+                for(int i=0;i<temp.size();i++){
+                    if(s.find(temp.substr(0, i+1)) != s.end()){
+                        result += temp.substr(0, i+1);
+                        break;
+                    }else if(i+1 == temp.size()){
+                        result += temp;
+                    }
+                }
+                p = next;
+            }
+        }
+        return result;
+    }
+};
