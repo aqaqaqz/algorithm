@@ -1,0 +1,19 @@
+class Solution {
+public:
+    int minSteps(int n) {
+        int last = 0;
+        int result = 0;
+        int len = 1;
+        while(n!=len){
+            if((n-len)%len == 0){
+                last = len;
+                len += last;
+                result++;
+            }else{
+                len += last;
+            }
+            result++;
+        }
+        return result;
+    }
+};
