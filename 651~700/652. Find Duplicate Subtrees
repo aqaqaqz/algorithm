@@ -1,0 +1,28 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+    unordered_map<string, int> m;
+    vector<TreeNode*> result;
+    string makeTreePath(TreeNode* n){
+        if(n==NULL) return "n";
+        string s = makeTreePath(n->left) + "," + makeTreePath(n->right) + "." + to_string(n->val);
+        if(m.find(s) == m.end()) m[s] = 1;
+        else if(m.find(s)!=m.end() && m[s]==1){
+            result.push_back(n);
+            m[s] = 2;
+        }
+        return s;
+    }
+public:
+    vector<TreeNode*> findDuplicateSubtrees(TreeNode* root) {
+        makeTreePath(root);
+        return result;
+    }
+};
