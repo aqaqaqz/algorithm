@@ -1,0 +1,14 @@
+class Solution {
+public:
+    bool hasAlternatingBits(int n) {
+        int s = n%2;
+        n /= 2;
+        while(n>0){
+            int next = n%2;
+            if(s==next) return false;
+            s = next;
+            n /= 2;
+        }
+        return true;
+    }
+};
