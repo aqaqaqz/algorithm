@@ -1,0 +1,38 @@
+class Solution {
+    int makeNum(const vector<int>& v){
+        int result = 0;
+        int ten = 1;
+        for(int n : v){
+            result += ten*n;
+            ten *= 10;
+        }
+        return result;
+    }
+public:
+    int maximumSwap(int num) {
+        vector<int> v;
+        while(num!=0){
+            v.push_back(num%10);
+            num/=10;
+        }
+        if(v.empty()) v.push_back(0);
+
+        for(int i=v.size()-1;i>=0;i--){
+            int p = i;
+            for(int j=i-1;j>=0;j--){
+                if(v[p] < v[j]){
+                    p = j;
+                }else if(p!=i && v[p]==v[j]){
+                    p = j;
+                }
+            }
+            if(p!=i){
+                int temp = v[p];
+                v[p] = v[i];
+                v[i] = temp;
+                break;
+            }
+        }
+        return makeNum(v);
+    }
+};
