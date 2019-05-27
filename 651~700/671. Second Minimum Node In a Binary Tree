@@ -1,0 +1,32 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+    long long min1;
+    long long min2;
+    void findSminVal(TreeNode* n){
+        if(n == NULL) return;
+        if(min1 > n->val){
+            min2 = min1;
+            min1 = n->val;
+        }else if(min1!=n->val && min2>n->val){
+            min2 = n->val;
+        }
+        findSminVal(n->left);
+        findSminVal(n->right);
+    }
+public:
+    int findSecondMinimumValue(TreeNode* root) {
+        min1 = LONG_MAX;
+        min2 = LONG_MAX;
+        findSminVal(root);
+        if(min2 == LONG_MAX) return -1;
+        return min2;
+    }
+};
