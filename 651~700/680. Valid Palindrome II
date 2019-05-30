@@ -1,0 +1,22 @@
+class Solution {
+    bool canChange;
+    bool check(string& s, int sp, int ep){
+        while(ep>sp){
+            if(s[sp] == s[ep]){
+                sp++;
+                ep--;
+            }else if(canChange){
+                canChange = false;
+                if(check(s, sp+1, ep)) return true;
+                else return check(s, sp, ep-1);
+            }else return false;
+        }
+        return true;
+    }
+public:
+    bool validPalindrome(string s) {
+        if(s.empty()) return true;
+        canChange = true;
+        return check(s, 0, s.size()-1);
+    }
+};
