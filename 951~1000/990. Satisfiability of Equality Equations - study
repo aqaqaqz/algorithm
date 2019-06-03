@@ -1,0 +1,36 @@
+class Solution {
+public:
+    bool equationsPossible(vector<string>& eq) {
+        vector<unordered_set<char>> gList;
+        for(string& str : eq){
+            if(str[1] == '='){
+                char c1 = str[0];
+                char c2 = str[3];
+                unordered_set<char> nSet;
+                nSet.insert(c1);
+                nSet.insert(c2);
+                for(int i=0;i<gList.size();i++){
+                    if(gList[i].find(c1)!=gList[i].end() || gList[i].find(c2)!=gList[i].end()){
+                        for(auto iter=gList[i].begin();iter!=gList[i].end();iter++){
+                            nSet.insert(*iter);
+                        }
+                        gList[i] = gList.back();
+                        gList.pop_back();
+                    }
+                }
+                gList.push_back(nSet);
+            }
+        }
+
+        for(string& str : eq){
+            if(str[1] == '!'){
+                char c1 = str[0];
+                char c2 = str[3];
+                for(unordered_set<int>& s : gList){
+                    if(s.find(c1)!=s.end() && s.find(c2)!=s.end()) return false;
+                }
+            }
+        }
+        return true;
+    }
+};
