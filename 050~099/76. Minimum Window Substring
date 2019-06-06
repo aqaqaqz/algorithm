@@ -1,0 +1,47 @@
+class Solution {
+public:
+    string minWindow(string s, string t) {
+        int sp = 0;
+        int ep = 0;
+        int cnt = 0;
+        unordered_map<char, int> m;
+        for(char c : t) m[c]++;
+        
+        //find first result;
+        for(int i=0;i<s.size();i++){
+            char c = s[i];
+            if(m.find(c) != m.end()){
+                if(cnt == 0) sp = i;
+                if(m[c] > 0){
+                    cnt++;
+                }
+                m[c]--;
+                ep = i;
+                if(cnt==t.size()) break;
+            }
+        }
+        if(cnt != t.size()) return "";
+        
+        string result = s.substr(sp, ep-sp+1);
+        while(true){
+            char c = s[sp++];
+            m[c]++;
+            while(sp<s.size() && m.find(s[sp])==m.end()) sp++;
+            if(m[c]>0){
+                ep++;
+                while(true){
+                    if(m.find(s[ep]) != m.end()){
+                        m[s[ep]]--;
+                    }
+                    if(s[ep]==c) break;
+                    ep++;
+                    if(ep>=s.size()) break;
+                }
+            }
+            if(sp<s.size() && ep<s.size()){
+                if(ep-sp+1 < result.size()) result = s.substr(sp, ep-sp+1);
+            }else break;
+        }
+        return result;
+    }
+};
