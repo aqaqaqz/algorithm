@@ -1,0 +1,27 @@
+class Solution {
+public:
+    int calPoints(vector<string>& ops) {
+        vector<int> v;
+        int sum = 0;
+        for(const string& s : ops){
+            if(s=="C"){
+                sum -= v.back();
+                v.pop_back();
+            }else if(s=="D"){
+                sum += v.back()*2;
+                v.push_back(v.back()*2);
+            }else if(s=="+"){
+                int temp = 0;
+                if(v.size()>0) temp += v[v.size()-1];
+                if(v.size()>1) temp += v[v.size()-2];
+                v.push_back(temp);
+                sum += temp;
+            }else{
+                int temp = atoi(s.c_str());
+                v.push_back(temp);
+                sum += temp;
+            }
+        }
+        return sum;
+    }
+};
