@@ -1,0 +1,46 @@
+struct word{
+    int sum;
+    vector<word> list;
+    word(){ sum = 0; }
+};
+
+class MapSum {
+    unordered_map<string, int> m;
+    word w;
+    void myInsert(word& temp, const string& str, int val, int pos){
+        if(m.find(str) != m.end()){
+            temp.sum -= m[str];
+        }
+        temp.sum += val;
+        if(pos==str.size()){
+            m[str] = val;
+            return;
+        }
+        if(temp.list.empty()) temp.list.resize(26);
+        myInsert(temp.list[str[pos]-'a'], str, val, pos+1);
+    }
+
+    int getSum(const word& temp, const string& str, int pos){
+        if(pos==str.size()) return temp.sum;
+        if(temp.list.empty()) return 0;
+        return getSum(temp.list[str[pos]-'a'], str, pos+1);
+    }
+public:
+    /** Initialize your data structure here. */
+    MapSum() {}   
+    
+    void insert(string key, int val) {
+        myInsert(w, key, val, 0);
+    }
+    
+    int sum(string prefix) {
+        return getSum(w, prefix, 0);
+    }
+};
+
+/**
+ * Your MapSum object will be instantiated and called as such:
+ * MapSum* obj = new MapSum();
+ * obj->insert(key,val);
+ * int param_2 = obj->sum(prefix);
+ */
