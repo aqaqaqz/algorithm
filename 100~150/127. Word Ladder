@@ -1,0 +1,43 @@
+class Solution {
+    bool checkStr(string& a, string& b){
+        if(a==b) return false;
+        
+        bool dif = true;
+        for(int i=0;i<a.size();i++){
+            if(a[i]==b[i]) continue;
+            else if(dif) dif = false;
+            else return false;
+        }
+        return true;
+    }
+public:
+    int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
+        vector<string> list;
+        int len = 1;
+        
+        for(string& str : wordList){
+            if(checkStr(str, beginWord)){
+                list.push_back(str);
+                str = "USE";
+            }
+        }
+
+        while(!list.empty()){
+            len++;
+            vector<string> temp;
+            for(string str : list){
+                if(endWord == str) return len;
+                for(string& w: wordList){
+                    if(w == "USE") continue;
+                    if(checkStr(str, w)){
+                        temp.push_back(w);
+                        w = "USE";
+                    }
+                }
+            }
+            list = temp;
+        }
+        
+        return 0;
+    }
+};
