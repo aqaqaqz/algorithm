@@ -1,0 +1,26 @@
+class Solution {
+public:
+    int nthSuperUglyNumber(int n, vector<int>& p) {
+        vector<int> ori = p;
+        vector<int> idx(ori.size(), 0);
+        vector<int> result(1, 1);
+        
+        while(result.size()!=n){
+            int ti;
+            int tv = INT_MAX;
+            for(int i=0;i<ori.size();i++){
+                int temp = ori[i]*result[idx[i]];
+                if(tv > temp){
+                    ti = i;
+                    tv = temp;
+                }
+            }
+            idx[ti]++;
+            if(!result.empty() && result.back()==tv)
+                continue;
+            
+            result.push_back(tv);
+        }
+        return result.back();
+    }
+};
