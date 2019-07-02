@@ -1,0 +1,28 @@
+class Solution {
+    unordered_map<string, deque<string>> m;
+    vector<string> makePath(string airport){
+        vector<string> result(1, airport);
+        sort(m[airport].begin(), m[airport].end());
+        
+        vector<string> end;
+        while(!m[airport].empty()){
+            string next = m[airport].front();
+            m[airport].pop_front();
+            
+            vector<string> temp = makePath(next);
+            if(temp.back() == airport){
+                for(string s : temp) result.push_back(s);
+            }else{
+                end = temp;    
+            }
+        }
+        for(string s : end) result.push_back(s);
+        return result;
+    }
+public:
+    vector<string> findItinerary(vector<vector<string>>& tickets) {
+        for(vector<string>& v : tickets)
+            m[v[0]].push_back(v[1]);
+        return makePath("JFK");
+    }
+};
