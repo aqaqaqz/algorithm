@@ -1,13 +1,12 @@
 class Solution {
-    unordered_map<string, deque<string>> m;
+    unordered_map<string, multiset<string>> m;
     vector<string> makePath(string airport){
         vector<string> result(1, airport);
-        sort(m[airport].begin(), m[airport].end());
         
         vector<string> end;
         while(!m[airport].empty()){
-            string next = m[airport].front();
-            m[airport].pop_front();
+            string next = *m[airport].begin();
+            m[airport].erase(m[airport].find(next));
             
             vector<string> temp = makePath(next);
             if(temp.back() == airport){
@@ -22,7 +21,7 @@ class Solution {
 public:
     vector<string> findItinerary(vector<vector<string>>& tickets) {
         for(vector<string>& v : tickets)
-            m[v[0]].push_back(v[1]);
+            m[v[0]].insert(v[1]);
         return makePath("JFK");
     }
 };
