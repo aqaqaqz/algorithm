@@ -1,0 +1,30 @@
+class Solution {
+public:
+    string licenseKeyFormatting(string s, int k) {
+        int pos;
+        
+        for(pos=0;pos<s.size();pos++){
+            if(s[pos] == '-'){
+                s.erase(pos, 1);
+                pos--;
+            }else{
+                s[pos] = toupper(s[pos]);
+            }
+        }
+        if(k>=s.size()) return s;
+        
+        int cnt = s.size()/k - (s.size()%k==0?1:0);
+        pos = s.size()%k;
+        
+        if(pos != 0){
+            s.insert(pos++, 1, '-');
+            cnt--;
+        }
+        for(int i=0;i<cnt;i++){
+            for(int j=0;j<k;j++) pos++;
+            s.insert(pos++, 1, '-');
+        }
+        
+        return s;
+    }
+};
