@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int magicalString(int n) {
+        if(n == 0) return 0;
+        if(n <= 3) return 1;
+
+        string magic = "122";
+        int p = 2;
+        while(magic.size() < n){
+            string next = "1";
+            if(magic.back() == '1') next = "2";
+            if(magic[p] == '2') next += next;
+            magic += next;
+            p++;
+        }
+        
+        int result = 0;
+        for(int i=0;i<n;i++)
+            result += (magic[i]=='1'?1:0);
+        return result;
+    }
+};
