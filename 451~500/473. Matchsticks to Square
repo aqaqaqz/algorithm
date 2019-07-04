@@ -1,0 +1,49 @@
+class Solution {
+    vector<int> ori;
+    int len;
+    bool checkSq(vector<int>& nums, int pos, int s, int cnt){
+        if(pos<0 || s>len) return false;
+        if(nums[pos] == -1) return checkSq(nums, pos-1, s, cnt);
+        
+        if(s==0){
+            s += nums[pos];
+            nums[pos] = -1;
+            if(s == len){
+                cnt++;
+                if(cnt == 4) return true;
+                return checkSq(nums, nums.size()-1, 0, cnt);
+            }
+            return checkSq(nums, pos-1, s, cnt);
+        }else{
+            for(int i=pos;i>=0;i--){
+                if(nums[i] == -1) continue;
+                s += nums[i];
+                nums[i] = -1;
+                if(s == len){
+                    cnt++;
+                    if(cnt == 4) return true;
+                    if(checkSq(nums, nums.size()-1, 0, cnt)) return true;
+                    cnt--;
+                }else if(s<len){
+                    if(checkSq(nums, i-1, s, cnt)) return true;
+                }
+
+                nums[i] = ori[i];
+                s -= nums[i];
+            }
+        }
+        return false;
+    }
+public:
+    bool makesquare(vector<int>& nums) {
+        if(nums.size() < 4) return false;
+        sort(nums.begin(), nums.end());
+        ori = nums;
+        int sum = 0;
+        for(int n : nums) sum += n;
+        if(sum%4 != 0) return false;
+        len = sum/4;
+        
+        return checkSq(nums, nums.size()-1, 0, 0);
+    }
+};
