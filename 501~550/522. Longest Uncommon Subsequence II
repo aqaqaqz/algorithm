@@ -1,0 +1,31 @@
+class Solution {
+    bool checkStr(string& a, string& b){
+        int ap = 0;
+        int bp = 0;
+        while(ap<a.size() && bp<b.size()){
+            if(a[ap] == b[bp]){
+                ap++;
+                bp++;
+            }else ap++;
+        }
+        return b.size()==bp;
+    }
+public:
+    int findLUSlength(vector<string>& strs) {
+        int result = INT_MIN;
+        for(int i=0;i<strs.size();i++){
+            int temp = INT_MIN;
+            for(int j=0;j<strs.size();j++){
+                if(i==j) continue;
+                if(checkStr(strs[j], strs[i])){
+                    temp = -1;
+                    break;
+                } else{
+                    temp = strs[i].size();
+                }
+            }
+            result = max(result, temp);
+        }
+        return result;
+    }
+};
