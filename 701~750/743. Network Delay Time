@@ -1,0 +1,38 @@
+class Solution {
+    multimap<int, int> list;
+    unordered_map<int, unordered_map<int, int>> m;
+public:
+    int networkDelayTime(vector<vector<int>>& times, int N, int K) {
+        vector<int> distance(N+1, -1);
+        distance[0] = 0; //not use
+        distance[K] = 0;
+        
+        for(vector<int>& v : times){
+            m[v[0]][v[1]] = v[2];
+            if(v[0]==K)
+                list.insert(make_pair(v[2], v[1]));
+        }
+        
+        while(!list.empty()){
+            auto next = list.begin();
+            int time = next->first;
+            int target = next->second;
+            list.erase(next);
+            
+            if(distance[target]!=-1 && time>=distance[target]) continue;
+            distance[target] = time;
+            for(auto iter=m[target].begin();iter!=m[target].end();iter++){
+                if(distance[iter->first]==-1){
+                    list.insert(make_pair(time+iter->second, iter->first));
+                }
+            }
+        }
+        
+        int result = 0;
+        for(int n : distance){
+            if(n==-1) return -1;
+            result = max(result, n);
+        }
+        return result;
+    }
+};
