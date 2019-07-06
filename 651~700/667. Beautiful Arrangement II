@@ -1,0 +1,19 @@
+class Solution {
+public:
+    vector<int> constructArray(int n, int k) {
+        vector<int> result;
+        bool turn = true;
+        int f = 1;
+        int e = n;
+        for(int i=0;i<k;i++){
+            if(turn) result.push_back(f++);
+            else result.push_back(e--);
+            turn = !turn;
+        }
+        if(turn)
+            for(e;e>=f;e--) result.push_back(e);
+        else
+            for(f;f<=e;f++) result.push_back(f);
+        return result;
+    }
+};

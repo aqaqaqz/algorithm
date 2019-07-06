@@ -1,0 +1,39 @@
+class Solution {
+    int getCnt(int pos, const vector<int>& v, vector<int>& c, const vector<int>& n){
+        if(c[pos] != -1) return c[pos];
+        if(v[pos] == 1){
+            c[pos] = 1;
+        }else{
+            c[pos] = 0;
+            for(int i=pos+1;i<v.size();i++){
+                if(v[pos]-1==v[i] && n[pos]<n[i])
+                    c[pos] += getCnt(i, v, c, n);
+            }
+        }
+        return c[pos];
+    }
+public:
+    int findNumberOfLIS(vector<int>& nums) {
+        vector<int> v(nums.size(), 0);
+        int maxLen = 0;
+        for(int i=nums.size()-1;i>=0;i--){
+            int temp = 0;
+            for(int j=i+1;j<nums.size();j++){
+                if(nums[j]>nums[i]){
+                    temp = max(temp, v[j]);
+                }
+            }
+            v[i] += (temp+1);
+            maxLen = max(maxLen, v[i]);
+        }
+        
+        int result = 0;
+        vector<int> c(nums.size(), -1);
+        for(int i=0;i<v.size();i++){
+            if(v[i] == maxLen) 
+                result += getCnt(i, v, c, nums);
+        }
+        
+        return result;
+    }
+};
