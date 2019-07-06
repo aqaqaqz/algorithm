@@ -1,0 +1,79 @@
+/*
+// Definition for a QuadTree node.
+class Node {
+public:
+    bool val;
+    bool isLeaf;
+    Node* topLeft;
+    Node* topRight;
+    Node* bottomLeft;
+    Node* bottomRight;
+
+    Node() {}
+
+    Node(bool _val, bool _isLeaf, Node* _topLeft, Node* _topRight, Node* _bottomLeft, Node* _bottomRight) {
+        val = _val;
+        isLeaf = _isLeaf;
+        topLeft = _topLeft;
+        topRight = _topRight;
+        bottomLeft = _bottomLeft;
+        bottomRight = _bottomRight;
+    }
+};
+*/
+class Solution {
+    bool searchLeaf(Node* n){
+        if(n->isLeaf){
+            return n->val;
+        }
+        return (searchLeaf(n->topLeft) || searchLeaf(n->topRight) || searchLeaf(n->bottomLeft) || searchLeaf(n->bottomRight));
+    }
+    void mergeNode(Node* n){
+        if(n->isLeaf) return;
+        vector<Node*> temp;
+        temp.push_back(n->topLeft);
+        temp.push_back(n->topRight);
+        temp.push_back(n->bottomLeft);
+        temp.push_back(n->bottomRight);
+        
+        for(Node* t : temp) mergeNode(t);
+        
+        bool check = true;
+        for(Node* t : temp) check = check&&t->isLeaf;
+        if(!check) return;
+        
+        if( (temp[0]->val==temp[1]->val) && (temp[1]->val==temp[2]->val) && (temp[2]->val==temp[3]->val) ){
+            n->val = temp[0]->val;
+            n->isLeaf = true;
+            n->topLeft = NULL;
+            n->topRight = NULL;
+            n->bottomLeft = NULL;
+            n->bottomRight = NULL;
+        }
+    }
+public:
+    Node* intersect(Node* t1, Node* t2) {
+        Node *n = new Node(true, false, NULL, NULL, NULL, NULL);
+        if(t1->isLeaf && t2->isLeaf){
+            n->val = (t1->val || t2->val);
+            n->isLeaf = true;
+        }else if(t1->isLeaf){
+            n->topLeft = intersect(t1, t2->topLeft);
+            n->topRight = intersect(t1, t2->topRight);
+            n->bottomLeft = intersect(t1, t2->bottomLeft);
+            n->bottomRight = intersect(t1, t2->bottomRight);
+        }else if(t2->isLeaf){
+             n->topLeft = intersect(t1->topLeft, t2);
+             n->topRight = intersect(t1->topRight, t2);
+             n->bottomLeft = intersect(t1->bottomLeft, t2);
+             n->bottomRight = intersect(t1->bottomRight, t2);
+        }else{
+             n->topLeft = intersect(t1->topLeft, t2->topLeft);
+             n->topRight = intersect(t1->topRight, t2->topRight);
+             n->bottomLeft = intersect(t1->bottomLeft, t2->bottomLeft);
+             n->bottomRight = intersect(t1->bottomRight, t2->bottomRight);
+        }
+        mergeNode(n);
+        return n;
+    }
+};
