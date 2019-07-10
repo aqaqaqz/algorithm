@@ -1,0 +1,30 @@
+class Solution {
+    map<int, int> m;
+    unordered_map<int, int> list;
+public:
+    bool isPossible(vector<int>& nums) {
+        for(int n : nums) m[n]++;
+
+        for(auto iter = m.begin();iter!=m.end();iter++){
+            if(iter->second == 0) continue;
+            
+            int add = min(iter->second, list[iter->first-1]);
+            iter->second -= add;
+            list[iter->first-1] -= add;
+            list[iter->first] += add;
+            
+            int n1 = iter->second;
+            int n2 = m[iter->first+1];
+            int n3 = m[iter->first+2];
+            int cnt = min(n1, n2);
+            cnt = min(cnt, n3);
+            if(cnt < iter->second) return false;
+            
+            iter->second -= cnt;
+            m[iter->first+1] -= cnt;
+            m[iter->first+2] -= cnt;
+            list[iter->first+2] += cnt;
+        }
+        return true;
+    }
+};
