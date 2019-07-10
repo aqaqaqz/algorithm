@@ -1,0 +1,34 @@
+class KthLargest {
+    map<int, int> m;
+    pair<int, int> p;
+public:
+    KthLargest(int k, vector<int>& nums) {
+        sort(nums.begin(), nums.end());
+        p.first = k;
+        p.second = 0;
+        for(int i=(int)nums.size()-1;i>=0;i--){
+            m[nums[i]]++;
+            p.second++;
+            k--;
+            if(k==0) break;;
+        }
+    }
+    
+    int add(int val) {
+        if(p.first != p.second){
+            m[val]++;
+            p.second++;
+        }else if(m.begin()->first < val){
+            m[val]++;
+            m.begin()->second--;
+            if(m.begin()->second == 0) m.erase(m.begin());
+        }
+        return m.begin()->first;
+    }
+};
+
+/**
+ * Your KthLargest object will be instantiated and called as such:
+ * KthLargest* obj = new KthLargest(k, nums);
+ * int param_1 = obj->add(val);
+ */
