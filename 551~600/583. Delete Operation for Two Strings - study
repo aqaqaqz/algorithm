@@ -1,0 +1,20 @@
+class Solution {
+    int makeCache(vector<vector<int>>& c, string& w1, string& w2, int p1, int p2){
+        if(w1.size()<=p1) return w2.size()-p2;
+        if(w2.size()<=p2) return w1.size()-p1;
+        if(c[p1][p2] != -1) return c[p1][p2];
+        
+        if(w1[p1] == w2[p2]) c[p1][p2] = makeCache(c, w1, w2, p1+1, p2+1);
+        else{
+            c[p1][p2] = makeCache(c, w1, w2, p1+1, p2) + 1;
+            if(p1==0 && p2==0) cout << c[p1][p2] << endl;
+            c[p1][p2] = min(c[p1][p2], makeCache(c, w1, w2, p1, p2+1) + 1);
+        }
+        return c[p1][p2];
+    }
+public:
+    int minDistance(string w1, string w2) {
+        vector<vector<int>> c(w1.size(), vector<int>(w2.size(), -1));
+        return makeCache(c, w1, w2, 0, 0);
+    }
+};

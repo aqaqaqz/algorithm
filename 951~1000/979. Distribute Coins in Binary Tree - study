@@ -1,0 +1,26 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+    int result;
+    int makeResult(TreeNode* n){
+        if(n==NULL) return 0;
+        int v1 = makeResult(n->left);
+        int v2 = makeResult(n->right);
+        int temp = v1+v2+n->val-1;
+        result += abs(temp);
+        return temp;
+    }
+public:
+    int distributeCoins(TreeNode* root) {
+        result = 0;
+        makeResult(root);
+        return result;
+    }
+};
