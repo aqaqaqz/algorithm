@@ -7,7 +7,6 @@ class Solution {
         if(w1[p1] == w2[p2]) c[p1][p2] = makeCache(c, w1, w2, p1+1, p2+1);
         else{
             c[p1][p2] = makeCache(c, w1, w2, p1+1, p2) + 1;
-            if(p1==0 && p2==0) cout << c[p1][p2] << endl;
             c[p1][p2] = min(c[p1][p2], makeCache(c, w1, w2, p1, p2+1) + 1);
         }
         return c[p1][p2];
