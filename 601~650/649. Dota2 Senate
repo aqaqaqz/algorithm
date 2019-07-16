@@ -1,0 +1,50 @@
+class Solution {
+public:
+    string predictPartyVictory(string senate) {
+        while(true){
+            int liveR = 0;
+            int liveD = 0;
+            int rightR = 0;
+            int rightD = 0;
+
+            for(char& c : senate){
+                if(c=='d') continue;
+                if(c=='R'){
+                    if(rightD > 0){
+                        c = 'd';
+                        rightD--;
+                    }else{
+                        rightR++;
+                        liveR++;
+                    }
+                }else{
+                    if(rightR > 0){
+                        c = 'd';
+                        rightR--;
+                    }else{
+                        rightD++;
+                        liveD++;
+                    }
+                }
+            }            
+            
+            liveR -= rightD;
+            liveD -= rightR;
+            if(liveR<1 || liveD<1){
+                if(liveR > 0) return "Radiant";
+                return "Dire";
+            }
+            
+            for(char& c : senate){
+                if(c=='R' && rightD>0){
+                    c = 'd';
+                    rightD--;
+                }
+                if(c=='D' && rightR>0){
+                    c = 'd';
+                    rightR--;
+                }
+            }
+        }
+    }
+};
