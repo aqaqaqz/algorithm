@@ -1,0 +1,29 @@
+class Solution {
+    bool check(string& str, vector<vector<int>>& c, int s, int e){
+        if(c[s][e] != -1) return c[s][e]==1;
+        
+        if(s==e && str[s]=='*')             c[s][e] = 1;
+        else if(str[s]==')' || str[e]=='(') c[s][e] = 0;
+        else if(s+1==e)                     c[s][e] = 1;
+        else{
+            c[s][e] = check(str, c, s+1, e-1);
+            if(c[s][e]==1) return true;
+        
+            for(int i=0;i<e-s;i++){
+                bool temp = check(str, c, s, s+i) && check(str, c, s+i+1, e);
+                if(temp){
+                    c[s][e] = 1;
+                    return true;
+                }
+            }
+        }
+        
+        return c[s][e]==1;
+    }
+public:
+    bool checkValidString(string s) {
+        if(s.empty()) return true;
+        vector<vector<int>> c(s.size(), vector<int>(s.size(), -1));
+        return check(s, c, 0, s.size()-1);
+    }
+};
