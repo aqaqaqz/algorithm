@@ -1,0 +1,18 @@
+class Solution {
+public:
+    int repeatedStringMatch(string A, string B) {
+        int result = 1;
+        string temp = A;
+        
+        while(temp.size()<B.size()){
+            temp+=A;
+            result++;
+        }
+        
+        if(temp.find(B) < temp.size()) return result;
+        temp += A;
+        result++;
+        if(temp.find(B) < temp.size()) return result;
+        return -1;
+    }
+};
