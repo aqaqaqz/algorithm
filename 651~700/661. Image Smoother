@@ -1,0 +1,25 @@
+class Solution {
+    int getSmoothVal(vector<vector<int>>& m, int h, int w){
+        int cnt = 0;
+        int val = 0;
+        for(int i=-1;i<2;i++){
+            for(int j=-1;j<2;j++){
+                if(h+i>=0 && w+j>=0 && h+i<m.size() && w+j<m[0].size()){
+                    cnt++;
+                    val += m[h+i][w+j];
+                }
+            }
+        }
+        return val/cnt;
+    }
+public:
+    vector<vector<int>> imageSmoother(vector<vector<int>>& M) {
+        vector<vector<int>> result(M.size(), vector<int>(M[0].size(), 0));
+        for(int h=0;h<M.size();h++){
+            for(int w=0;w<M[0].size();w++){
+                result[h][w] = getSmoothVal(M, h, w);
+            }
+        }
+        return result;
+    }
+};
