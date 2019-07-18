@@ -1,0 +1,26 @@
+class Solution {
+    unordered_map<int, vector<int>> m;
+    
+    bool checkLoop(unordered_set<int>& visit, int pos, int pre){
+        if(visit.find(pos) != visit.end()) return false;
+        visit.insert(pos);
+        
+        for(int next : m[pos]){
+            if(next == pre) continue;
+            if(!checkLoop(visit, next, pos)) return false;
+        }
+        
+        return true;
+    }
+public:
+    vector<int> findRedundantConnection(vector<vector<int>>& edges) {
+        for(vector<int>& v : edges){
+            m[v[0]].push_back(v[1]);
+            m[v[1]].push_back(v[0]);
+            unordered_set<int> s;
+            if(!checkLoop(s, v[0], -1)) return v;
+        }
+            
+        return vector<int>();
+    }
+};
