@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int numSubarrayBoundedMax(vector<int>& A, int L, int R) {
+        int result = 0;
+        int pre = 0;
+        int end = A.size()-1;
+        
+        for(int i=A.size()-1;i>=0;i--){
+            if(A[i] > R){
+                pre = 0;
+                end = i-1;
+                continue;
+            }
+            if(A[i]>=L && A[i]<=R)
+                pre = end-i+1;
+            result += pre;
+        }
+        
+        return result;
+    }
+};
