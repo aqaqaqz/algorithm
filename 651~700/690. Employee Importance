@@ -1,0 +1,31 @@
+/*
+// Employee info
+class Employee {
+public:
+    // It's the unique ID of each node.
+    // unique id of this employee
+    int id;
+    // the importance value of this employee
+    int importance;
+    // the id of direct subordinates
+    vector<int> subordinates;
+};
+*/
+class Solution {
+    unordered_map<int, pair<int, vector<int>>> m;
+    unordered_set<int> s;
+    int getResult(int id){
+        if(s.find(id) != s.end()) return 0;
+        int result = m[id].first;
+        s.insert(id);
+        for(int id : m[id].second)
+            result += getResult(id);
+        return result;
+    }
+public:
+    int getImportance(vector<Employee*> employees, int id) {
+        for(Employee* e : employees)
+            m[e->id] = make_pair(e->importance, e->subordinates);
+        return getResult(id);   
+    }
+};
