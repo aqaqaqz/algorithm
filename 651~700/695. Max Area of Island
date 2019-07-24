@@ -1,0 +1,26 @@
+class Solution {
+    int getArea(vector<vector<int>>& v, int h, int w){
+        if(h<0 || w<0 || h>=v.size() || w>=v[0].size()) return 0;
+        if(v[h][w] != 1) return 0;
+        int area = 1;
+        v[h][w] = -1;
+        
+        area += getArea(v, h+1, w);
+        area += getArea(v, h-1, w);
+        area += getArea(v, h, w+1);
+        area += getArea(v, h, w-1);
+        
+        return area;
+    }
+public:
+    int maxAreaOfIsland(vector<vector<int>>& grid) {
+        if(grid.empty()) return 0;
+        int result = 0;
+        for(int h=0;h<grid.size();h++){
+            for(int w=0;w<grid[0].size();w++){
+                result = max(result, getArea(grid, h, w));
+            }
+        }
+        return result;
+    }
+};
