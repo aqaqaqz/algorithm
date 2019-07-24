@@ -1,0 +1,25 @@
+class Solution {
+    vector<vector<vector<double>>> v;
+    double getKnight(int n, int k, int r, int c){
+        if(r<0 || c<0 || r>=n || c>=n) return 0;
+        if(v[r][c][k] != -1) return v[r][c][k];
+        if(k == 0) return 1;
+        
+        v[r][c][k] = 0;
+        v[r][c][k] += getKnight(n, k-1, r+2, c+1)*0.125;
+        v[r][c][k] += getKnight(n, k-1, r+1, c+2)*0.125;
+        v[r][c][k] += getKnight(n, k-1, r+2, c-1)*0.125;
+        v[r][c][k] += getKnight(n, k-1, r+1, c-2)*0.125;
+        v[r][c][k] += getKnight(n, k-1, r-2, c-1)*0.125;
+        v[r][c][k] += getKnight(n, k-1, r-1, c-2)*0.125;
+        v[r][c][k] += getKnight(n, k-1, r-2, c+1)*0.125;
+        v[r][c][k] += getKnight(n, k-1, r-1, c+2)*0.125;
+        
+        return v[r][c][k];
+    }
+public:
+    double knightProbability(int N, int K, int r, int c) {
+        v.resize(N, vector<vector<double>>(N, vector<double>(K+1, -1)));
+        return getKnight(N, K, r, c);
+    }
+};
