@@ -1,0 +1,31 @@
+class Solution {
+    int getLen(vector<string>& words, vector<int> &v, int pos){
+        if(v[pos] != -1) return v[pos];
+        v[pos] = 1;
+        for(int i=0;i<words.size();i++){
+            if(i==pos) continue;
+            if(words[pos].size() == words[i].size()+1 && words[pos].substr(0, words[i].size()) == words[i])
+                v[pos] = max(v[pos], getLen(words, v, i)+1);
+        }
+        return v[pos];
+    }
+public:
+    string longestWord(vector<string>& words) {
+        vector<int> v(words.size(), -1);
+        int len = 0;
+        string result = "";
+        for(int i=0;i<words.size();i++){
+            int temp = getLen(words, v, i);
+            if(words[i].size() > temp) continue;
+            
+            if(temp > len){
+                len = temp;
+                result = words[i];
+            }else if(temp == len){
+                if(result.compare(words[i]) > 0)
+                    result = words[i];
+            }
+        }
+        return result;
+    }
+};
