@@ -1,0 +1,32 @@
+class Solution {
+public:
+    int monotoneIncreasingDigits(int N) {
+        if(N == 0) return 0;
+        vector<int> v;
+        while(N != 0){
+            v.push_back(N%10);
+            N /= 10;
+        }
+        
+        int p = (int)v.size()-2;
+        while(p >= 0){
+            if(v[p] < v[p+1]){
+                v[p+1]--;
+                while(p>=0)
+                    v[p--] = 9;
+                
+                p = (int)v.size()-2;
+            }else
+                p--;
+        }
+        
+        int result = 0;
+        int ten = 1;
+        for(int n : v){
+            result += ten*n;
+            ten *= 10;
+        }
+        
+        return result;
+    }
+};
