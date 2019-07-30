@@ -1,0 +1,50 @@
+class Solution {
+    void findEnd(vector<string>& source, int& h, int& w){
+        while(h<source.size()){
+            if(w == source[h].size()){
+                w = 0;
+                h++;
+            }
+            if(source[h] == ""){
+                h++;
+                continue;
+            }
+            
+            if(source[h][w] == '*' && w+1 < source[h].size() && source[h][w+1] == '/'){
+                w += 2;
+                break;
+            }
+            w++;
+        }
+    }
+public:
+    vector<string> removeComments(vector<string>& source) {
+        vector<string> result;
+        string s = "";
+        int h = 0;
+        int w = 0;
+        while(h<source.size()){
+            if(source[h] == ""){
+                h++;
+                continue;
+            }
+            
+            if(source[h][w] == '/' 
+               && w+1<source[h].size() && (source[h][w+1]=='/' || source[h][w+1]=='*')){
+                if(source[h][w+1] == '/') w = source[h].size();
+                else{
+                    w += 2;
+                    findEnd(source, h, w); // find */ and change next position
+                }
+            }else s += source[h][w++];
+            
+            if(source[h].size() == w){
+                if(s != "") result.push_back(s);
+                s = "";
+                w = 0;
+                h++;
+            }
+        }
+        return result;
+    }
+};
