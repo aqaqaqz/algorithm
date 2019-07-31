@@ -1,0 +1,46 @@
+class Solution {
+    /*
+    map<이름, map<메일, vector<idx>>>
+    set<메일> -> 방문여부 
+    */
+    unordered_map<string, vector<int>> m;
+    unordered_set<string> visit;
+    
+    void makeList(vector<vector<string>>& accounts, vector<string>& list, string mail){
+        if(visit.find(mail) != visit.end()) return;
+        visit.insert(mail);
+        list.push_back(mail);
+        for(int n : m[mail]){
+            for(int i=1;i<accounts[n].size();i++){
+                makeList(accounts, list, accounts[n][i]);
+            }
+        }
+    }            
+public:
+    vector<vector<string>> accountsMerge(vector<vector<string>>& accounts) {
+        for(int i=0;i<accounts.size();i++){
+            if(accounts[i].empty()) continue;
+            for(int j=1;j<accounts[i].size();j++){
+                m[accounts[i][j]].push_back(i);
+            }
+        }
+        
+        vector<vector<string>> result;
+        for(vector<string>& v : accounts){
+            if(v.size()>1){
+                if(visit.find(v[1]) == visit.end()){
+                    vector<string> list(1, v[0]);
+                    for(int i=1;i<v.size();i++){
+                        makeList(accounts, list, v[i]);
+                        sort(list.begin()+1, list.end(), [](string& s1, string& s2){
+                            return s1.compare(s2) < 0; 
+                        });
+                    }
+                    result.push_back(list);
+                }
+            }
+        }
+        
+        return result;
+    }
+};
