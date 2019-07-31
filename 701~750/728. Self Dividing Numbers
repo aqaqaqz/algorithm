@@ -1,0 +1,25 @@
+class Solution {
+    bool check(int val){
+        int ori = val;
+        vector<int> v;
+        while(val != 0){
+            int temp = val%10;
+            if(temp == 0) 
+                return false;
+            v.push_back(temp);
+            val /= 10;
+        }
+        
+        for(int n : v)
+            if(ori%n != 0) return false;
+        return true;
+    }
+public:
+    vector<int> selfDividingNumbers(int left, int right) {
+        vector<int> result;
+        for(int val=left;val<=right;val++)
+            if(check(val)) result.push_back(val);
+        
+        return result;
+    }
+};
