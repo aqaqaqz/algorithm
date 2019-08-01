@@ -1,0 +1,27 @@
+class Solution {
+public:
+    int deleteAndEarn(vector<int>& nums) {
+        map<int, int> m;
+        for(int n : nums) m[n]++;
+        
+        int result = 0;
+        int tResult = 0;
+        int pre = -1;
+        for(auto iter=m.begin();iter!=m.end();iter++){
+            if(iter==m.begin()){
+                result = iter->first * iter->second;
+            }else{
+                int temp = tResult;
+                tResult = result;
+                if(iter->first-1 == pre){
+                    result = max(result, temp+iter->first*iter->second);
+                }else{
+                    result += iter->first*iter->second;
+                }
+            }
+            pre = iter->first;
+        }
+        
+        return result;
+    }
+};
