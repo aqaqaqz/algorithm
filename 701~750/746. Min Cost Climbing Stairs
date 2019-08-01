@@ -1,0 +1,14 @@
+class Solution {
+    int makeCost(vector<int>& c, vector<int>& v, int p){
+        if(p >= c.size()) return 0;
+        if(v[p] != -1) return v[p];
+        v[p] = c[p] + min(makeCost(c, v, p+1), makeCost(c, v, p+2));
+        return v[p];
+    }
+public:
+    int minCostClimbingStairs(vector<int>& cost) {
+        vector<int> v(cost.size(), -1);
+        makeCost(cost, v, 0);
+        return min(v[0], v[1]);
+    }
+};
