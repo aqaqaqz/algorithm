@@ -1,0 +1,20 @@
+class Solution {
+    int getResult(vector<int> nums, int p){
+        int result = 0;
+        for(int i=p;i<nums.size();i+=2){
+            int left = i-1>=0?nums[i-1]:INT_MAX;
+            int right = i+1<nums.size()?nums[i+1]:INT_MAX;
+            int temp = min(left, right);
+            if(temp <= nums[i]){
+                result += (nums[i]-temp+1);
+            }
+        }
+        return result;
+    }
+public:
+    int movesToMakeZigzag(vector<int>& nums) {
+        int result = getResult(nums, 0);
+        result = min(result, getResult(nums, 1));
+        return result;
+    }
+};
