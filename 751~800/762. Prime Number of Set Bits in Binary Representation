@@ -1,0 +1,23 @@
+class Solution {
+    unordered_set<int> s;
+    bool checkBits(int n){
+        int cnt = 0; 
+        while(n!=0){
+            if(n%2 == 1) cnt++;
+            n /= 2;
+        }
+        return s.find(cnt)!=s.end();
+    }
+public:
+    int countPrimeSetBits(int L, int R) {
+        s.insert(2); s.insert(3); s.insert(5);
+        s.insert(7); s.insert(11); s.insert(13);
+        s.insert(17); s.insert(19); s.insert(21);
+    
+        int result = 0;
+        for(int i=L;i<=R;i++){
+            if(checkBits(i)) result++;
+        }
+        return result;
+    }
+};
