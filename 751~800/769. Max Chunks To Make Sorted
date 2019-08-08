@@ -1,0 +1,17 @@
+class Solution {
+public:
+    int maxChunksToSorted(vector<int>& arr) {
+        int v;
+        int p = 0;
+        int cnt = 0;
+        while(p<arr.size()){
+            v = arr[p];
+            for(int i=p;i<=v;i++)
+                v = max(v, arr[i]);
+            p = v;
+            cnt++;
+            p++;
+        }
+        return cnt;
+    }
+};
