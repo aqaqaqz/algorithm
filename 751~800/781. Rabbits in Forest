@@ -1,0 +1,18 @@
+class Solution {
+public:
+    int numRabbits(vector<int>& answers) {
+        unordered_map<int, int> m;
+        for(int n : answers) m[n]++;
+        
+        int result = 0;
+        for(auto iter=m.begin();iter!=m.end();iter++){
+            int cnt = iter->first+1;
+            while(iter->second > 0){
+                result += cnt;
+                iter->second -= cnt;
+            }
+        }
+        
+        return result;
+    }
+};
