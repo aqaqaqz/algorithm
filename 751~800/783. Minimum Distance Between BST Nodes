@@ -1,0 +1,29 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+    vector<int> v;
+    void makeVal(TreeNode* n){
+        if(n == NULL) return;
+        
+        makeVal(n->left);
+        v.push_back(n->val);
+        makeVal(n->right);
+    }
+public:
+    int minDiffInBST(TreeNode* root) {
+        makeVal(root);
+        
+        int result = INT_MAX;
+        for(int i=1;i<v.size();i++)
+            result = min(result, abs(v[i]-v[i-1]));
+        
+        return result;        
+    }
+};
