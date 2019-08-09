@@ -1,0 +1,27 @@
+class Solution {
+    vector<string> result;
+    void makeResult(string s, int p){
+        if(p>=s.size()) return;
+        if(isalpha(s[p])){
+            char c = s[p];
+            if(c>='a' && c<='z'){
+                s[p] = toupper(s[p]);
+                result.push_back(s);
+                makeResult(s, p+1);
+            }else{
+                s[p] = tolower(s[p]);
+                result.push_back(s);
+                makeResult(s, p+1);
+            }
+            s[p] = c;
+        } 
+        makeResult(s, p+1);
+        
+    }
+public:
+    vector<string> letterCasePermutation(string S) {
+        result.push_back(S);
+        makeResult(S, 0);
+        return result;
+    }
+};
