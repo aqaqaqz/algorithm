@@ -1,0 +1,26 @@
+class Solution {
+public:
+    bool isBipartite(vector<vector<int>>& graph) {
+        vector<int> visit(graph.size(), -1);
+        int cnt = 0;
+        for(int i=0;i<graph.size();i++){
+            if(visit[i] == -1){
+                int grp = 0;
+                vector<int> next(1, i);
+                while(!next.empty()){
+                    vector<int> temp;
+                    for(int n : next){
+                        if(visit[n] == -1){
+                            cnt++;
+                            visit[n] = grp;
+                            for(int p : graph[n]) temp.push_back(p);
+                        }else if(visit[n] != grp) return false;
+                    }
+                    next = temp;
+                    grp = (grp==0?1:0);
+                }
+            }
+        }
+        return true;
+    }
+};
