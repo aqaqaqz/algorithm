@@ -1,0 +1,33 @@
+class Solution {
+public:
+    int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
+        k++;
+        unordered_map<int, vector<pair<int, int>>> m;
+        vector<int> v(n, -1);
+        v[src] = 0;
+        vector<pair<int, int>> next(1, make_pair(src, 0));
+        int result = INT_MAX;
+        
+        for(const vector<int>& v : flights)
+            m[v[0]].push_back(make_pair(v[1], v[2]));
+        
+        while(k--){
+            vector<pair<int, int>> temp;
+            for(pair<int, int> f : next){
+                //now flight
+                for(pair<int, int> p : m[f.first]){
+                    //next flight;
+                    if(v[p.first]==-1 || v[p.first]>f.second+p.second){
+                        v[p.first] = f.second+p.second;
+                        temp.push_back(make_pair(p.first, f.second+p.second));
+
+                        if(p.first == dst)
+                            result = min(result, f.second+p.second);
+                    }
+                }
+            }
+            next = temp;
+        }
+        return (result==INT_MAX?-1:result);
+    }
+};
