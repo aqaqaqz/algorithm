@@ -1,0 +1,20 @@
+class Solution {
+    int maxCnt = 1000000007;
+    int getCnt(vector<vector<int>>& v, int d, int f, int t){
+        if(d==0 && t==0) return 1;
+        if(t>f*d || d>t || t<0) return 0;
+        if(v[d][t] != -1) return v[d][t];
+        
+        v[d][t] = 0;
+        for(int i=1;i<=f;i++){
+            v[d][t] += getCnt(v, d-1, f, t-i);
+            if(v[d][t] >= maxCnt) v[d][t] %= maxCnt;
+        }
+        return v[d][t];
+    }
+public:
+    int numRollsToTarget(int d, int f, int target) {
+        vector<vector<int>> v(d+1, vector<int>(target+1, -1)); //주사위.숫자
+        return getCnt(v, d, f, target);
+    }
+};
