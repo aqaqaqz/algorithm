@@ -1,0 +1,28 @@
+class Solution {
+public:
+    vector<int> findAnagrams(string s, string p) {
+        vector<int> result;
+        
+        if(s.size() < p.size()) return result;
+        vector<int> v(26, 0);
+        vector<int> ori(26, 0);
+        for(char c : p) ori[c-'a']++;
+        
+        int idx;
+        for(idx=0;idx<p.size();idx++){
+            char c = s[idx];
+            v[c-'a']++;
+        }
+        if(v == ori) result.push_back(idx-p.size());
+        
+        while(idx<s.size()){
+            char pc = s[idx-p.size()];
+            char c = s[idx];
+            v[pc-'a']--;
+            v[c-'a']++;
+            if(v == ori) result.push_back(idx-p.size()+1);
+            idx++;
+        }
+        return result;
+    }
+};

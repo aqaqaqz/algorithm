@@ -1,0 +1,27 @@
+class Solution {
+public:
+    vector<int> addNegabinary(vector<int>& v1, vector<int>& v2) {
+        int len = max(v1.size(), v2.size());
+        vector<int> result(len+2, 0);
+        reverse(v1.begin(), v1.end());
+        reverse(v2.begin(), v2.end());
+        for(int i=0;i<len;i++){
+            if(i<v1.size()) result[i] += v1[i];
+            if(i<v2.size()) result[i] += v2[i];
+        }
+        
+        for(int i=0;i<result.size()-2;i++){
+            if(result[i] < 2) continue;
+            result[i] %= 2;
+            if(result[i+1]>0) result[i+1]--;
+            else{
+                result[i+1]++;
+                result[i+2]++;
+            }
+        }
+        
+        while(result.size()>1 && result.back()==0) result.pop_back();
+        reverse(result.begin(), result.end());
+        return result;
+    }
+};
