@@ -1,0 +1,26 @@
+class Solution {
+public:
+    int numTilings(int N) {
+        if(N == 0) return 0;
+        
+        const int m = 1e9+7;
+        vector<int> v;
+        v.push_back(1);
+        v.push_back(1);
+        v.push_back(2);
+        
+        for(int i=3;i<=N;i++){
+            int temp = 0;
+            for(int j=i-1;j>=0;j--){
+                if(j>=i-2){
+                    temp += v[j];
+                }else{
+                    temp += (v[j]*2 % m);
+                }
+                temp %= m;
+            }
+            v.push_back(temp);
+        }
+        return v[N];
+    }
+};
