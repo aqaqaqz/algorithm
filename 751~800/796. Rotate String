@@ -1,0 +1,19 @@
+class Solution {
+public:
+    bool rotateString(string A, string B) {
+        if(A.size() != B.size()) return false;
+        if(A==B) return true;
+        
+        for(int i=0;i<A.size();i++){
+            int p = i;
+            for(int j=0;j<B.size();j++){
+                p %= A.size();
+                if(A[p] != B[j]) break;
+                
+                if(j+1==B.size()) return true;
+                p++;
+            }
+        }
+        return false;
+    }
+};
