@@ -1,0 +1,43 @@
+class Solution {
+public:
+    bool validTicTacToe(vector<string>& board) {
+        int xCnt = 0;
+        int oCnt = 0;
+        int xLine = 0;
+        int oLine = 0;
+        for(int i=0;i<board.size();i++){
+            for(int j=0;j<board[i].size();j++){
+                if(board[i][j] == 'X') xCnt++;
+                if(board[i][j] == 'O') oCnt++;
+            }
+        }
+        if( !((xCnt==oCnt) || (xCnt==oCnt+1)) ) return false;
+        
+        for(int i=0;i<3;i++){
+            if(board[i][0]==board[i][1] && board[i][0]==board[i][2]){
+                if(board[i][0]=='X') xLine++;
+                if(board[i][0]=='O') oLine++;
+            }
+            if(board[0][i]==board[1][i] && board[0][i]==board[2][i]){
+                if(board[0][i]=='X') xLine++;
+                if(board[0][i]=='O') oLine++;
+            }
+        }
+        if(board[0][0]==board[1][1] && board[0][0]==board[2][2]){
+            if(board[0][0]=='X') xLine++;
+            if(board[0][0]=='O') oLine++;
+        }
+        if(board[0][2]==board[1][1] && board[0][2]==board[2][0]){
+            if(board[0][2]=='X') xLine++;
+            if(board[0][2]=='O') oLine++;
+        }
+        
+        if(xLine>0 && oLine>0) return false;
+        if(xLine>0 || oLine>0) {
+            if( oLine==0 && !(xLine>0 && (xCnt==oCnt+1)) ) return false;
+            if( xLine==0 && !(oLine>0 && (xCnt==oCnt)) ) return false;
+        }
+        
+        return true;
+    }
+};
