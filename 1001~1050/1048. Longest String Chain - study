@@ -1,0 +1,35 @@
+class Solution {
+    vector<int> v;
+    int getChain(vector<string>& words, int p){
+        if(v[p] != -1) return v[p];
+        v[p] = 1;
+        for(int i=0;i<words.size();i++){
+            if(i==p || (words[p].size()+1 != words[i].size())) continue;
+            int pos = 0;
+            bool check = false;
+            for(int j=0;j<words[p].size();j++){
+                if(words[p][j] == words[i][pos]) pos++;
+                else if(check) break;
+                else {
+                    check = true;
+                    pos++;
+                    j--;
+                }
+                if(j+1 == words[p].size()){
+                    v[p] = max(v[p], 1+getChain(words, i));
+                }
+            }
+        }
+        return v[p];
+    }
+public:
+    int longestStrChain(vector<string>& words) {
+        v.resize(words.size(), -1);
+        int result = 0;
+        
+        for(int i=0;i<words.size();i++){
+            result = max(result, getChain(words, i));
+        }
+        return result;
+    }
+};
