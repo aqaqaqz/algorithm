@@ -1,0 +1,34 @@
+class Solution {
+    bool checkLoop(int p, vector<bool>& visit, vector<int>& loop, vector<vector<int>>& graph){
+        //true -> loop
+        if(loop[p] != -1) return loop[p]==1;
+        if(visit[p]) return true;
+        visit[p] = true;
+        for(int n : graph[p]){
+            bool temp = checkLoop(n, visit, loop, graph);
+            if(temp){
+                loop[p] = 1;
+                return true;
+            }
+        }
+        loop[p] = 0;
+        return false;
+    }
+public:
+    vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
+        vector<int> result;
+        vector<int> loop(graph.size(), -1);
+
+        for(int i=0;i<graph.size();i++){
+            if(loop[i] == -1){
+                vector<bool> visit(graph.size(), false);
+                checkLoop(i, visit, loop, graph);
+            }
+        }
+        for(int i=0;i<graph.size();i++){
+            if(loop[i] == 0) result.push_back(i);
+        }
+        
+        return result;
+    }
+};
