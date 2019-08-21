@@ -1,0 +1,32 @@
+class Solution {
+    vector<pair<char, int>> makeGrp(string S){
+        vector<pair<char, int>> v;
+        
+        int p=0;
+        while(p<S.size()){
+            int s = p;
+            while(p<S.size() && S[p]==S[s]) p++;
+            v.push_back(make_pair(S[s], p-s));
+        }
+        return v;
+    }
+public:
+    int expressiveWords(string S, vector<string>& words) {
+        vector<pair<char, int>> ori = makeGrp(S);
+        
+        int result = 0;
+        for(string s : words){
+            vector<pair<char, int>> temp = makeGrp(s);
+            if(ori.size() != temp.size()) continue;
+            for(int i=0;i<ori.size();i++){
+                if(ori[i].first != temp[i].first) break;
+                if(ori[i].second < temp[i].second) break;
+                if( (ori[i].second != temp[i].second) && ori[i].second < 3 ) break; 
+                
+                if(i+1 == ori.size()) result++;
+            }
+        }
+        return result;
+        
+    }
+};
