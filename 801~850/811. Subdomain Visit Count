@@ -1,0 +1,40 @@
+class Solution {
+    vector<string> split(string& s, char sc){
+        vector<string> v;
+        string t = "";
+        for(char c : s){
+            if(sc==c && t!="") {
+                v.push_back(t);
+                t = "";
+            }else t += c;
+        }
+        if(t != "") v.push_back(t);
+        return v;
+    }
+public:
+    vector<string> subdomainVisits(vector<string>& cpdomains) {
+        unordered_map<string, int> m;
+        for(string domain : cpdomains){
+            if(domain.empty()) continue;
+            vector<string> t = split(domain, '.');
+            vector<string> f = split(t[0], ' ');
+            t[0] = f[1];
+            int num = atoi(f[0].c_str());
+            string temp = "";
+            for(int i=t.size()-1;i>=0;i--){
+                temp = t[i] + temp;
+                m[temp] += num;
+                temp = '.'+temp;
+            }
+        }
+        
+        vector<string> result;
+        for(auto iter=m.begin();iter!=m.end();iter++){
+            string temp = to_string(iter->second) + " ";
+            temp += iter->first;
+            result.push_back(temp);
+        }
+        
+        return result;
+    }
+};
