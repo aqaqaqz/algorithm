@@ -1,0 +1,25 @@
+class Solution {
+    double getTriArea(vector<int>& p1, vector<int>& p2, vector<int>& p3){
+        double area = 0;
+        area = abs(
+            p1[0]*p2[1] + p2[0]*p3[1] + p3[0]*p1[1]
+            - p2[0]*p1[1] - p3[0]*p2[1] - p1[0]*p3[1]
+        );
+        area *= 0.5;
+        return area;
+    }
+public:
+    double largestTriangleArea(vector<vector<int>>& points) {
+        double result = 0;
+        for(int i=0;i<points.size();i++){
+            for(int j=0;j<points.size();j++){
+                if(i == j) continue;
+                for(int k=0;k<points.size();k++){
+                    if(i==k || j==k) continue;
+                    result = max(result, getTriArea(points[i], points[j], points[k]));
+                }
+            }
+        }
+        return result;
+    }
+};
