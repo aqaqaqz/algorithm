@@ -1,0 +1,45 @@
+class Solution {
+    vector<string> result;
+    bool check(const string& s, bool back){ 
+        if(s.empty()) return false;
+        if(back && s.back()=='0') return false;
+        if(s.size() == 1) return true;
+        if(!back && s[0]=='0') return false;
+        
+        return true;
+    }
+    
+    vector<string> makeList(string s){
+        vector<string> v;
+        if(check(s, false)) v.push_back(s);
+        for(int i=1;i<s.size();i++){
+            if(check(s.substr(0, i), false) && check(s.substr(i), true)){
+                v.push_back(s.substr(0, i)+"."+s.substr(i));
+            }
+        }
+        return v;
+    }
+    
+    void checkString(const string& s, int p){
+        //p1->,    p2->.
+        string left = s.substr(0, p);
+        string right = s.substr(p);
+        
+        vector<string> l = makeList(left);
+        vector<string> r = makeList(right);
+        
+        for(string s1 : l){
+            for(string s2 : r){
+                result.push_back("(" + s1 + ", " + s2 + ")");
+            }
+        }
+    }
+public:
+    vector<string> ambiguousCoordinates(string S) {
+        S = S.substr(1, S.size()-2);
+        for(int i=1;i<S.size();i++){
+            checkString(S, i);
+        }
+        return result;
+    }
+};
