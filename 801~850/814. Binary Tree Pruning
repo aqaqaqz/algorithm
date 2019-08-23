@@ -1,0 +1,25 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+    bool makeTree(TreeNode* n){
+        if(n == NULL) return false;
+        bool left = makeTree(n->left);
+        bool right = makeTree(n->right);
+        if(!left) n->left = NULL;
+        if(!right) n->right = NULL;
+        if(left || right || n->val==1) return true;
+        return false;
+    }
+public:
+    TreeNode* pruneTree(TreeNode* root) {
+        makeTree(root);
+        return root;
+    }
+};
