@@ -1,0 +1,35 @@
+class Solution {
+    long long maxVal;
+    unordered_map<int, int> m;
+    vector<long long> v;
+    long long getBinaryCnt(vector<int>& a, int p){
+        if(v[p] != -1) return v[p];
+        v[p] = 1; //self
+        for(int i=0;i<a.size();i++){
+            if(i == p) continue;
+            if(a[p]%a[i]==0 && m.find(a[p]/a[i])!=m.end()){
+                int val1 = a[i];
+                int val2 = a[p]/a[i];
+                long long temp = getBinaryCnt(a, m[val1]) * getBinaryCnt(a, m[val2]);
+                temp %= maxVal;
+                
+                v[p] += temp;
+                v[p] %= maxVal;
+            }
+        }
+        return v[p];
+    }
+public:
+    int numFactoredBinaryTrees(vector<int>& A) {
+        maxVal = 1e9+7;
+        for(int i=0;i<A.size();i++) m[A[i]] = i;
+        v.resize(A.size(), -1);
+        
+        int result = 0;
+        for(int i=0;i<A.size();i++){
+            result += getBinaryCnt(A, i);
+            result %= maxVal;
+        }
+        return result;
+    }
+};
