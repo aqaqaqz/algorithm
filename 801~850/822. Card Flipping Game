@@ -1,0 +1,40 @@
+class Solution {
+public:
+    int flipgame(vector<int>& fronts, vector<int>& backs) {
+        unordered_map<int, vector<int>> fm;
+        unordered_map<int, vector<int>> bm;
+        for(int i=0;i<fronts.size();i++){
+            fm[fronts[i]].push_back(i);
+            bm[backs[i]].push_back(i);
+        }
+        
+        int result = 2001;
+        for(auto iter=fm.begin();iter!=fm.end();iter++){
+            bool check = true;
+            for(int idx : iter->second){
+                if(fronts[idx] == backs[idx]){
+                    check = false;
+                    break;
+                }
+            }
+            if(!check) continue;
+            
+            result = min(result, iter->first);
+        }
+        for(auto iter=bm.begin();iter!=bm.end();iter++){
+            bool check = true;
+            for(int idx : iter->second){
+                if(fronts[idx] == backs[idx]){
+                    check = false;
+                    break;
+                }
+            }
+            if(!check) continue;
+            
+            result = min(result, iter->first);
+        }
+        
+        if(result == 2001) return 0;
+        return result;
+    }
+};
