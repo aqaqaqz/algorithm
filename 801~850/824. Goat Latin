@@ -1,0 +1,36 @@
+class Solution {
+    string a;
+    void makeWord(string& result, string& s){
+        char f = s[0];
+        if( !(tolower(f)=='a' || tolower(f)=='e' || tolower(f)=='i' || tolower(f)=='o' || tolower(f)=='u') ){
+            s.erase(0, 1);
+            s += f;
+        }
+        s += "ma";
+        s += a;
+        a += "a";
+        
+        if(result != "") result += " ";
+        result += s;
+        s = "";
+    }
+public:
+    string toGoatLatin(string S) {
+        a = "a";
+        int p = 0;
+        string temp = "";
+        string result = "";
+        while(p < S.size()){
+            if(S[p] == ' '&& temp != ""){
+                makeWord(result, temp);
+            }else if(S[p] != ' '){
+                temp += S[p];
+            }
+            p++;
+        }
+        if(temp != "")
+            makeWord(result, temp);
+        
+        return result;
+    }
+};
