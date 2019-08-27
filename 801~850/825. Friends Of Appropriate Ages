@@ -1,0 +1,33 @@
+class Solution {
+    int findPos(int age, vector<int>& ages){
+        int s = 0;
+        int e = ages.size()-1;
+        int m;
+        while(s<=e){
+            m = (s+e)/2;
+            if(ages[m] > age) e = m-1;
+            else s = m+1;
+        }
+        if(ages[m] <= age) m++;
+        return m;
+    }
+    int findReqCnt(vector<int>& ages, int age){
+        int p1 = findPos(age*0.5+7, ages); 
+        int p2 = findPos(age, ages)-1;
+        if(age<100)
+            p2 = min(p2, findPos(100, ages)-1);
+        int cnt = p2-p1+1;
+        if(p1<ages.size() && p2>=0 && age>=ages[p1] &&age<=ages[p2]) cnt--;
+        if(cnt < 0 ) return 0;
+        return cnt;
+    }
+public:
+    int numFriendRequests(vector<int>& ages) {
+        sort(ages.begin(), ages.end());
+        int result = 0;
+        for(int n : ages){
+            result += findReqCnt(ages, n);
+        }
+        return result;
+    }
+};
