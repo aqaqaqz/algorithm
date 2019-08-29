@@ -1,0 +1,45 @@
+class Solution {
+    int checkSq(vector<vector<int>>& g, int h, int w){
+        h--;
+        w--;
+        unordered_set<int> s;
+        for(int i=h;i<=h+2;i++){
+            for(int j=w;j<=w+2;j++){
+                if( !(g[i][j]>=1 && g[i][j]<=9) || s.find(g[i][j]) != s.end()) return 0;
+                s.insert(g[i][j]);
+            }
+        }
+        int sum = g[h][w] + g[h+1][w+1] + g[h+2][w+2];
+        if(sum != g[h+2][w] + g[h+1][w+1] + g[h][w+2]) return 0;
+        for(int i=h;i<=h+2;i++){
+            int temp = 0;
+            for(int j=w;j<=w+2;j++){
+                temp += g[i][j];
+            }
+            if(temp != sum) return 0;
+        }
+        for(int i=w;i<=w+2;i++){
+            int temp = 0;
+            for(int j=h;j<=h+2;j++){
+                temp += g[j][i];
+            }
+            if(temp != sum) return 0;
+        }
+        
+        return 1;
+    }
+public:
+    int numMagicSquaresInside(vector<vector<int>>& grid) {
+        int h = grid.size();
+        int w = grid[0].size();
+        if(h<3 ||w<3) return 0;
+        
+        int result = 0;
+        for(int i=1;i<h-1;i++){
+            for(int j=1;j<w-1;j++){
+                result += checkSq(grid, i, j);
+            }
+        }
+        return result;
+    }
+};
