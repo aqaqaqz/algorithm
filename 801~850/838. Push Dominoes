@@ -1,0 +1,34 @@
+class Solution {
+public:
+    string pushDominoes(string d) {
+        vector<pair<char, int>> v;
+        for(int i=0;i<d.size();i++){
+            if(d[i] != '.') 
+                v.push_back(make_pair(d[i], i));
+        }
+        
+        int p = 0;
+        char dir = '.';
+        for(int i=0;i<v.size();i++){
+            if(v[i].first == 'L'){
+                for(p;p<v[i].second;p++)
+                    d[p] = 'L';
+            }else{
+                int e;
+                bool odd = false;
+                if(i+1 == v.size()){
+                    e = d.size();
+                }else if(v[i+1].first == 'R'){
+                    e = v[i+1].second;
+                }else{
+                    odd = (v[i+1].second-v[i].second-1)%2 == 1;
+                    e = v[i].second + (v[i+1].second-v[i].second-1)/2 + 1;
+                }
+                for(p=v[i].second;p<e;p++)
+                    d[p] = 'R';
+                if(odd) p++;
+            }
+        }
+        return d;
+    }
+};
