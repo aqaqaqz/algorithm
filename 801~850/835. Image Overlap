@@ -1,0 +1,26 @@
+class Solution {
+    int getCnt(vector<vector<int>>& A, vector<vector<int>>& B, int sh, int sw){
+        int cnt = 0;
+        int n = A.size();
+        for(int h=0;h<n;h++){
+            for(int w=0;w<n;w++){
+                int th = h+sh;
+                int tw = w+sw;
+                if(th>=A.size() || tw>=A.size()) break;
+                if(A[th][tw]==1 && A[th][tw]==B[h][w]) cnt++;
+            }
+        }
+        return cnt;
+    }
+public:
+    int largestOverlap(vector<vector<int>>& A, vector<vector<int>>& B) {
+        int result = 0;
+        for(int sh=0;sh<A.size();sh++){
+            for(int sw=0;sw<A.size();sw++){
+                result = max(result, getCnt(A, B, sh, sw));
+                result = max(result, getCnt(B, A, sh, sw));
+            }
+        }
+        return result;
+    }
+};
