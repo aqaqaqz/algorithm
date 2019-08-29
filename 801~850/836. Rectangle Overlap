@@ -1,0 +1,19 @@
+class Solution {
+    void mySort(vector<int>& v){
+        vector<int> t;
+        t.push_back(min(v[0], v[2]));
+        t.push_back(min(v[1], v[3]));
+        t.push_back(max(v[0], v[2]));
+        t.push_back(max(v[1], v[3]));
+        v = t;
+    }
+public:
+    bool isRectangleOverlap(vector<int>& rec1, vector<int>& rec2) {
+        mySort(rec1);
+        mySort(rec2);
+        
+        if(rec1[0]<rec2[2] && rec1[2]>rec2[0]
+          && rec1[1]<rec2[3] && rec1[3]>rec2[1]) return true;
+        return false;
+    }
+};
