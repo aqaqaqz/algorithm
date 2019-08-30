@@ -1,0 +1,54 @@
+class Solution {
+    long long maxVal;
+    long long myAtoi(string s){
+        if(s.size()>1 && s[0]=='0') return -1;
+        if(s.size() > 12) return -1;
+        long long num = 0;
+        long long ten = 1;
+        for(int i=s.size()-1;i>=0;i--){
+            num += (s[i]-'0')*ten;
+            ten *= 10;
+        }
+        return num;
+    }
+    bool check(vector<pair<int, int>>& v, string s){
+        int p = v.size()-2;
+        long long t1 = myAtoi(s.substr(v[p].first, v[p].second-v[p].first+1));
+        long long t2 = myAtoi(s.substr(v[p+1].first, v[p+1].second-v[p+1].first+1));
+        long long t3 = t1+t2;
+        
+        if(t1==-1 || t2==-1 || t3>maxVal) return false;
+        string str = to_string(t3);
+        int sp = v[p+1].second + 1;
+        
+        if(sp+str.size()>s.size()) return false;
+        if(str != s.substr(sp, str.size())) return false;
+        v.push_back(make_pair(sp, sp+str.size()-1));
+        if(sp+str.size() == s.size()) return true;
+        
+        return check(v, s);
+    }
+public:
+    vector<int> splitIntoFibonacci(string s) {
+        maxVal = ((long long)1<<31) - 1;
+        vector<pair<int, int>> v;
+        bool t = false;
+        for(int i=0;i<s.size();i++){
+            for(int j=i+1;j<s.size();j++){
+                v.push_back(make_pair(0, i));
+                v.push_back(make_pair(i+1, j));
+                t = check(v, s);
+                if(t) break;
+                v.clear();
+            }
+            if(t) break;
+        }
+        vector<int> result;
+        if(v.size() < 3) return result;
+        
+        for(pair<int, int> p : v){
+            result.push_back(myAtoi(s.substr(p.first, p.second-p.first+1)));
+        }
+        return result;
+    }
+};
