@@ -1,0 +1,19 @@
+class Solution {
+    string makeStr(string s){
+        vector<char> v;
+        for(char c : s){
+            if(c=='#'){
+                if(v.empty()) continue;
+                v.pop_back();
+            }else v.push_back(c);
+        }
+        
+        return string(v.begin(), v.end());
+    }
+public:
+    bool backspaceCompare(string S, string T) {
+        string s1 = makeStr(S);
+        string s2 = makeStr(T);
+        return s1==s2;
+    }
+};
