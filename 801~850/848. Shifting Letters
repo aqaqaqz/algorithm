@@ -1,0 +1,19 @@
+class Solution {
+    char shift(int c, int cnt){
+        c += cnt;
+        if(c > 'z') c -= 26;
+        return c;
+    }
+public:
+    string shiftingLetters(string str, vector<int>& s) {
+        for(int i=s.size()-1;i>=0;i--){
+            s[i] %= 26;
+            if(i-1 >= 0)
+                s[i-1] += s[i];
+        }
+        for(int i=0;i<str.size();i++){
+            str[i] = shift(str[i], s[i]);
+        }
+        return str;
+    }
+};
