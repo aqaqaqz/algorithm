@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int peakIndexInMountainArray(vector<int>& A) {
+        int p = 1;
+        int len = 0;
+        int result = -1;
+        while(p<A.size()){
+            if(A[p-1] < A[p]){
+                int s = p-1;
+                while(p<A.size() && A[p-1]<A[p]) p++;
+                int m = p-1;
+                while(p<A.size() && A[p-1]>A[p]) p++;
+                int e = p-1;
+                if(s==m || e==m) continue;
+                p = e;
+                
+                if(e-s+1 > len) result = m;
+            }else p++;
+        }
+        return result;
+    }
+};
