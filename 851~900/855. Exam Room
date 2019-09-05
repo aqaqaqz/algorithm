@@ -1,0 +1,43 @@
+class ExamRoom {
+    int n;
+    set<int> s;
+public:
+    ExamRoom(int N) {
+        n = N-1;
+    }
+    
+    int seat() {
+        if(s.empty()){
+            s.insert(0);
+            return 0;
+        }
+        int p = 0;
+        int l = *s.begin()-1;
+        
+        int pre = *s.begin();
+        for(auto iter=s.begin();iter!=s.end();iter++){
+            if(*iter-pre>1 && (*iter-pre-2)/2 > l){
+                l = (*iter-pre-2)/2;
+                p = pre+1+l;
+            }
+            pre = *iter;
+        }        
+        
+        if(n-*s.rbegin()-1>l)
+            p = n;
+        
+        s.insert(p);
+        return p;
+    }
+    
+    void leave(int p) {
+        s.erase(p);
+    }
+};
+
+/**
+ * Your ExamRoom object will be instantiated and called as such:
+ * ExamRoom obj = new ExamRoom(N);
+ * int param_1 = obj.seat();
+ * obj.leave(p);
+ */
