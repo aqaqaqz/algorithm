@@ -1,0 +1,29 @@
+class Solution {
+    unordered_map<int, vector<int>> m;
+    unordered_map<int, bool> v;
+    bool checkGrp(int p, bool flag){
+        if(v.find(p)!=v.end()){
+            if(v[p]!=flag) return false;
+            return true;
+        }
+        v[p] = flag;
+        for(int next : m[p]){
+            if(!checkGrp(next, !flag)) return false;
+        }
+        return true;
+    }
+public:
+    bool possibleBipartition(int N, vector<vector<int>>& dislikes) {
+        for(vector<int> v : dislikes){
+            m[v[0]-1].push_back(v[1]-1);
+            m[v[1]-1].push_back(v[0]-1);
+        }
+        
+        for(int i=0;i<N;i++){
+            if(v.find(i) == v.end()){
+                if(!checkGrp(i, true)) return false;
+            }
+        }
+        return true;
+    }
+};
