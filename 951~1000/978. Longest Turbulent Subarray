@@ -1,0 +1,23 @@
+class Solution {
+    int getLen(vector<int>& A, bool dir){
+        int len = 1;
+        int temp = 1;
+        for(int i=1;i<A.size();i++){
+            if(dir){
+                if(A[i]>A[i-1]) temp++;
+                else temp = 1;
+            }else{
+                if(A[i]<A[i-1]) temp++;
+                else temp = 1;
+            }
+            dir = !dir;
+            len = max(len, temp);
+        }
+        return len;
+    }
+public:
+    int maxTurbulenceSize(vector<int>& A) {
+        if(A.empty()) return 0;
+        return max(getLen(A, true), getLen(A, false));        
+    }
+};
