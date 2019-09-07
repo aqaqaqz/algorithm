@@ -1,0 +1,21 @@
+class Solution {
+public:
+    vector<int> addToArrayForm(vector<int>& A, int K) {
+        reverse(A.begin(), A.end());
+        int p = 0;
+        while(K != 0){
+            int n = K%10 + (p<A.size()?A[p]:0);
+            K /= 10;
+            if(n>=10){
+                n-= 10;
+                K++;
+            }
+            if(p<A.size())
+                A[p] = n;
+            else A.push_back(n);
+            p++;
+        }
+        reverse(A.begin(), A.end());
+        return A;
+    }
+};
