@@ -1,0 +1,17 @@
+class Solution {
+public:
+    int distanceBetweenBusStops(vector<int>& d, int start, int des) {
+        if(start == des) return 0;
+        
+        int os = start;
+        int od = des;
+        start = min(os, od);
+        des = max(os, od);
+        for(int i=1;i<d.size();i++)
+            d[i] += d[i-1];
+        
+        int sum1 = d[des-1] - (start==0?0:d[start-1]);
+        int sum2 = d.back()-sum1;
+        return min(sum1, sum2);
+    }
+};

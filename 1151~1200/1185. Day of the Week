@@ -1,0 +1,30 @@
+class Solution {
+    vector<int> date;
+    bool checkYear(int y){
+        if(y%4==0){
+            if(y%100==0 && y%400!=0) return false;
+            return true;
+        }
+        return false;
+    }
+    int getTotal(int y, int m, int d){
+        int temp = d;
+        for(int i=0;i<m-1;i++){
+            if(i==1 && checkYear(y)){
+                temp += (date[i]+1);
+            }else
+                temp += date[i];
+        }
+        for(int i=1971;i<y;i++)
+            temp += (checkYear(i)?366:365);
+        
+        return temp;
+    }
+public:
+    string dayOfTheWeek(int day, int month, int year) {
+        vector<string> v = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+        date = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+        int t = (getTotal(year, month, day)+4)%7;
+        return v[t];
+    }
+};
