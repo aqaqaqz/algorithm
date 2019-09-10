@@ -1,0 +1,32 @@
+class Solution {
+public:
+    string strWithout3a3b(int A, int B) {
+        string result = "";
+        while(A!=B && A>0 && B>0){
+            if(A>B){
+                result += "aab";
+                A-=2;
+                B--;
+            }else{
+                result += "abb";
+                A--;
+                B-=2;
+            }
+        }
+        while(A>0 && B>0){
+            result += "ab";
+            A--;
+            B--;
+        }
+        
+        while(A>0){
+            result += 'a';
+            A--;
+        }
+        while(B>0){
+            result = 'b'+result;
+            B--;
+        }
+        return result;
+    }
+};
