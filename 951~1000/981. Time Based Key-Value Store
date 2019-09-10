@@ -1,0 +1,35 @@
+class TimeMap {
+    unordered_map<string, vector<pair<string, int>>> store;
+public:
+    /** Initialize your data structure here. */
+    TimeMap() {}
+    
+    void set(string key, string value, int timestamp) {
+        store[key].push_back(make_pair(value, timestamp));
+    }
+    
+    string get(string key, int timestamp) {
+        if(store[key].empty()) return "";
+        
+        int s = 0;
+        int e = store[key].size()-1;
+        int m;
+        int v = timestamp;
+        
+        while(s<=e){
+            m = (s+e)/2;
+            if(store[key][m].second > v) e = m-1;
+            else s = m+1;
+        }
+        if(store[key][m].second > v) m--;
+        if(m < 0) return "";
+        return store[key][m].first;
+    }
+};
+
+/**
+ * Your TimeMap object will be instantiated and called as such:
+ * TimeMap* obj = new TimeMap();
+ * obj->set(key,value,timestamp);
+ * string param_2 = obj->get(key,timestamp);
+ */
