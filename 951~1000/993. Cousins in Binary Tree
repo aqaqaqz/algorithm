@@ -1,0 +1,23 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+    unordered_map<int, pair<int, int>> m;
+    void makeMap(TreeNode* n, int p, int d){
+        if(n==nullptr) return;
+        m[n->val] = make_pair(p, d);
+        makeMap(n->left, n->val, d+1);
+        makeMap(n->right, n->val, d+1);
+    }
+public:
+    bool isCousins(TreeNode* root, int x, int y) {
+        makeMap(root, -1, 0);
+        return (m[x].first!=m[y].first && m[x].second==m[y].second);
+    }
+};
