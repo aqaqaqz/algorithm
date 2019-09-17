@@ -1,0 +1,49 @@
+class Solution {
+public:
+    int orangesRotting(vector<vector<int>>& grid) {
+        set<pair<int, int>> s;
+        int fCnt = false;
+        for(int h=0;h<grid.size();h++){
+            for(int w=0;w<grid[0].size();w++){
+                if(grid[h][w] == 2)
+                    s.insert(make_pair(h, w));
+                else if(grid[h][w] == 1)
+                    fCnt = true;
+            }
+        }
+        int result = 0;
+        
+        if(s.empty() && !fCnt) return result;
+        while(!s.empty()){
+            set<pair<int, int>> temp;
+            for(auto iter=s.begin();iter!=s.end();iter++){
+                int h = iter->first;
+                int w = iter->second;
+                if(h-1>=0 && grid[h-1][w]==1){
+                    temp.insert(make_pair(h-1, w));
+                    grid[h-1][w] = 2;
+                }
+                if(w-1>=0 && grid[h][w-1]==1){
+                    temp.insert(make_pair(h, w-1));
+                    grid[h][w-1] = 2;
+                }
+                if(h+1<grid.size() && grid[h+1][w]==1){
+                    temp.insert(make_pair(h+1, w));
+                    grid[h+1][w] = 2;
+                }
+                if(w+1<grid[0].size() && grid[h][w+1]==1){
+                    temp.insert(make_pair(h, w+1));
+                    grid[h][w+1] = 2;
+                }
+            }
+            s = temp;
+            result++;
+        }
+        
+        for(int h=0;h<grid.size();h++)
+            for(int w=0;w<grid[0].size();w++)
+                if(grid[h][w]==1) return -1;
+                
+        return result-1;
+    }
+};
