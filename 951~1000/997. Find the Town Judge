@@ -1,0 +1,17 @@
+class Solution {
+public:
+    int findJudge(int N, vector<vector<int>>& trust) {
+        unordered_map<int, int> tCnt;
+        vector<bool> trustOther(N, false);
+        for(vector<int>& v : trust){
+            tCnt[v[1]-1]++;
+            trustOther[v[0]-1] = true;
+        }
+        
+        for(int i=0;i<N;i++){
+            if(!trustOther[i] && tCnt[i]==N-1) return i+1;
+        }
+        
+        return -1;
+    }
+};
