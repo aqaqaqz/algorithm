@@ -1,0 +1,36 @@
+class Solution {
+    const int LEN = 8;
+    pair<int, int> findRook(vector<vector<char>>& board){
+        for(int h=0;h<LEN;h++)
+            for(int w=0;w<LEN;w++)
+                if(board[h][w] == 'R')
+                    return make_pair(h, w);
+        return make_pair(-1, -1);
+    }
+    int findPawn(vector<vector<char>>& board, pair<int, int> p, pair<int, int> d){
+        int cnt = 0;
+        while(true){
+            p.first += d.first;
+            p.second += d.second;
+            if(p.first<0 || p.second<0 || p.first>=LEN || p.second>=LEN) break;
+            
+            char c = board[p.first][p.second];
+            if(c == '.') continue;
+            if(c == 'p') cnt++;
+            break;
+        }
+        return cnt;
+    }
+public:
+    int numRookCaptures(vector<vector<char>>& board) {
+        pair<int, int> p = findRook(board);
+        if(p.first == -1) return 0;
+        
+        int result = 0;
+        result += findPawn(board, p, make_pair(1, 0));
+        result += findPawn(board, p, make_pair(0, 1));
+        result += findPawn(board, p, make_pair(-1, 0));
+        result += findPawn(board, p, make_pair(0, -1));
+        return result;
+    }
+};
