@@ -1,0 +1,15 @@
+class Solution {
+public:
+    bool isValid(string S) {
+        vector<char> v;
+        for(char c : S){
+            v.push_back(c);
+            while(v.size()>=3 && v[v.size()-3]=='a' && v[v.size()-2]=='b' && v[v.size()-1] == 'c'){
+                v.pop_back();
+                v.pop_back();
+                v.pop_back();
+            }
+        }
+        return v.empty();
+    }
+};
