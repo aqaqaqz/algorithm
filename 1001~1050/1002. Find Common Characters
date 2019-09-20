@@ -1,0 +1,23 @@
+class Solution {
+public:
+    vector<string> commonChars(vector<string>& A) {
+        vector<unordered_map<char, int>> v;
+        for(string str : A){
+            unordered_map<char, int> m;
+            for(char c : str) m[c]++;
+            v.push_back(m);
+        }
+        
+        vector<string> result;
+        for(auto iter=v[0].begin();iter!=v[0].end();iter++){
+            char c = iter->first;
+            int cnt = INT_MAX;
+            
+            for(auto m : v)
+                cnt = min(cnt, m[c]);
+            while(cnt--)
+                result.push_back(string(1, c));
+        }
+        return result;
+    }
+};
