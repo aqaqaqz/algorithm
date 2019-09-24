@@ -1,0 +1,10 @@
+class Solution {
+public:
+    bool queryString(string S, int N) {
+        while(N){
+            string str = bitset<32>(N--).to_string();
+            if(S.find(str.substr(str.find("1"))) > S.size()) return false;
+        }
+        return true;
+    }
+};
