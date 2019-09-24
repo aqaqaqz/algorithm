@@ -1,0 +1,42 @@
+class Solution {
+    int getLen(int n){
+        int len = 0;
+        if(n>0){
+            len = 3; 
+            long long t = 16;
+            long long s = 2;
+            long long e = 5;
+            while(!(n>=s && n<=e)){
+                len += 2;
+                s = e+1;
+                e += t;
+                t *= 4;
+            }
+        }else{
+            len = 2;
+            long long t = -8;
+            long long s = -1;
+            long long e = -2;
+            while(!(n<=s && n>=e)){
+                len += 2;
+                s = e-1;
+                e += t;
+                t *= 4;
+            }
+        }
+        return len;
+    }
+public:
+    string baseNeg2(int n) {
+        if(n==0) return "0";
+        if(n==1) return "1";
+        int len = getLen(n);
+        long long t = 1;
+        for(int i=1;i<len;i++)
+            t*=-2;
+        string temp = baseNeg2(n-t);
+        string result = "1";
+        while(len != temp.size()+result.size()) result += "0";
+        return result+temp;
+    }
+};
