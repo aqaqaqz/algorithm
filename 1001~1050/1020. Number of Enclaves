@@ -1,0 +1,33 @@
+class Solution {
+    void search(vector<vector<int>>& A, int h, int w){
+        if(h<0 || w<0 || h>=A.size() || w>=A[0].size()) return;
+        if(A[h][w] == 1){
+            A[h][w] = 0;
+            search(A, h+1, w);
+            search(A, h-1, w);
+            search(A, h, w+1);
+            search(A, h, w-1);
+        }
+    }
+public:
+    int numEnclaves(vector<vector<int>>& A) {
+        int h=A.size()-1;
+        int w=A[0].size()-1;
+        
+        for(int i=0;i<h;i++){
+            search(A, i, 0);
+            search(A, i, w);
+        }
+        for(int i=0;i<w;i++){
+            search(A, 0, i);
+            search(A, h, i);
+        }
+        
+        int result = 0;
+        for(int i=0;i<h;i++)
+            for(int j=0;j<w;j++)
+                if(A[i][j]==1) result++;
+        
+        return result;
+    }
+};
