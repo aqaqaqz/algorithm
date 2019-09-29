@@ -1,0 +1,20 @@
+class Solution {
+public:
+    string removeDuplicates(string s, int k) {
+        vector<pair<char, int>> v;
+        for(char c : s){
+            if(v.empty()) v.push_back(make_pair(c, 1));
+            else{
+                int e = v.size()-1;
+                if(c == v[e].first) v[e].second++;
+                else v.push_back(make_pair(c, 1));
+            }
+            if(v.back().second == k) v.pop_back();
+        }
+        string result = "";
+        for(pair<char, int> p : v)
+            for(int i=0;i<p.second;i++) result += p.first;
+        
+        return result;
+    }
+};
