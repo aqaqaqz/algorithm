@@ -1,0 +1,20 @@
+class Solution {
+public:
+    int longestArithSeqLength(vector<int>& A) {
+        int result = 0;
+        unordered_map<int, unordered_map<int, int>> m;
+        
+        for(int i=A.size()-1;i>=0;i--){
+            for(int j=i+1;j<A.size();j++){
+                int val = A[j]-A[i];
+                if(m[j].find(val)!=m[j].end()){
+                    m[i][val] = max(m[j][val]+1, m[i][val]);
+                }else
+                    m[i][val] = max(m[i][val], 1);
+                
+                result = max(result, m[i][val]+1);
+            }
+        }
+        return result;
+    }
+};
