@@ -1,0 +1,23 @@
+class Solution {
+public:
+    vector<bool> camelMatch(vector<string>& q, string p) {
+        vector<bool> result;
+        for(const string& str : q){
+            bool temp = true;
+            int idx = 0;
+            for(int i=0;i<p.size();i++){
+                while(idx<str.size() && islower(str[idx]) && str[idx]!=p[i]) idx++;
+                if(idx>=str.size() || str[idx]!=p[i]){
+                    temp = false;
+                    break;
+                }
+                idx++;
+            }
+            while(temp && idx<str.size())
+                temp = islower(str[idx++]);
+            
+            result.push_back(temp);
+        }
+        return result;
+    }
+};
