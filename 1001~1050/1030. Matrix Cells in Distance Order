@@ -1,0 +1,15 @@
+class Solution {
+public:
+    vector<vector<int>> allCellsDistOrder(int R, int C, int r0, int c0) {
+        vector<vector<int>> result;
+        for(int r=0;r<R;r++)
+            for(int c=0;c<C;c++)
+                result.push_back(vector<int>{r, c});
+        sort(result.begin(), result.end(), [r0, c0](vector<int>& v1, vector<int>& v2){
+            int da = abs(r0-v1[0]) + abs(c0-v1[1]);
+            int db = abs(r0-v2[0]) + abs(c0-v2[1]);
+            return da<db;
+        });
+        return result;
+    }
+};
