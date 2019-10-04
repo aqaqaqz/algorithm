@@ -1,0 +1,36 @@
+class Solution {
+    int findPos(vector<int>& v, int val){
+        int s = 0;
+        int e = v.size()-1;
+        int m;
+        while(s<=e){
+            m = (s+e)/2;
+            if(v[m] == val) return v[m];
+            else if(v[m] > val) e = m-1;
+            else s = m+1;
+        }
+        if(v[m] < val) m++;
+        if(m>=v.size()) return INT_MAX;
+        return v[m];
+    }
+    int getMaxLine(vector<int>& A, vector<vector<int>>& v, unordered_map<int, vector<int>>& m, int p, int np){
+        if(p>=v.size() || np>=v[0].size()) return 0;
+        if(v[p][np] != -1) return v[p][np];
+        
+        if(m.find(A[p])!=m.end() && findPos(m[A[p]], np)<INT_MAX)
+            v[p][np] = max(getMaxLine(A, v, m, p+1, np), getMaxLine(A, v, m, p+1, findPos(m[A[p]], np)+1)+1);
+        else
+            v[p][np] = getMaxLine(A, v, m, p+1, np);
+        
+        return v[p][np];
+    }
+public:
+    int maxUncrossedLines(vector<int>& A, vector<int>& B) {
+        vector<vector<int>> v(A.size(), vector<int>(B.size(), -1));
+        unordered_map<int, vector<int>> m;
+        for(int i=0;i<B.size();i++)
+            m[B[i]].push_back(i);
+        
+        return getMaxLine(A, v, m, 0, 0);
+    }
+};
