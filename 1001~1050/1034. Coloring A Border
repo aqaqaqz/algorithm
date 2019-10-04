@@ -1,0 +1,29 @@
+class Solution {
+    vector<vector<bool>> v;
+    void makeSquare(vector<vector<int>>& g, int h, int w, const int& c){
+        if(h<0 || w<0 || h>=g.size() || w>=g[0].size()) return;
+        if(v[h][w] || g[h][w]!=c) return;
+        v[h][w] = true;
+        makeSquare(g, h+1, w, c);
+        makeSquare(g, h-1, w, c);
+        makeSquare(g, h, w+1, c);
+        makeSquare(g, h, w-1, c);
+    }
+public:
+    vector<vector<int>> colorBorder(vector<vector<int>>& grid, int h, int w, int color) {
+        v.resize(grid.size(), vector<bool>(grid[0].size(), false));
+        makeSquare(grid, h, w, grid[h][w]);
+        
+        for(int h=0;h<grid.size();h++){
+            for(int w=0;w<grid[0].size();w++){
+                if(v[h][w]){
+                    if(h==0 || h+1==grid.size() || w==0 || w+1==grid[0].size())
+                        grid[h][w] = color;
+                    else if( !(v[h+1][w] && v[h-1][w] && v[h][w+1] && v[h][w-1]) )
+                        grid[h][w] = color;
+                }
+            }
+        }
+        return grid;
+    }
+};
