@@ -1,0 +1,23 @@
+class Solution {
+    vector<vector<int>> v;
+    int findTriangle(vector<int>& a, int s, int e){
+        if(s+1 == e) return 0;
+        if(s+2 == e) return (a[s]*a[s+1]*a[s+2]);
+        if(v[s][e] != -1) return v[s][e];
+        
+        v[s][e] = INT_MAX;
+        for(int i=s+1;i<e;i++){
+            int temp = a[s]*a[i]*a[e];
+            temp += findTriangle(a, s, i);
+            temp += findTriangle(a, i, e);
+            v[s][e] = min(temp, v[s][e]);
+        }
+        
+        return v[s][e];
+    }
+public:
+    int minScoreTriangulation(vector<int>& A) {
+        v.resize(A.size(), vector<int>(A.size(), -1));
+        return findTriangle(A, 0, A.size()-1);
+    }
+};
