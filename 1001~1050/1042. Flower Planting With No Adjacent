@@ -1,0 +1,24 @@
+class Solution {
+public:
+    vector<int> gardenNoAdj(int N, vector<vector<int>>& paths) {
+        unordered_map<int, vector<int>> m;
+        for(vector<int>& v : paths){
+            m[v[0]-1].push_back(v[1]-1);
+            m[v[1]-1].push_back(v[0]-1);
+        }
+        
+        unordered_map<int, unordered_set<int>> flower;
+        vector<int> result;
+        for(int i=0;i<N;i++){
+            int f;
+            for(f=1;f<=4;f++){
+                if(flower[i].find(f) == flower[i].end()){
+                    break;
+                }
+            }
+            result.push_back(f);
+            for(int n : m[i]) flower[n].insert(f);
+        }
+        return result;
+    }
+};
