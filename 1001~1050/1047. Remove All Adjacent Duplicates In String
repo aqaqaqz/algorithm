@@ -1,0 +1,17 @@
+class Solution {
+public:
+    string removeDuplicates(string S) {
+        vector<char> v;
+        for(char c : S){
+            v.push_back(c);
+            while(v.size()>1){
+                int p = v.size()-1;
+                if(v[p] == v[p-1]){
+                    v.pop_back();
+                    v.pop_back();
+                }else break;
+            }
+        }
+        return string(v.begin(), v.end());
+    }
+};
