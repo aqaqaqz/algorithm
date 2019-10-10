@@ -1,0 +1,14 @@
+class Solution {
+public:
+    int maxNumberOfBalloons(string text) {
+        unordered_map<char, int> m;
+        for(char c : text) m[c]++;
+        m['o'] /= 2;
+        m['l'] /= 2;
+        
+        int result = INT_MAX;
+        for(char c : (string)"balon")
+            result = min(m[c], result);
+        return result;
+    }
+};
