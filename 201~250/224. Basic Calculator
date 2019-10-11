@@ -1,0 +1,27 @@
+class Solution {
+    int cal(string& s, int& p){
+        int result = 0;
+        int minus = 1;
+        string temp = "";
+        
+        for(p;p<s.size();p++){
+            if(s[p] == ' ') continue;
+            else if(s[p] == '(')
+                result += cal(s, ++p)*minus;
+            else if(s[p] == ')')
+                return result+atoi(temp.c_str())*minus;
+            else if(s[p]=='+' || s[p]=='-'){
+                if(temp!="") result += atoi(temp.c_str())*minus;
+                minus = (s[p]=='-'?-1:1);
+                temp = "";
+            }else temp += s[p];
+        }
+        
+        return result+atoi(temp.c_str())*minus;
+    }
+public:
+    int calculate(string s) {
+        int p = 0;
+        return cal(s, p);
+    }
+};
