@@ -1,0 +1,40 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+    bool makeTree(TreeNode* n, int& l, int sum){
+        sum += n->val;
+        bool check = false;
+        
+        //leaf
+        if(n->left==nullptr && n->right==nullptr)
+            return sum>=l;
+        
+        if(n->left != nullptr){
+            bool left = makeTree(n->left, l, sum);
+            check |= left;
+            if(!left)
+                n->left = nullptr;
+        }
+        if(n->right != nullptr){
+            bool right = makeTree(n->right, l, sum);
+            check |= right;
+            if(!right)
+                n->right = nullptr;
+        }
+        return check;
+    }
+public:
+    TreeNode* sufficientSubset(TreeNode* root, int limit) {
+        if(root == nullptr) return root;
+        if(!makeTree(root, limit, 0))
+            return nullptr;
+        return root;
+    }
+};
