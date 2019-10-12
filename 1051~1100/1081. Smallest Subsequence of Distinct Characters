@@ -1,0 +1,35 @@
+class Solution {
+public:
+    string smallestSubsequence(string text) {
+        string result = text.substr(0, 1);
+        vector<vector<int>> v(text.size()+1, vector<int>(26, 0));
+        for(int i=text.size()-1;i>=0;i--){
+            v[i] = v[i+1];
+            v[i][text[i]-'a']++;
+        }
+        
+        for(int i=0;i<text.size();i++){
+            char c = text[i];
+            for(int j=0;j<result.size();j++){
+                if(result[j]==c) break;
+                if(result[j]>c){
+                    bool check = true;
+                    for(int k=j;k<result.size();k++){
+                        if(v[i][result[k]-'a'] == 0){
+                            check = false;
+                            break;
+                        }
+                    }
+                    if(check){
+                        result.erase(j);
+                        result += text[i];
+                        break;
+                    }
+                }
+                if(j+1==result.size())
+                    result += text[i];
+            }
+        }
+        return result;
+    }
+};
