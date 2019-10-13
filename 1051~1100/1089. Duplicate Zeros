@@ -1,0 +1,19 @@
+class Solution {
+public:
+    void duplicateZeros(vector<int>& arr) {
+        int cnt = 0;
+        for(int &n : arr) if(n==0) cnt++;
+        arr.resize(arr.size()+cnt);
+
+        int p = arr.size()-1;
+        for(int i=arr.size()-1-cnt;i>=0;i--){
+            if(arr[i] == 0){
+                arr[p--] = 0;
+                arr[p--] = 0;
+            }else{
+                arr[p--] = arr[i];
+            }
+        }
+        arr.resize(arr.size()-cnt);
+    }
+};
