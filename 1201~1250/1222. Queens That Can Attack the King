@@ -1,0 +1,30 @@
+class Solution {
+public:
+    vector<vector<int>> queensAttacktheKing(vector<vector<int>>& queens, vector<int>& king) {
+        vector<pair<int, int>> dir{
+            make_pair(-1, -1), make_pair(-1, 0), make_pair(-1, 1),
+            make_pair(0, -1),                   make_pair(0, 1),
+            make_pair(1, -1), make_pair(1, 0), make_pair(1, 1)
+        };
+        vector<vector<bool>> v(8, vector<bool>(8, false));
+        for(vector<int>& p : queens)
+            v[p[0]][p[1]] = true;
+        
+        vector<vector<int>> result;
+        for(pair<int, int>& d : dir){
+            int h = king[0];
+            int w = king[1];
+            while(true){
+                h += d.first;
+                w += d.second;
+                if(h<0 || w<0 || h>7 || w>7) break;
+                if(v[h][w]){
+                    result.push_back(vector<int>{h, w});
+                    break;
+                }
+            }
+        }
+        
+        return result;
+    }
+};

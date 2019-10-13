@@ -1,0 +1,30 @@
+class Solution {
+    const int M=1e9 + 7;
+    vector<vector<vector<int>>> v;
+    int getCount(int dice, int cnt, int len, vector<int>& roll){
+        if(roll[dice]+1 == cnt) return 0;
+        if(len == 0) return 1;
+        if(v[dice][cnt][len] != -1) return v[dice][cnt][len];
+        
+        v[dice][cnt][len] = 0;
+        
+        for(int i=0;i<6;i++){
+            v[dice][cnt][len] += getCount(i, (i==dice?cnt+1:1), len-1, roll);
+            v[dice][cnt][len] %= M;
+        }
+        
+        return v[dice][cnt][len];
+    }
+public:
+    int dieSimulator(int n, vector<int>& rollMax) {
+        int result = 0;
+        
+        v.resize(6, vector<vector<int>>(16, vector<int>(n, -1)));
+        
+        for(int i=0;i<6;i++){
+            result += getCount(i, 1, n-1, rollMax);
+            result %= M;
+        }
+        return result;
+    }
+};
