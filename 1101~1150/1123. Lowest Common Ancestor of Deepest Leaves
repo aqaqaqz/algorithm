@@ -1,0 +1,50 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+    unordered_map<int, pair<TreeNode*, TreeNode*>> path;
+    int depth;
+    vector<int> leaf;
+    void search(TreeNode* n, int d, TreeNode* upper){
+        if(n==nullptr) return;
+        path[n->val] = make_pair(n, upper);
+        
+        if(d > depth){
+            leaf.clear();
+            leaf.push_back(n->val);
+            depth = d;
+        }else if(d == depth)
+            leaf.push_back(n->val);
+        
+        search(n->left, d+1, n);
+        search(n->right, d+1, n);
+    }
+public:
+    TreeNode* lcaDeepestLeaves(TreeNode* root) {
+        depth = -1;
+        search(root, 0, nullptr);
+        if(leaf.size() == 1) return path[leaf[0]].first;
+        
+        while(true){
+            unordered_set<int> m;
+            for(int n : leaf)
+                m.insert(path[n].second->val);
+            
+            if(m.size()<=1)
+                return path[leaf[0]].second;
+            else{
+                leaf.clear();
+                for(auto iter=m.begin();iter!=m.end();iter++)
+                    leaf.push_back(*iter);
+            }
+        }
+        
+        return nullptr;
+    }
+};
