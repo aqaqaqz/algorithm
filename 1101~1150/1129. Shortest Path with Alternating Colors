@@ -1,0 +1,45 @@
+class Solution {
+public:
+    vector<int> shortestAlternatingPaths(int n, vector<vector<int>>& red_edges, vector<vector<int>>& blue_edges) {
+        unordered_map<int, unordered_set<int>> rm;
+        unordered_map<int, unordered_set<int>> bm;
+        for(vector<int>& v : red_edges)
+            rm[v[0]].insert(v[1]);
+        for(vector<int>& v : blue_edges)
+            bm[v[0]].insert(v[1]);
+        
+        vector<vector<int>> len(n, vector<int>(2, -1));
+        len[0][0] = 0; len[0][1] = 0;
+        vector<vector<int>> path;
+        //0->red, 1->blue
+        for(auto iter=rm[0].begin();iter!=rm[0].end();iter++)
+            path.push_back(vector<int>{*iter, 0});
+        for(auto iter=bm[0].begin();iter!=bm[0].end();iter++)
+            path.push_back(vector<int>{*iter, 1});
+        
+        int dis = 1;
+        while(!path.empty()){
+            vector<vector<int>> temp;
+            for(vector<int>& v : path){
+                if(len[v[0]][v[1]]!=-1) continue;
+                len[v[0]][v[1]] = dis;
+                if(v[1] == 0){
+                    for(auto iter=bm[v[0]].begin();iter!=bm[v[0]].end();iter++)
+                        temp.push_back(vector<int>{*iter, 1});
+                }else{
+                    for(auto iter=rm[v[0]].begin();iter!=rm[v[0]].end();iter++)
+                        temp.push_back(vector<int>{*iter, 0});
+                }
+            }
+            path = temp;
+            dis++;
+        }
+        
+        vector<int> result;
+        for(vector<int>& v : len){
+            if(v[0]==-1 || v[1]==-1) result.push_back(max(v[0], v[1]));
+            else result.push_back(min(v[0], v[1]));
+        }
+        return result;
+    }
+};
