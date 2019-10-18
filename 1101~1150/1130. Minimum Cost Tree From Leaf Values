@@ -1,0 +1,25 @@
+class Solution {
+    int getVal(vector<int>& arr, int s, int e){
+        int val = INT_MIN;
+        for(int i=s;i<=e;i++)
+            val = max(val, arr[i]);
+        return val;
+    }
+    int getMinSum(vector<vector<int>>& v, vector<int>& arr, int s, int e){
+        if(v[s][e] != -1) return v[s][e];
+        v[s][e] = INT_MAX;
+        for(int i=s;i<e;i++){
+            v[s][e] = min(v[s][e], getMinSum(v, arr, s, i)+getMinSum(v, arr, i+1, e)+getVal(arr, s, i)*getVal(arr, i+1, e));
+        }
+        return v[s][e];
+    }
+public:
+    int mctFromLeafValues(vector<int>& arr) {
+        vector<vector<int>> v(arr.size(), vector<int>(arr.size(), -1));
+        int sum = 0;
+        for(int i=0;i<arr.size();i++)
+            sum += arr[i], v[i][i] = arr[i];
+        
+        return getMinSum(v, arr, 0, arr.size()-1)-sum;
+    }
+};
