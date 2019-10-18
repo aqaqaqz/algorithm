@@ -1,0 +1,16 @@
+class Solution {
+public:
+    int tribonacci(int n) {
+        if(n==0) return 0;
+        if(n==1) return 1;
+        if(n==2) return 1;
+        deque<int> d{0,1,1};
+        for(int i=0;i<n-2;i++){
+            int next = 0;
+            for(int n : d) next+=n;
+            d.push_back(next);
+            d.pop_front();
+        }
+        return d.back();
+    }
+};
