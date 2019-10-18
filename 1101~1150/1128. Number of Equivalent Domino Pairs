@@ -1,0 +1,14 @@
+class Solution {
+public:
+    int numEquivDominoPairs(vector<vector<int>>& dominoes) {
+        unordered_map<int, int> m;
+        for(vector<int>& v : dominoes)
+            m[max(v[0], v[1])*10+min(v[0], v[1])]++;
+        
+        int result = 0;
+        for(auto iter=m.begin();iter!=m.end();iter++)
+            result += (iter->second*(iter->second-1))/2;
+        
+        return result;
+    }
+};
