@@ -1,0 +1,31 @@
+class Solution {
+public:
+    string alphabetBoardPath(string target) {
+        int h = 0;
+        int w = 0;
+        string result = "";
+        
+        for(char c : target){
+            int nh = (c-'a')/5;
+            int nw = (c-'a')%5;
+            while(h!=nh){
+                int t = (h>nh?-1:1);
+                if(h+t==5 && w!=0) break;
+                h += t;
+                result += (t==-1?"U":"D");
+            }
+            while(w!=nw){
+                int t = (w>nw?-1:1);
+                w += t;
+                result += (t==-1?"L":"R");
+            }
+            if(h!=nh){
+                h++;
+                result += "D";
+            }
+            result += "!";
+        }
+        
+        return result;
+    }
+};
