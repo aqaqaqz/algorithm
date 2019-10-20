@@ -1,0 +1,28 @@
+class Solution {
+public:
+    vector<int> rearrangeBarcodes(vector<int>& barcodes) {
+        multimap<int, int> m;
+        unordered_map<int, int> cnt;
+        for(int n : barcodes) cnt[n]++;
+        
+        for(auto iter=cnt.begin();iter!=cnt.end();iter++)
+            m.insert(make_pair(iter->second, iter->first));
+        
+        vector<int> result;
+        while(!m.empty()){
+            auto iter = m.end();
+            iter--;
+            
+            while(!result.empty() && result.back() == iter->second) iter--;
+            
+            result.push_back(iter->second);
+            
+            int c = iter->first-1;
+            int v = iter->second;
+            m.erase(iter);
+            if(c>0)
+                m.insert(make_pair(c, v));
+        }
+        return result;
+    }
+};
