@@ -1,0 +1,21 @@
+class Solution {
+public:
+    bool carPooling(vector<vector<int>>& trips, int capacity) {
+        unordered_map<int, int> m;
+        int s = INT_MAX;
+        int e = INT_MIN;
+        for(vector<int>& v : trips){
+            s = min(s, v[1]);
+            e = max(e, v[2]);
+            m[v[1]] += v[0];
+            m[v[2]] -= v[0];
+        }
+        
+        int cnt = 0;
+        for(int i=s;i<=e;i++){
+            cnt += m[i];
+            if(cnt > capacity) return false;
+        }
+        return true;
+    }
+};
