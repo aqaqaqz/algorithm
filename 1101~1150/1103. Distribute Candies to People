@@ -1,0 +1,20 @@
+class Solution {
+public:
+    vector<int> distributeCandies(int candies, int num_people) {
+        vector<int> result(num_people, 0);
+        int p = 0;
+        int cnt = 1;
+        while(candies>0){
+            result[p] += cnt;
+            candies -= cnt;
+            if(candies < 0){
+                result[p] += candies;
+                break;
+            }
+            cnt++;
+            p++;
+            if(p==num_people) p = 0;
+        }
+        return result;
+    }
+};
