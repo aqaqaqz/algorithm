@@ -1,0 +1,21 @@
+class Solution {
+    void makeResult(int l, bool r, vector<int>& result, int s, int e){
+        if(l == 0) return;
+        if(l>e) {
+            makeResult(l, !r, result, s*2, (e+1)*2-1);
+            return;
+        }
+        
+        result.push_back(l);
+        l = (s+e-l)/2;
+        
+        makeResult(l, !r, result, s/2, e/2);
+    }
+public:
+    vector<int> pathInZigZagTree(int label) {
+        vector<int> result;
+        makeResult(label, false, result, 1, 1);
+        reverse(result.begin(), result.end());
+        return result;
+    }
+};
