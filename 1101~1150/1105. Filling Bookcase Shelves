@@ -1,0 +1,25 @@
+class Solution {
+    vector<int> cache;
+    int getH(vector<vector<int>>& b, int w, int p){
+        if(p>=b.size()) return 0;
+        if(cache[p] != -1) return cache[p];
+        
+        int use = b[p][0];
+        int h = b[p][1];
+        cache[p] = h+getH(b, w, p+1);
+        
+        int np = p+1;
+        while(np<b.size() && use+b[np][0]<=w){
+            use += b[np][0];
+            h = max(h, b[np][1]);
+            cache[p] = min(cache[p], h+getH(b, w, np+1));
+            np++;
+        }
+        return cache[p];
+    }
+public:
+    int minHeightShelves(vector<vector<int>>& books, int shelf_width) {
+        cache.resize(books.size(), -1);
+        return getH(books, shelf_width, 0);
+    }
+};
