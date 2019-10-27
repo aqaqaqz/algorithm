@@ -1,0 +1,32 @@
+class Solution {
+    int result;
+    unordered_map<int, vector<int>> m;
+    void makeResult(vector<string>& arr, vector<int> sum, int p){
+        if(p>=arr.size()) return;
+        int cnt = 0;
+        
+        makeResult(arr, sum, p+1);
+        
+        for(char c : arr[p])
+            sum[c-'a']++;
+        for(int n : sum){
+            if(n > 1) return;
+            if(n==1) cnt++;
+        }
+        result = max(result, cnt);
+        makeResult(arr, sum, p+1);
+    }
+public:
+    int maxLength(vector<string>& arr) {
+        result = 0;
+        for(int i=0;i<arr.size();i++){
+            m[i] = vector<int>(26, 0);
+            for(char c : arr[i]){
+                m[i][c-'a']++;
+            }
+        }
+        
+        makeResult(arr, vector<int>(26, 0), 0);
+        return result;
+    }
+};

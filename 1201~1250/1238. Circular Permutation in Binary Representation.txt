@@ -1,0 +1,38 @@
+class Solution {
+    vector<int> result;
+    vector<int> use;
+    int n;
+    bool makeResult(int val){
+        if(use.size() == result.size()){
+            int cnt = 0;
+            int a = result.front();
+            int b = result.back();
+            
+            for(int i=0;i<n;i++){
+                if(a%2 != b%2) cnt++;
+                a/=2;
+                b/=2;
+            }
+            if(cnt == 1) return true;
+            return false;
+        }
+        if(use[val]) return false;
+        use[val] = true;
+        result.push_back(val);
+        
+        for(int i=0;i<n;i++)
+            if(makeResult(val^(1<<i))) return true;
+        
+        use[val] = false;
+        result.pop_back();
+        return false;
+    }
+public:
+    vector<int> circularPermutation(int _n, int start) {
+        n = _n;
+        use.resize(pow(2, n), false);
+        makeResult(start);
+        
+        return result;
+    }
+};
