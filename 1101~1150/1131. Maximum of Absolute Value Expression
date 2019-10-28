@@ -1,0 +1,24 @@
+class Solution {
+    int getResult(vector<int>& v1, vector<int>& v2, int s1, int s2){
+        vector<int> v3;
+        for(int i=0;i<v1.size();i++)
+            v3.push_back(s1*v1[i] + s2*v2[i] + i);
+        
+        int rst = 0;
+        int minVal = v3.front();
+        for(int i=1;i<v3.size();i++){
+            rst = max(rst, v3[i]-minVal);
+            minVal = min(minVal, v3[i]);
+        }
+        return rst;
+    }
+public:
+    int maxAbsValExpr(vector<int>& arr1, vector<int>& arr2) {
+        int result = 0;
+        result = max(result, getResult(arr1, arr2, 1, 1));
+        result = max(result, getResult(arr1, arr2, -1, -1));
+        result = max(result, getResult(arr1, arr2, -1, 1));
+        result = max(result, getResult(arr1, arr2, 1, -1));
+        return result;
+    }
+};
