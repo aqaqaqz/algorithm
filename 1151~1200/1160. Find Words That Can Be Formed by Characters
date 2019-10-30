@@ -1,0 +1,20 @@
+class Solution {
+public:
+    int countCharacters(vector<string>& words, string chars) {
+        vector<int> v(26, 0);
+        for(char c : chars) v[c-'a']++;
+
+        int result = 0;
+        for(string&s : words){
+            vector<int> w(26, 0);
+            for(char c : s) w[c-'a']++;
+            
+            int temp = 0;
+            for(int i=0;i<26;i++)
+                temp += min(v[i], w[i]);
+            
+            if(temp==s.size()) result += temp;
+        }
+        return result;
+    }
+};
