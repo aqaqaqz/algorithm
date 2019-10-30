@@ -1,0 +1,43 @@
+class Solution {
+public:
+    int maxDistance(vector<vector<int>>& grid) {
+        const int n = grid.size();
+        vector<vector<int>> list;
+        for(int h=0;h<n;h++)
+            for(int w=0;w<n;w++)
+                if(grid[h][w]==1) list.push_back(vector<int>{h, w});
+        
+        if(list.empty() || list.size()==n*n) return -1;
+        
+        int result = -1;
+        while(!list.empty()){
+            vector<vector<int>> next;
+            
+            for(vector<int>& l : list){
+                int h = l[0];
+                int w = l[1];
+                result = max(result, grid[h][w]-1);
+                if(h-1>=0 && grid[h-1][w]==0){
+                    grid[h-1][w] = grid[h][w]+1;
+                    next.push_back(vector<int>{h-1, w});
+                }
+                if(w-1>=0 && grid[h][w-1]==0){
+                    grid[h][w-1] = grid[h][w]+1;
+                    next.push_back(vector<int>{h, w-1});
+                }
+                if(h+1<n && grid[h+1][w]==0){
+                    grid[h+1][w] = grid[h][w]+1;
+                    next.push_back(vector<int>{h+1, w});
+                }
+                if(w+1<n && grid[h][w+1]==0){
+                    grid[h][w+1] = grid[h][w]+1;
+                    next.push_back(vector<int>{h, w+1});
+                }
+            }
+            
+            list = next;
+        }
+        
+        return result;
+    }
+};
