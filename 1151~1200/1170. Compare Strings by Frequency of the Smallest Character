@@ -1,0 +1,21 @@
+class Solution {
+    int getCnt(string& str){
+        map<char, int> m;
+        int cnt = 0;
+        for(char c : str)
+            m[c]++;
+        return m.begin()->second;   
+    }
+public:
+    vector<int> numSmallerByFrequency(vector<string>& queries, vector<string>& words) {
+        vector<int> cnt(11, 0);
+        for(string& s : words) cnt[getCnt(s)]++;
+        for(int i=1;i<11;i++) cnt[i] += cnt[i-1];
+        
+        vector<int> result;
+        for(string& s : queries)
+            result.push_back(cnt.back()-cnt[getCnt(s)]);
+
+        return result;
+    }
+};
