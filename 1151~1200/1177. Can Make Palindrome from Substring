@@ -1,0 +1,31 @@
+class Solution {
+public:
+    vector<bool> canMakePaliQueries(string s, vector<vector<int>>& queries) {
+        vector<vector<int>> v;
+        for(int i=0;i<s.size();i++){
+            vector<int> temp;
+            if(v.empty())
+                temp.resize(26, 0);
+            else
+                temp = v.back();
+            temp[s[i]-'a']++;
+            v.push_back(temp);
+        }
+        
+        vector<bool> result;
+        for(vector<int>& q : queries){
+            vector<int> sum = v[q[1]];
+            int cnt = 0;
+            
+            for(int i=0;i<26;i++) {
+                if(q[0]!=0)
+                    sum[i] -= v[q[0]-1][i];
+                cnt += (sum[i]%2);
+            }
+                    
+            if(cnt%2 == 1) cnt--;
+            result.push_back(q[2]>=cnt/2);
+        }
+        return result;
+    }
+};
