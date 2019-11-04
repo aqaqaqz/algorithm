@@ -1,0 +1,8 @@
+class Solution {
+public:
+    int minCostToMoveChips(vector<int>& chips) {
+        vector<int> v(2, 0);
+        for(int n : chips) v[n%2]++;
+        return min(v[0], v[1]);
+    }
+};
