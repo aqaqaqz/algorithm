@@ -1,0 +1,26 @@
+class Solution {
+    int getGold(int h, int w, vector<vector<int>>& g){
+        if(h<0 || w<0 || h==g.size() || w==g[0].size()) return 0;
+        if(g[h][w] == 0) return 0;
+        
+        int gold = g[h][w];
+        g[h][w] = 0;
+        
+        int temp = max(getGold(h+1, w, g), getGold(h-1, w, g));
+        temp = max(temp, getGold(h, w+1, g));
+        temp = max(temp, getGold(h, w-1, g));
+        
+        g[h][w] = gold;
+        return temp+gold;
+    }
+public:
+    int getMaximumGold(vector<vector<int>>& grid) {
+        int result = 0;
+        for(int h=0;h<grid.size();h++){
+            for(int w=0;w<grid[0].size();w++){
+                result = max(result, getGold(h, w, grid));
+            }
+        }
+        return result;
+    }
+};
