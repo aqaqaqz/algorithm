@@ -1,0 +1,22 @@
+class Solution {
+public:
+    bool checkStraightLine(vector<vector<int>>& c) {
+        sort(c.begin(), c.end(), [](vector<int>& v1, vector<int>& v2){
+            if(v1[0]==v2[0]) return v1[1]<v2[1];
+            return v1[0]<v2[0];
+        });
+        
+        double dx = c[1][0]-c[0][0];
+        double dy = c[1][1]-c[0][1];
+        
+        double inc = (dy==0?INT_MAX:dx/dy);
+        
+        for(int i=1;i<c.size();i++){
+            double tx = c[i][0]-c[i-1][0];
+            double ty = c[i][1]-c[i-1][1];
+            double ti = (ty==0?INT_MAX:tx/ty);
+            if(inc != ti) return false;
+        }
+        return true;
+    }
+};
