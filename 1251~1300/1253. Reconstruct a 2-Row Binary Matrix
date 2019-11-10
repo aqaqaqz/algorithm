@@ -1,0 +1,27 @@
+class Solution {
+public:
+    vector<vector<int>> reconstructMatrix(int upper, int lower, vector<int>& colsum) {
+        vector<vector<int>> result(2, vector<int>(colsum.size(), 0));
+        for(int i=0;i<colsum.size();i++){
+            if(colsum[i] == 1) continue;
+            result[0][i] = colsum[i]/2;
+            upper -= result[0][i];
+            result[1][i] = colsum[i]/2;
+            lower -= result[1][i];
+        }
+        
+        for(int i=0;i<colsum.size();i++){
+            if(colsum[i] != 1) continue;
+            if(upper>0){
+                result[0][i] = 1;
+                upper--;
+            }else{
+                result[1][i] = 1;
+                lower--;
+            }
+        }
+        
+        if(upper!=0 || lower!=0) result.resize(0);
+        return result;
+    }
+};

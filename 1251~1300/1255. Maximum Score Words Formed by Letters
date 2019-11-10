@@ -1,0 +1,33 @@
+class Solution {
+    vector<vector<int>> w;
+    int getMaxScore(vector<int>& s, int p, vector<int> l){
+        if(p>=w.size()) return 0;
+        
+        int result = getMaxScore(s, p+1, l);
+        
+        bool able = true;
+        int score = 0;
+        for(int i=0;i<26;i++){
+            l[i] -= w[p][i];
+            score += s[i]*w[p][i];
+            if(l[i] < 0){
+                able = false;
+                break;
+            }
+        }
+        if(able) result = max(result, getMaxScore(s, p+1, l) + score);
+        return result;
+    }
+public:
+    int maxScoreWords(vector<string>& words, vector<char>& letters, vector<int>& score) {
+        vector<int> l(26, 0);
+        for(char c : letters) l[c-'a']++;
+        for(string& s : words){
+            vector<int> t(26, 0);
+            for(char& c : s)
+                t[c-'a']++;
+            w.push_back(t);
+        }
+        return getMaxScore(score, 0, l);
+    }
+};

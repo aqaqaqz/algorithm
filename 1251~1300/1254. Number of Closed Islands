@@ -1,0 +1,38 @@
+class Solution {
+    void findGrp(vector<vector<int>>& g, vector<vector<bool>>& v, int h, int w){
+        if(h<0 || w<0 || h>=g.size() || w>=g[0].size()) return;
+        if(g[h][w]==1 || v[h][w]) return;
+        v[h][w] = true;
+        
+        findGrp(g, v, h+1, w);
+        findGrp(g, v, h, w+1);
+        findGrp(g, v, h-1, w);
+        findGrp(g, v, h, w-1);
+    }    
+public:
+    int closedIsland(vector<vector<int>>& grid) {
+        vector<vector<bool>> v(grid.size(), vector<bool>(grid[0].size(), false));
+        int h = grid.size()-1;
+        int w = grid[0].size()-1;
+        for(int i=0;i<=h;i++){
+            findGrp(grid, v, i, 0);
+            findGrp(grid, v, i, w);
+        }
+        for(int i=0;i<=w;i++){
+            findGrp(grid, v, 0, i);
+            findGrp(grid, v, h, i);
+        }
+        
+        int result = 0;
+        for(int i=0;i<=h;i++){
+            for(int j=0;j<=w;j++){
+                if(!v[i][j] && grid[i][j]==0){
+                    findGrp(grid, v, i, j);
+                    result++;
+                }
+            }
+        }
+        
+        return result;
+    }
+};
