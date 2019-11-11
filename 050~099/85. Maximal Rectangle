@@ -1,0 +1,36 @@
+class Solution {
+    int mh, mw;
+    int make(vector<vector<int>>& v, vector<vector<char>>& g, int h, int w){
+        if(h<0 || w<0 || h==mh || w==mw) return 0;
+        if(g[h][w] == '0') return 0;
+        if(v[h][w] != -1) return v[h][w];
+        v[h][w] = make(v, g, h+1, w) + 1;
+        return v[h][w];
+    }
+public:
+    int maximalRectangle(vector<vector<char>>& matrix) {
+        if(matrix.empty()) return 0;
+        mh = matrix.size();
+        mw = matrix[0].size();
+        vector<vector<int>> v(mh, vector<int>(mw, -1));
+        
+        for(int i=0;i<mh;i++)
+            for(int j=0;j<mw;j++)
+                make(v, matrix, i, j);
+        
+        int result = 0;
+        for(int i=0;i<mh;i++){
+            for(int j=0;j<mw;j++){
+                if(matrix[i][j]=='0') continue;
+                
+                int h = v[i][j];
+                for(int w=j;w<mw;w++){
+                    if(matrix[i][w] == '0') break;
+                    h = min(v[i][w], h);
+                    result = max(result, h*(w-j+1));
+                }
+            }
+        }
+        return result;
+    }
+};
