@@ -1,0 +1,31 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+    vector<int> v;
+    void search(TreeNode* n){
+        if(n==nullptr) return;
+        v.push_back(n->val);
+        search(n->left);
+        search(n->right);
+    }
+    void make(TreeNode* n, int& p){
+        if(n==nullptr) return;
+        make(n->left, p);
+        n->val = v[p++];
+        make(n->right, p);
+    }
+public:
+    void recoverTree(TreeNode* root) {
+        search(root);
+        sort(v.begin(), v.end());
+        int p = 0;
+        make(root, p);
+    }
+};
