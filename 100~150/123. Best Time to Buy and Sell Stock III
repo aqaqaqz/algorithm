@@ -1,0 +1,31 @@
+class Solution {
+public:
+    int maxProfit(vector<int>& pro) {
+        vector<int> v1(pro.size());
+        vector<int> v2(pro.size());
+        
+        int temp = INT_MAX;
+        for(int i=0;i<pro.size();i++){
+            temp = min(temp, pro[i]);
+            v1[i] = max(pro[i]-temp, 0);
+            if(i>0)
+                v1[i] = max(v1[i], v1[i-1]);
+        }
+        temp = INT_MIN;
+        for(int i=pro.size()-1;i>=0;i--){
+            temp = max(temp, pro[i]);
+            v2[i] = temp - pro[i];
+            if(i+1<pro.size())
+                v2[i] = max(v2[i], v2[i+1]);
+        }
+        
+        int result = 0;
+        for(int i=0;i<pro.size();i++){
+            int temp = v1[i];
+            if(i+1<pro.size())
+                temp += v2[i+1];
+            result = max(result, temp);
+        }
+        return result;
+    }
+};
