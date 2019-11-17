@@ -1,0 +1,33 @@
+class Solution {
+public:
+    int maxSumDivThree(vector<int>& nums) {
+        int result = 0;
+        unordered_map<int, vector<int>> m;
+        for(int n : nums){
+            m[n%3].push_back(n);
+            result += n;
+        }
+        
+        sort(m[1].begin(), m[1].end());
+        sort(m[2].begin(), m[2].end());
+        
+        if(result%3 == 1){
+            int a = INT_MAX;
+            int b = INT_MAX;
+            if(!m[1].empty())
+                a = m[1][0];
+            if(1 < m[2].size())
+                b = m[2][0] + m[2][1];
+            result -= min(a, b);
+        }else if(result%3 == 2){
+            int a = INT_MAX;
+            int b = INT_MAX;
+            if(!m[2].empty())
+                a = m[2][0];
+            if(1 < m[1].size())
+                b = m[1][0] + m[1][1];
+            result -= min(a, b);
+        }
+        return result;
+    }
+};
