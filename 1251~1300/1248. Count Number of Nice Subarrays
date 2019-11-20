@@ -1,0 +1,17 @@
+class Solution {
+public:
+    int numberOfSubarrays(vector<int>& nums, int k) {
+        int result = 0;
+        vector<int> v;
+        for(int i=0;i<nums.size();i++)
+            if((nums[i]&1)==1) v.push_back(i);
+        
+        for(int i=0;i+k<=v.size();i++){
+            int s = v[i]-(i==0?-1:v[i-1]);
+            int e = (i+k==v.size()?nums.size():v[i+k])-v[i+k-1];
+            result += s*e;
+        }
+        
+        return result;
+    }
+};
