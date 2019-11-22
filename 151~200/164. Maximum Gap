@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int maximumGap(vector<int>& nums) {
+        if(nums.size()<2) return 0;
+        
+        for(int i=0;i<10;i++){
+            vector<vector<int>> t(10);
+            int p = pow(10, i);
+            for(int n : nums)
+                t[(n/p)%10].push_back(n);
+            
+            nums.clear();
+            for(int i=0;i<10;i++){
+                for(int n : t[i])
+                    nums.push_back(n);
+            }
+        }
+        
+        int result = 0;
+        for(int i=1;i<nums.size();i++)
+            result = max(result, nums[i]-nums[i-1]);
+        
+        return result;
+    }
+};
