@@ -1,0 +1,34 @@
+class Solution {
+public:
+    vector<vector<string>> suggestedProducts(vector<string>& p, string str) {
+        unordered_map<int, multiset<string>> m;
+        for(string& s : p){
+            int cnt = 0;
+            for(int i=0;i<min(s.size(), str.size());i++){
+                if(s[i]!=str[i]) break;
+                cnt++;
+            }
+            for(int i=1;i<=cnt;i++){
+                m[i].insert(s);
+                if(m[i].size() == 4){
+                    auto iter=m[i].begin();
+                    iter++; iter++; iter++;
+                    m[i].erase(iter);
+                }
+            }
+        }
+        
+        vector<vector<string>> result;
+        for(int i=1;i<=str.size();i++){
+            vector<string> temp;
+            if(m.find(i) != m.end()){
+                for(auto iter=m[i].begin();iter!=m[i].end();iter++){
+                    temp.push_back(*iter);
+                    if(temp.size()==3) break;
+                }
+            }
+            result.push_back(temp);
+        }
+        return result;
+    }
+};

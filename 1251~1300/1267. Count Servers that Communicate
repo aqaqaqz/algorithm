@@ -1,0 +1,42 @@
+class Solution {
+    unordered_set<int> visit;
+    unordered_map<int, vector<pair<int, int>>> mh;
+    unordered_map<int, vector<pair<int, int>>> mw;
+    int findCnt(vector<vector<int>>& grid, int h, int w){
+        int key = h*251+w;
+        if(visit.find(key) != visit.end()) return 0;
+        visit.insert(key);
+        int cnt = 1;
+        
+        for(pair<int, int>& p : mh[h]){
+            cnt += findCnt(grid, p.first, p.second);
+        }
+        for(pair<int, int>& p : mw[w]){
+            cnt += findCnt(grid, p.first, p.second);
+        }
+        
+        return cnt;
+    }
+public:
+    int countServers(vector<vector<int>>& grid) {
+        for(int h=0;h<grid.size();h++){
+            for(int w=0;w<grid[h].size();w++){
+                if(grid[h][w] == 0) continue;
+                mh[h].push_back(make_pair(h, w));
+                mw[w].push_back(make_pair(h, w));
+            }
+        }
+        
+        int result = 0;
+        for(int h=0;h<grid.size();h++){
+            for(int w=0;w<grid[h].size();w++){
+                if(grid[h][w] == 0) continue;
+                int temp = findCnt(grid, h, w);
+                if(temp != 1)
+                    result += temp;
+            }
+        }
+        
+        return result;
+    }
+};
