@@ -1,0 +1,20 @@
+class Solution {
+    const int m = 1e9+7;
+    int getCnt(vector<vector<int>>& v, int p, int s){
+        if(p<0 || p==v.size() || s<0) return 0;
+        if(p==0 && s==0) return 1;
+        if(v[p][s] != -1) return v[p][s];
+        
+        v[p][s] = getCnt(v, p, s-1);
+        v[p][s] += getCnt(v, p-1, s-1);
+        v[p][s] %= m;
+        v[p][s] += getCnt(v, p+1, s-1);
+        v[p][s] %= m;
+        return v[p][s];
+    }
+public:
+    int numWays(int steps, int arrLen) {
+        vector<vector<int>> v(min(arrLen, steps), vector<int>(steps+1, -1));
+        return getCnt(v, 0, steps);
+    }
+};
