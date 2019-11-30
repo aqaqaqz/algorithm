@@ -1,0 +1,35 @@
+class Solution {
+public:
+    int calculateMinimumHP(vector<vector<int>>& dungeon) {
+        if(dungeon.empty()) return 0;
+        const int H = dungeon.size()-1;
+        const int W = dungeon[0].size()-1;
+        
+        for(int i=0;i<=H+W+1;i++){
+            int h = H-i;
+            int w = W;
+            if(i > H){
+                h = 0;
+                w = W-i+H;
+            }
+            while(h<=H && w>=0){
+                dungeon[h][w] = dungeon[h][w]*-1+1;
+                int temp = 1;
+                if(h+1 <= H && w+1 <= W)
+                    temp = min(dungeon[h+1][w], dungeon[h][w+1]);
+                else{
+                    if(h+1 <= H)
+                        temp = dungeon[h+1][w];
+                    if(w+1 <= W)
+                        temp = dungeon[h][w+1];
+                }
+                dungeon[h][w] = max(dungeon[h][w] + temp - 1, 1);
+                
+                h++;
+                w--;
+            }
+        }
+        
+        return dungeon[0][0];
+    }
+};
