@@ -1,0 +1,23 @@
+class Solution {
+    vector<vector<vector<int>>> v;
+    int getMinPal(string& str, int k, int s, int e){
+        if(v[s][e][k] != -1) return v[s][e][k];
+        if(e-s+1 <= k) return 0;
+        if(k == 1){
+            v[s][e][k] = 0;
+            for(int i=0;i<(e-s-1)/2+1;i++){
+                if(str[s+i] != str[e-i]) v[s][e][k]++;
+            }
+        }else{
+            v[s][e][k] = INT_MAX;
+            for(int i=0;i<(e-s);i++)
+                v[s][e][k] = min(v[s][e][k], getMinPal(str, k-1, s, s+i)+getMinPal(str, 1, s+i+1, e));
+        }
+        return v[s][e][k];
+    }
+public:
+    int palindromePartition(string s, int k) {
+        v.resize(s.size(), vector<vector<int>>(s.size(), vector<int>(k+1, -1)));
+        return getMinPal(s, k, 0, s.size()-1);
+    }
+};
