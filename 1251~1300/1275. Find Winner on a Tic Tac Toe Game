@@ -1,0 +1,26 @@
+class Solution {
+    bool check(vector<vector<int>>& v, int p){
+        for(int i=0;i<3;i++){
+            if(v[i][0]==p && v[i][1]==p && v[i][2]==p) return true;
+            if(v[0][i]==p && v[1][i]==p && v[2][i]==p) return true;
+        }
+        if(v[0][0]==p && v[1][1]==p && v[2][2]==p) return true;
+        if(v[2][0]==p && v[1][1]==p && v[0][2]==p) return true;
+        
+        return false;
+    }
+public:
+    string tictactoe(vector<vector<int>>& moves) {
+        vector<vector<int>> v(3, vector<int>(3));
+        int turn = 1;
+        for(vector<int>& p : moves){
+            v[p[0]][p[1]] = turn;
+            if(check(v, turn))
+                return (turn==1?"A":"B");
+            turn *= -1;
+        }
+        
+        if(moves.size()==9) return "Draw";
+        return "Pending";
+    }
+};

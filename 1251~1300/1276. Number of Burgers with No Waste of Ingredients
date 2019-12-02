@@ -1,0 +1,18 @@
+class Solution {
+public:
+    vector<int> numOfBurgers(int tomatoSlices, int cheeseSlices) {
+        int s = 0;
+        int e = cheeseSlices;
+        while(s<=e){
+            int m = (s+e)/2;
+            int m2 = cheeseSlices - m;
+            int cnt = m*4 + m2*2;
+            if(cnt == tomatoSlices)
+                return vector<int>{m, m2};
+            
+            if(cnt>tomatoSlices) e = m-1;
+            else s = m+1;
+        }
+        return vector<int>();
+    }
+};

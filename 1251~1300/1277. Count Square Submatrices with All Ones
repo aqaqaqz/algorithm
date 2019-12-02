@@ -1,0 +1,42 @@
+class Solution {
+    vector<vector<int>> v;
+    int makeLen(int h, int w, vector<vector<int>>& m){
+        if(w<0 || w==m[0].size()) return 0;
+        if(m[h][w] == 0){
+            v[h][w] = 0;
+            return 0;
+        }
+        if(v[h][w] != -1) return v[h][w];
+        
+        v[h][w] = 1 + makeLen(h, w+1, m);
+        return v[h][w];
+    }
+    int getMaxCnt(vector<vector<int>>& m, int h, int w){
+        int cnt = v[h][w];
+        for(int i=1;i<cnt;i++){
+            if(h+i == m.size() || v[h+i][w] < i){
+                cnt = i;
+                break;   
+            }
+            cnt = min(cnt, v[h+i][w]);
+        }
+        return cnt;
+        
+    }
+public:
+    int countSquares(vector<vector<int>>& matrix) {
+        v.resize(matrix.size(), vector<int>(matrix[0].size(), -1));
+        for(int h=0;h<matrix.size();h++)
+            for(int w=0;w<matrix[0].size();w++)
+                makeLen(h, w, matrix);
+        
+        int result = 0;
+        for(int h=0;h<matrix.size();h++){
+            for(int w=0;w<matrix[0].size();w++){
+                if(matrix[h][w] == 1)
+                    result += getMaxCnt(matrix, h, w);
+            }
+        }
+        return result;
+    }
+};
