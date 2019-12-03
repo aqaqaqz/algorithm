@@ -1,0 +1,24 @@
+class Solution {
+public:
+    string minRemoveToMakeValid(string s) {
+        string result = "";
+        int p = 0;
+        for(int i=0;i<s.size();i++){
+            if(s[i] == '('){
+                p = max(i+1, p);
+                while(p<s.size()){
+                    if(s[p] == ')'){
+                        result += s[i];
+                        s[p++] = '@';
+                        break;
+                    }
+                    p++;
+                }
+            }else if(s[i] == '@')
+                result += ')';
+            else if(isalpha(s[i])) 
+                result += s[i];
+        }
+        return result;
+    }
+};
