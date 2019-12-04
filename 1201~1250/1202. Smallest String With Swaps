@@ -1,0 +1,37 @@
+class Solution {
+    unordered_map<int, vector<int>> m;
+public:
+    string smallestStringWithSwaps(string str, vector<vector<int>>& pairs) {
+        for(vector<int>& v : pairs){
+            m[v[0]].push_back(v[1]);
+            m[v[1]].push_back(v[0]);
+        }
+        
+        vector<set<int>> v;
+        unordered_set<int> visit;
+        for(int i=0;i<str.size();i++){
+            if(m.find(i)==m.end() || visit.find(i)!=visit.end()) continue;
+            set<int> s;
+            vector<int> list{i};
+            for(int j=0;j<list.size();j++){
+                if(s.find(list[j]) != s.end()) continue;
+                s.insert(list[j]);
+                visit.insert(list[j]);
+                for(int t : m[list[j]]) list.push_back(t);
+            }
+            v.push_back(s);
+        }
+        
+        for(set<int>& s : v){
+            string temp = "";
+            for(auto iter=s.begin();iter!=s.end();iter++)
+                temp += str[*iter];
+            sort(temp.begin(), temp.end());
+            int p = 0;
+            for(auto iter=s.begin();iter!=s.end();iter++)
+                str[*iter] = temp[p++];
+        }
+        
+        return str;
+    }
+};
