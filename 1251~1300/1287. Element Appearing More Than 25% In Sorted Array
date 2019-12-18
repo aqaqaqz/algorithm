@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int findSpecialInteger(vector<int>& arr) {
+        int pc = 1;
+        int pv = arr[0];
+        
+        int cnt = 1;
+        int result = arr[0];
+        for(int i=1;i<arr.size();i++){
+            if(arr[i] != pv){
+                if(cnt > pc){
+                    pc = cnt;
+                    result = pv;
+                }
+                
+                pv = arr[i];
+                cnt = 1;
+            }else cnt++;
+        }
+        if(cnt > pc)
+            result = pv;
+        
+        return result;
+    }
+};
