@@ -1,0 +1,17 @@
+class Solution {
+    int checkNum(int n){
+        int cnt = 0;
+        while(n!=0){
+            cnt++;
+            n/=10;
+        }
+        return ((cnt&1)==0?1:0);
+    }
+public:
+    int findNumbers(vector<int>& nums) {
+        int result = 0;
+        for(int n : nums)
+            result += checkNum(n);
+        return result;
+    }
+};
