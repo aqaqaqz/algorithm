@@ -1,0 +1,45 @@
+class Solution {
+    int makeNum(vector<int>& v){
+        int num = 0;
+        for(int i=0;i<v.size();i++){
+            num *= 10;
+            num += v[i];
+        }
+        return num;
+    }
+    
+    void initList(vector<int>& v, int l){
+        v.resize(l);
+        for(int i=0;i<l;i++)
+            v[i] = i+1;
+    }
+public:
+    vector<int> sequentialDigits(int low, int high) {
+        int l = 0;
+        int t = low;
+        while(t!=0){
+            l++;
+            t /= 10;
+        }
+        vector<int> v;
+        vector<int> result;
+        initList(v, l++);
+        
+        while(true){
+            result.push_back(makeNum(v));
+            if(result.back() > high){
+                result.pop_back();
+                break;
+            }
+            if(result.back() < low) result.pop_back();
+            for(int i=0;i<v.size();i++){
+                v[i]++;
+                if(v[i] == 10){
+                    initList(v, l++);
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+};
