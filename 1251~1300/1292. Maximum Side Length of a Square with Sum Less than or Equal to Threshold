@@ -1,0 +1,30 @@
+class Solution {
+    int getSum(vector<vector<int>>& m, int h, int w, int l){
+        int s = m[h+l][w+l];
+        if(h > 0) s -= m[h-1][w+l];
+        if(w > 0) s -= m[h+l][w-1];
+        if(h > 0 && w > 0) s += m[h-1][w-1];
+        return s;
+    }
+public:
+    int maxSideLength(vector<vector<int>>& mat, int threshold) {
+        for(int h=1;h<mat.size();h++) mat[h][0] += mat[h-1][0];
+        for(int w=1;w<mat[0].size();w++) mat[0][w] += mat[0][w-1];
+        for(int h=1;h<mat.size();h++)
+            for(int w=1;w<mat[0].size();w++)
+                mat[h][w] += (mat[h-1][w] + mat[h][w-1] - mat[h-1][w-1]);          
+        
+        int result = 0;
+        for(int h=0;h<mat.size();h++){
+            for(int w=0;w<mat[0].size();w++){
+                while(true){
+                    if(h+result >= mat.size() || w+result >= mat[0].size()) break;
+                    int s = getSum(mat, h, w, result);
+                    if(s <= threshold) result++;
+                    else break;
+                }
+            }
+        }
+        return result;
+    }
+};
