@@ -1,0 +1,30 @@
+class Solution {
+    int getCnt(const vector<int>& v){
+        int cnt = 0;
+        for(int n : v) cnt += min(n, 1);
+        return cnt;
+    }
+public:
+    int maxFreq(string s, int maxLetters, int minSize, int maxSize) {
+        unordered_map<string, int> m;
+        for(int i=0;i<s.size();i++){
+            if(i+minSize-1 >= s.size()) break;
+            
+            vector<int> v(26);
+            
+            for(int j=0;j<minSize-1;j++) v[s[i+j]-'a']++;
+            for(int j=0;j<maxSize-minSize+1;j++){
+                if(i+minSize+j-1 >= s.size()) break;
+                
+                v[s[i+minSize+j-1]-'a']++;
+                if(getCnt(v) <= maxLetters) m[s.substr(i, minSize+j)]++;
+                else break;
+            }
+        }
+        
+        int result = 0;
+        for(auto iter=m.begin();iter!=m.end();iter++)
+            result = max(result, iter->second);
+        return result;
+    }
+};
