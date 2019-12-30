@@ -1,0 +1,14 @@
+class Solution {
+public:
+    vector<int> replaceElements(vector<int>& arr) {
+        int p = arr.size()-1;
+        int val = arr[p];
+        arr[p--] = -1;
+        while(p>=0){
+            int t = arr[p];
+            arr[p--] = val;
+            val = max(val, t);
+        }
+        return arr;
+    }
+};
