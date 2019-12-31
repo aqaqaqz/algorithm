@@ -1,0 +1,45 @@
+class Solution {
+    int getSum(vector<int>& arr, vector<int>& arrSum, int val){
+        int p;
+        int s = 0;
+        int e = arr.size()-1;
+        while(s<=e){
+            p = (s+e)/2;
+            if(arr[p]>=val) e = p-1;
+            else s = p+1;
+        }
+        if(arr[p]<val) p++;
+        
+        int sum = (p>0?arrSum[p-1]:0);
+        sum += (arr.size()-p)*val;
+        return sum;
+    }
+public:
+    int findBestValue(vector<int>& arr, int target) {
+        int s = 0;
+        int e = target;
+        sort(arr.begin(), arr.end());
+        int result;
+        int dif = INT_MAX;
+        vector<int> arrSum(1, arr[0]);
+        for(int i=1;i<arr.size();i++)
+            arrSum.push_back(arrSum.back()+arr[i]);
+        
+        while(s<=e){
+            int m = (s+e)/2;
+            int sum = getSum(arr, arrSum, m);
+            int d = abs(target-sum);
+            if(dif>d){
+                result = m;
+                dif = d;
+            }else if(dif==d && result>m){
+                result = m;
+            }
+            
+            if(sum>target) e = m-1;
+            else s = m+1;
+        }
+        
+        return result;
+    }
+};
