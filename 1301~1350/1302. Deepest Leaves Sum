@@ -1,0 +1,32 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+    int depth;
+    int sum;
+    void search(TreeNode* n, int d){
+        if(n==nullptr) return;
+        
+        if(d > depth){
+            depth = d;
+            sum = n->val;
+        }else if(d == depth)
+            sum += n->val;
+        
+        search(n->left, d+1);
+        search(n->right, d+1);
+    }
+public:
+    int deepestLeavesSum(TreeNode* root) {
+        depth = 0;
+        sum = 0;
+        search(root, 1);
+        return sum;
+    }
+};
