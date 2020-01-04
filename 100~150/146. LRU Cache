@@ -1,0 +1,44 @@
+class LRUCache {
+    int c;
+    unordered_map<int, int> m;
+    unordered_map<int, int> cm;
+    map<int, int> use;
+    int cnt;
+public:
+    LRUCache(int capacity) {
+        c = capacity;
+        cnt = 0;
+    }
+    
+    int get(int key) {
+        if(m.find(key)==m.end()) return -1;
+        int t = cm[key];
+        cm[key] = cnt;
+        use.erase(t);
+        use[cnt] = key;
+        cnt++;
+        return m[key];
+    }
+    
+    void put(int key, int value) {
+        if(m.find(key) != m.end())
+            use.erase(cm[key]);
+        m[key] = value;
+        cm[key] = cnt;
+        use[cnt] = key;
+        cnt++;
+        
+        if(m.size() > c){
+            m.erase(use.begin()->second);
+            cm.erase(use.begin()->second);
+            use.erase(use.begin());
+        }
+    }
+};
+
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * LRUCache* obj = new LRUCache(capacity);
+ * int param_1 = obj->get(key);
+ * obj->put(key,value);
+ */
