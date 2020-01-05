@@ -1,0 +1,36 @@
+class Solution {
+public:
+    vector<string> watchedVideosByFriends(vector<vector<string>>& watchedVideos, vector<vector<int>>& friends, int id, int level) {
+        vector<int> list{id};
+        vector<bool> visit(friends.size(), false);
+        visit[id] = true;
+        for(int i=0;i<level;i++){
+            vector<int> t;
+            for(int f : list){
+                for(int n : friends[f]){
+                    if(visit[n]) continue;
+                    t.push_back(n);
+                    visit[n] = true;
+                }
+            }
+            list = t;
+        }
+        
+        vector<string> result;
+        unordered_map<string, int> m;
+        for(int f : list){
+            for(string str : watchedVideos[f]) m[str]++;
+        }
+        vector<pair<string, int>> v;
+        for(auto iter=m.begin();iter!=m.end();iter++)
+            v.push_back(make_pair(iter->first, iter->second));
+        sort(v.begin(), v.end(), [](pair<string, int>& p1, pair<string, int>& p2){
+            if(p1.second == p2.second){
+                return p1.first < p2.first;
+            }
+            return p1.second < p2.second;
+        });
+        for(pair<string, int>& p : v) result.push_back(p.first);
+        return result;
+    }
+};

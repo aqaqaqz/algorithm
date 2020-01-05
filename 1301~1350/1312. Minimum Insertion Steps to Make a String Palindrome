@@ -1,0 +1,17 @@
+class Solution {
+    unordered_map<int, int> m;
+    int getRst(string& str, int s, int e){
+        if(s>=e) return 0;
+        if(str[s]==str[e]) return getRst(str, s+1, e-1);
+        
+        int key = s*501+e;
+        if(m.find(key) != m.end()) return m[key];
+        
+        m[key] = 1 + min(getRst(str, s+1, e), getRst(str, s, e-1));
+        return m[key];
+    }
+public:
+    int minInsertions(string s) {
+        return getRst(s, 0, s.size()-1);
+    }
+};
