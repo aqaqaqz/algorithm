@@ -1,0 +1,35 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+    void search(vector<int>& v, TreeNode* n){
+        if(n==nullptr) return;
+        search(v, n->left);
+        v.push_back(n->val);
+        search(v, n->right);
+    }
+public:
+    vector<int> getAllElements(TreeNode* root1, TreeNode* root2) {
+        vector<int> v1;
+        search(v1, root1);
+        vector<int> v2;
+        search(v2, root2);
+        
+        vector<int> result;
+        int p1=0;
+        int p2=0;
+        while(p1<v1.size() && p2<v2.size()){
+            if(v1[p1] > v2[p2]) result.push_back(v2[p2++]);
+            else result.push_back(v1[p1++]);
+        }
+        while(p1<v1.size()) result.push_back(v1[p1++]);
+        while(p2<v2.size()) result.push_back(v2[p2++]);
+        return result;
+    }
+};
