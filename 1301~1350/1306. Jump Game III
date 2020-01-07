@@ -1,0 +1,15 @@
+class Solution {
+    unordered_map<int, bool> m;
+    bool check(vector<int>& arr, int p){
+        if(p<0 || p>=arr.size()) return false;
+        if(arr[p]==0) return true;
+        if(m.find(p) != m.end()) return m[p];
+        m[p] = false;
+        m[p] = (check(arr, p-arr[p]) || check(arr, p+arr[p]));
+        return m[p];
+    }
+public:
+    bool canReach(vector<int>& arr, int start) {
+        return check(arr, start);
+    }
+};
