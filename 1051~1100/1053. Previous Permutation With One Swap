@@ -1,0 +1,18 @@
+class Solution {
+public:
+    vector<int> prevPermOpt1(vector<int>& A) {
+        map<int, int> m;
+        for(int i=A.size()-1;i>=0;i--){
+            m[A[i]] = i;
+            if(m.begin()->first != A[i]){
+                auto iter = m.find(A[i]);
+                iter--;
+                int t = A[i];
+                A[i] = iter->first;
+                A[iter->second] = t;
+                break;
+            }
+        }
+        return A;
+    }
+};
