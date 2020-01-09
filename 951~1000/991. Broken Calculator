@@ -1,0 +1,15 @@
+class Solution {
+public:
+    int brokenCalc(int X, int Y) {
+        int result = 0;
+        while(X<Y){
+            if(Y%2 == 0)
+                Y /= 2;
+            else
+                Y++;
+            result++;
+        }
+        result += (X-Y);
+        return result;
+    }
+};
