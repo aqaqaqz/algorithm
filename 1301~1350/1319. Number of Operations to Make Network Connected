@@ -1,0 +1,37 @@
+class Solution {
+    int cable;
+    int makeGrp(unordered_map<int, vector<int>>& m, int p, vector<bool>& visit){
+        if(visit[p]){
+            cable++;
+            return 0;
+        }
+        int cnt = 1;
+        visit[p] = true;
+        for(int n : m[p]) cnt += makeGrp(m, n, visit);
+        return cnt;
+    }
+public:
+    int makeConnected(int n, vector<vector<int>>& connections) {
+        cable = 0;
+        vector<bool> visit(n, false);
+        unordered_map<int, vector<int>> m;
+        for(vector<int>& v : connections){
+            m[v[0]].push_back(v[1]);
+            m[v[1]].push_back(v[0]);
+        }
+        int grpCnt = 0;
+        for(int i=0;i<n;i++){
+            if(!visit[i]){
+                grpCnt++;
+                int t = makeGrp(m, i, visit);
+                if(m[i].size()>0) cable -= t;
+            }
+        }
+        if(grpCnt > 1){
+            grpCnt--;
+            if(grpCnt > cable) return -1;
+            return grpCnt;
+        }
+        return 0;
+    }
+};

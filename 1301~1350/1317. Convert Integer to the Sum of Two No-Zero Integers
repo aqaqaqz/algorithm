@@ -1,0 +1,19 @@
+class Solution {
+    bool check(int a){
+        while(a != 0){
+            if(a%10 == 0) return false;
+            a /= 10;
+        }
+        return true;
+    }
+public:
+    vector<int> getNoZeroIntegers(int n) {
+        vector<int> result;
+        for(int i=1;i<n;i++){
+            if(check(i) && check(n-i)){
+                return vector<int>{i, n-i};
+            }
+        }
+        return result;
+    }
+};

@@ -1,0 +1,29 @@
+class Solution {
+    void changeBinary(vector<int>& v, int n){
+        while(n != 0){
+            v.push_back(n%2);
+            n /= 2;
+        }
+    }
+public:
+    int minFlips(int a, int b, int c) {
+        vector<int> av; changeBinary(av, a);
+        vector<int> bv; changeBinary(bv, b);
+        vector<int> cv; changeBinary(cv, c);
+        
+        int result = 0;
+        int size = max(av.size(), bv.size());
+        size = max(size, (int)cv.size());
+        for(int i=0;i<size;i++){
+            int ta = (i>=av.size()?0:av[i]);
+            int tb = (i>=bv.size()?0:bv[i]);
+            int tc = (i>=cv.size()?0:cv[i]);
+            if(tc == 0){
+                result += (ta+tb);
+            }else{
+                if(ta==0 && tb==0) result++;
+            }
+        }
+        return result;
+    }
+};

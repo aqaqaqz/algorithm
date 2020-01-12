@@ -1,0 +1,30 @@
+class Solution {
+    unordered_map<char, vector<int>> m;
+    int getCost(vector<vector<vector<int>>>& v, string& w, int p, char p1, char p2){
+        if(p==w.size()) return 0;
+        if(v[p][p1-'A'][p2-'A'] != -1) return v[p][p1-'A'][p2-'A'];
+        
+        int v1 = 0;
+        int v2 = 0;
+        if(p1!=('A'+26)){
+            v1 += abs(m[p1][0]-m[w[p]][0]);
+            v1 += abs(m[p1][1]-m[w[p]][1]);
+        }
+        
+        if(p2!=('A'+26)){
+            v2 += abs(m[p2][0]-m[w[p]][0]);
+            v2 += abs(m[p2][1]-m[w[p]][1]);
+        }
+        
+        v[p][p1-'A'][p2-'A'] = min(getCost(v, w, p+1, w[p], p2)+v1, getCost(v, w, p+1, p1, w[p])+v2);
+        return v[p][p1-'A'][p2-'A'];
+    }
+public:
+    int minimumDistance(string word) {
+        vector<vector<vector<int>>> v(word.size(), vector<vector<int>>(27, vector<int>(27, -1)));
+        for(int i=0;i<26;i++)
+            m['A'+i] = vector<int>{i/6, i%6};
+        
+        return getCost(v, word, 0, 'A'+26, 'A'+26);
+    }
+};
