@@ -1,0 +1,31 @@
+class Solution {
+    int mh;
+    int mw;
+    int getSum(vector<vector<int>>& m, int k, int th, int tw){
+        int h1 = min(mh-1, th+k);
+        int w1 = min(mw-1, tw+k);
+        int h2 = th-k-1;
+        int w2 = tw-k-1;
+        int sum = m[h1][w1];
+        if(h2>-1) sum -= m[h2][w1];
+        if(w2>-1) sum -= m[h1][w2];
+        if(h2>-1 && w2>-1) sum += m[h2][w2];
+        return sum;
+    }
+public:
+    vector<vector<int>> matrixBlockSum(vector<vector<int>>& mat, int K) {
+        mh = mat.size();
+        mw = mat[0].size();
+        for(int i=1;i<mh;i++) mat[i][0] += mat[i-1][0];
+        for(int i=1;i<mw;i++) mat[0][i] += mat[0][i-1];
+        for(int i=1;i<mh;i++)
+            for(int j=1;j<mw;j++)
+                mat[i][j] += (mat[i-1][j]+mat[i][j-1]-mat[i-1][j-1]);
+        
+        vector<vector<int>> result(mh, vector<int>(mw, 0));
+        for(int i=0;i<mh;i++)
+            for(int j=0;j<mw;j++)
+                result[i][j] = getSum(mat, K, i, j);
+        return result;
+    }
+};
