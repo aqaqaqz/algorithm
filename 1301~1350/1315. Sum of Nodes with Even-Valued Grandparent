@@ -1,0 +1,34 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+    int result = 0;
+    void addSum(TreeNode* n, int d){
+        if(n==nullptr) return;
+        if(d==0) result += n->val;
+        else{
+            addSum(n->left, d-1);
+            addSum(n->right, d-1);
+        }
+    }
+    void getSum(TreeNode* n){
+        if(n==nullptr) return;
+        if(n->val%2 == 0)
+            addSum(n, 2);
+        
+        getSum(n->left);
+        getSum(n->right);
+    }
+public:
+    int sumEvenGrandparent(TreeNode* root) {
+        unordered_set<int> s;
+        getSum(root);
+        return result;
+    }
+};
