@@ -1,0 +1,27 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+    bool removeNode(TreeNode* n, int t){
+        if(n==nullptr) return true;
+        bool l = removeNode(n->left, t);
+        bool r = removeNode(n->right, t);
+        if(l) n->left = nullptr;
+        if(r) n->right = nullptr;
+        
+        if(l && r && n->val==t)
+            return true;
+        return false;
+    }
+public:
+    TreeNode* removeLeafNodes(TreeNode* root, int target) {
+        if(removeNode(root, target)) return nullptr;
+        return root;
+    }
+};
