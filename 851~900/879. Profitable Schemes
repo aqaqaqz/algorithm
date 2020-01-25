@@ -1,0 +1,26 @@
+class Solution {
+    const int mod = 1e9+7;
+    vector<vector<vector<int>>> v;
+    int getCase(int g, int p, int i, vector<int>& grp, vector<int>& pro){
+class Solution {
+    const int mod = 1e9+7;
+    vector<vector<vector<int>>> v;
+    int getCase(int g, int p, int i, vector<int>& grp, vector<int>& pro){
+        if(i>=grp.size() || g<=0) return 0;
+        p = max(p, 0);
+        if(v[g][p][i] != -1) return v[g][p][i];
+        
+        v[g][p][i] = getCase(g, p, i+1, grp, pro);
+        if(g-grp[i] >= 0){
+            if(p-pro[i] <= 0) v[g][p][i]++;
+            v[g][p][i] += getCase(g-grp[i], p-pro[i], i+1, grp, pro);
+        }
+        v[g][p][i] %= mod;
+        return v[g][p][i];
+    }
+public:
+    int profitableSchemes(int G, int P, vector<int>& group, vector<int>& profit) {
+        v.resize(G+1, vector<vector<int>>(P+1, vector<int>(group.size(), -1)));
+        return getCase(G, P, 0, group, profit);
+    }
+};
