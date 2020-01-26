@@ -1,0 +1,18 @@
+class Solution {
+public:
+    vector<int> arrayRankTransform(vector<int>& arr) {
+        vector<int> result;
+        set<int> s;
+        for(const int& n : arr)
+            s.insert(n);
+        int r = 1;
+        unordered_map<int, int> m;
+        for(auto iter=s.begin();iter!=s.end();iter++)
+            m[*iter] = r++;
+        
+        for(const int& n : arr)
+            result.push_back(m[n]);
+        return result;
+    }
+};
+
