@@ -1,0 +1,49 @@
+class Solution {
+public:
+    int findTheCity(int N, vector<vector<int>>& edges, int distanceThreshold) {
+        vector<vector<int>> p(N, vector<int>(N, -1));
+        unordered_map<int, vector<int>> m;
+        for(vector<int>& v : edges){
+            p[v[0]][v[1]] = v[2];
+            p[v[1]][v[0]] = v[2];
+            m[v[0]].push_back(v[1]);
+            m[v[1]].push_back(v[0]);
+        }
+        
+        int result = -1;
+        int cnt = 100;
+        map<int, int> city;
+        for(int i=0;i<N;i++){
+            multimap<int, int> path;
+            vector<bool> visit(N, false);
+            visit[i] = true;
+            for(int n : m[i]){
+                if(p[i][n] > distanceThreshold) continue;
+                path.insert(make_pair(p[i][n], n));
+            }
+                
+            while(!path.empty()){
+                int l = path.begin()->first;
+                int d = path.begin()->second;
+                path.erase(path.begin());
+                if(visit[d]) continue;
+                visit[d] = true;
+                for(int n : m[d]){
+                    if(l+p[d][n] > distanceThreshold) continue;
+                    path.insert(make_pair(l+p[d][n], n));
+                }
+            }
+            
+            int t = 0;
+            for(int city=0;city<N;city++){
+                if(city==i || !visit[city]) continue;
+                t++;
+            }
+            if(t<=cnt){
+                result = i;
+                cnt = t;
+            }
+        }
+        return result;
+    }
+};
