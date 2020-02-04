@@ -1,0 +1,20 @@
+class Solution {
+public:
+    int minSetSize(vector<int>& arr) {
+        unordered_map<int, int> m;
+        for(int n : arr) m[n]++;
+        vector<int> v;
+        for(auto iter=m.begin();iter!=m.end();iter++)
+            v.push_back(iter->second);
+        
+        sort(v.begin(), v.end());
+        int result = 0;
+        int sum = 0;
+        for(int i=v.size()-1;i>=0;i--){
+            result++;
+            sum += v[i];
+            if(sum >= arr.size()/2) break;
+        }
+        return result;
+    }
+};
