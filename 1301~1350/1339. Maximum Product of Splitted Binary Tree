@@ -1,0 +1,48 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+    int sum;
+    long long val1;
+    long long val2;
+    int makeSum(TreeNode* n){
+        if(n==nullptr) return 0;
+        
+        n->val += makeSum(n->left);
+        n->val += makeSum(n->right);
+        return n->val;
+    }
+    void search(TreeNode* n){
+        if(n==nullptr) return;
+        int l = n->left!=nullptr?n->left->val:0;
+        int r = n->right!=nullptr?n->right->val:0;
+        
+        if(abs(val1-val2) > abs(2*l-sum)){
+            val1 = l;
+            val2 = sum-l;
+        }
+        if(abs(val1-val2) > abs(2*r-sum)){
+            val1 = r;
+            val2 = sum-r;
+        }
+        search(n->left);
+        search(n->right);
+    }
+public:
+    int maxProduct(TreeNode* root) {
+        const int mod = 1e9+7;
+        sum = 0;
+        val1 = INT_MAX;
+        val2 = 0;
+        makeSum(root);
+        sum = root->val;
+        search(root);
+        return (val1*val2)%mod;
+    }
+};
