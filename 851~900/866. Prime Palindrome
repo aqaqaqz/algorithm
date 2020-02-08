@@ -1,0 +1,60 @@
+class Solution {
+    int getNum(deque<int>& d, int& l){
+        for(int i=d.size()-1;i>=0;i--){
+            if(d[i]==10){
+                d[i] = 0;
+                if(i==0){
+                    d.push_front(1);
+                    l++;
+                    if(l%2==0) d.pop_back();
+                }
+                else
+                    d[i-1]++;
+            }else break;
+        }
+        
+        int next = 0;
+        for(int i : d){
+            next *= 10;
+            next += i;
+        }
+        for(int i=(int)d.size()-(1+l%2);i>=0;i--){
+            next *= 10;
+            next += d[i];
+        }
+        return next;
+    }
+    int getNext(int n){
+        int t = n;
+        deque<int> d;
+        while(t!=0){
+            d.push_front(t%10);
+            t/=10;
+        }
+        int l = d.size();
+        d.resize((l/2+l%2));
+        
+        int next;
+        while(true){
+            next = getNum(d, l);
+            if(next > n) break;
+            d[d.size()-1]++;
+        }
+        return next;
+    }
+public:
+    int primePalindrome(int N) {
+        if(N<=2) return 2;
+        if(N==3) return N;
+        int result = N-1;
+        while(true){
+            result = getNext(result);
+            int t = sqrt(result);
+            for(int i=2;i<=t;i++){
+                if(result%i == 0) break;
+                if(i==t) return result;
+            }
+        }
+        return -1;
+    }
+};
