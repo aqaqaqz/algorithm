@@ -1,0 +1,30 @@
+class Solution {
+    unordered_map<int, vector<int>> m;
+    vector<int> result;
+    int makeResult(int n, vector<int>& quiet){
+        if(result[n] != -1) return result[n];
+        
+        int tn = n;        
+        int tq = quiet[n];
+        for(int next : m[n]){
+            int t = makeResult(next, quiet);
+            if(tq > quiet[t]){
+                tn = t;
+                tq = quiet[t];
+            }
+        }
+        result[n] = tn;
+        return result[n];
+    }
+public:
+    vector<int> loudAndRich(vector<vector<int>>& richer, vector<int>& quiet) {
+        result.resize(quiet.size(), -1);
+        for(vector<int>& v : richer)
+            m[v[1]].push_back(v[0]);
+        
+        for(int i=0;i<quiet.size();i++)
+            makeResult(i, quiet);
+        
+        return result;
+    }
+};

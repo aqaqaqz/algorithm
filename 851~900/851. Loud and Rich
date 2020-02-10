@@ -1,0 +1,37 @@
+class Solution {
+    unordered_map<int, vector<int>> m1;
+    unordered_map<int, unordered_set<int>> m2;
+    void makeMap(int n){
+        if(m2.find(n) != m2.end()) return;
+        m2[n].insert(n);
+        for(int next : m1[n]){
+            m2[n].insert(next);
+            makeMap(next);
+            for(auto iter=m2[next].begin();iter!=m2[next].end();iter++)
+                m2[n].insert(*iter);
+        }
+    }
+public:
+    vector<int> loudAndRich(vector<vector<int>>& richer, vector<int>& 
+quiet) {
+        for(vector<int>& v : richer)
+            m1[v[1]].push_back(v[0]);
+        for(int i=0;i<quiet.size();i++)
+            makeMap(i);
+        vector<int> result;
+        for(int i=0;i<quiet.size();i++){
+            int r = i;
+            int q = quiet[i];
+            for(auto iter=m2[i].begin();iter!=m2[i].end();iter++){
+                int n = *iter;
+                if(q>quiet[n]){
+                    r = n;
+                    q = quiet[n];
+                }
+            }
+            result.push_back(r);
+        }
+        
+        return result;
+    }
+};
