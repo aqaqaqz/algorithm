@@ -1,0 +1,16 @@
+class Solution {
+public:
+    bool checkIfExist(vector<int>& arr) {
+        unordered_set<int> s;
+        int cnt = 0;
+        for(int n : arr){
+            if(n==0) cnt++;
+            s.insert(n);
+        }
+        if(cnt>1) return true;
+        
+        for(int n : arr)
+            if(n!=0 && s.find(2*n)!=s.end()) return true;
+        return false;
+    }
+};
