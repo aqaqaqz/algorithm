@@ -1,0 +1,19 @@
+class Solution {
+public:
+    int numOfSubarrays(vector<int>& arr, int k, int threshold) {
+        int sum = 0;
+        int cnt = 0;
+        int pos = 0;
+        int result = 0;
+        for(int n : arr){
+            sum += n;
+            if(cnt<k)
+                cnt++;
+            else
+                sum -= arr[pos++];
+            
+            if(cnt==k && sum/k>=threshold) result++;
+        }
+        return result;
+    }
+};
