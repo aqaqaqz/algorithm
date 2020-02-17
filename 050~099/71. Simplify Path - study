@@ -1,0 +1,28 @@
+class Solution {
+    string getPath(string& s, int& p){
+        string path = "";
+        while(s.size()>p && s[p]!='/') 
+            path += s[p++];
+        p++;
+        return path;
+    }
+public:
+    string simplifyPath(string path) {
+        int p = 0;
+        vector<string> v;
+        while(path.size()>p){
+            string t = getPath(path, p);
+            if(t.empty() || t==".") continue;
+            else if(t==".."){
+                if(!v.empty())
+                    v.pop_back();
+            }else v.push_back(t);
+        }
+        if(v.empty()) return "/";
+        
+        string result = "";
+        for(string& s : v)
+            result += ("/" + s);
+        return result;
+    }
+};
