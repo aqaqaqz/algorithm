@@ -1,0 +1,9 @@
+class Solution {
+public:
+    int countNegatives(vector<vector<int>>& grid) {
+        int result = 0;
+        for(vector<int>& v : grid)
+            for(int n : v) result += (n<0?1:0);
+        return result;
+    }
+};
