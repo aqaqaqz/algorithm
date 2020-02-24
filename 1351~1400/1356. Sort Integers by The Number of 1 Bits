@@ -1,0 +1,24 @@
+class Solution {
+    int getCnt(int n){
+        int cnt = 0;
+        while(n!=0){
+            cnt += (n&1);
+            n>>=1;
+        }
+        return cnt;
+    }
+public:
+    vector<int> sortByBits(vector<int>& arr) {
+        unordered_map<int, int> m;
+        sort(arr.begin(), arr.end(), [&](int& a, int& b){
+            if(m.find(a) == m.end())
+                m[a] = getCnt(a);
+            if(m.find(b) == m.end())
+                m[b] = getCnt(b);
+            
+            if(m[a]==m[b]) return a<b;
+            return m[a]<m[b];
+        });
+        return arr;
+    }
+};
