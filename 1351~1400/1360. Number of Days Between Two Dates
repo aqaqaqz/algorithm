@@ -1,0 +1,42 @@
+class Solution {
+    vector<int> date{0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    void checkValid(vector<int>& d){
+        int t = date[d[1]];
+        if(d[1]==2 && d[0]%4==0 && (d[0]%400==0 || d[0]%100!=0)) t++;
+        if(d[2] > t){
+            d[2] = 1;
+            d[1]++;
+        }
+        
+        if(d[1] > 12){
+            d[1] = 1;
+            d[0]++;
+        }
+    }
+public:
+    int daysBetweenDates(string date1, string date2) {
+        vector<int> d1;
+        vector<int> d2;
+        d1.push_back(atoi(date1.substr(0, 4).c_str()));
+        d1.push_back(atoi(date1.substr(5, 2).c_str()));
+        d1.push_back(atoi(date1.substr(8, 2).c_str()));
+        d2.push_back(atoi(date2.substr(0, 4).c_str()));
+        d2.push_back(atoi(date2.substr(5, 2).c_str()));
+        d2.push_back(atoi(date2.substr(8, 2).c_str()));
+        
+        if(d1>d2){
+            vector<int> t = d2;
+            d2 = d1;
+            d1 = t;
+        }
+        
+        int result = 0;
+        while(d1 != d2){
+            d1[2]++;
+            result++;
+            checkValid(d1);
+        }
+        
+        return result;
+    }
+};
