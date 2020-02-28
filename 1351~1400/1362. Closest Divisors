@@ -1,0 +1,24 @@
+class Solution {
+    vector<int> getResult(int n){
+        long long t = 35000;
+        while(t*t>n) t--;
+        
+        vector<int> rst;
+        while(true){
+            if(n%t == 0){
+                rst.push_back(t);
+                rst.push_back(n/t);
+                break;
+            }
+            t--;
+        }
+        return rst;
+    }
+public:
+    vector<int> closestDivisors(int num) {
+        vector<int> rst1 = getResult(num+1);
+        vector<int> rst2 = getResult(num+2);
+        if(abs(rst1[0]-rst1[1]) > abs(rst2[0]-rst2[1])) return rst2;
+        return rst1;
+    }
+};
