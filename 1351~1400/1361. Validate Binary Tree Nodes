@@ -1,0 +1,28 @@
+class Solution {
+    bool search(vector<int>& leftChild, vector<int>& rightChild, vector<bool>& visit, int p){
+        if(p==-1) return true;
+        if(visit[p]) return false;
+        visit[p] = true;
+        bool t1 = search(leftChild, rightChild, visit, leftChild[p]);
+        bool t2 = search(leftChild, rightChild, visit, rightChild[p]);
+        return (t1 && t2);
+    }
+public:
+    bool validateBinaryTreeNodes(int n, vector<int>& leftChild, vector<int>& rightChild) {
+        vector<bool> visit(n, false);
+        int r = -1;
+        for(int i=0;i<n;i++){
+            if(!visit[i]){
+                r = i;
+                search(leftChild, rightChild, visit, i);
+            }
+        }
+        
+        visit.assign(n, false);
+        int temp = search(leftChild, rightChild, visit, r);
+        if(!temp) return false;
+        for(bool b : visit)
+            if(!b) return false;
+        return true;
+    }
+};
