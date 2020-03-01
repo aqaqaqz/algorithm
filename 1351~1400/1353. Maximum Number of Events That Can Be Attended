@@ -1,0 +1,35 @@
+class Solution {
+public:
+    int maxEvents(vector<vector<int>>& e) {
+        sort(e.begin(), e.end(), [](vector<int>& v1, vector<int>& v2){
+            if(v1[0]==v2[0]) return v1[1]<v2[1];
+            return v1[0]<v2[0];
+        });
+        
+        map<int, int> m;
+        int s = 1;
+        int p = 0;
+        int result = 0;
+        while(true){
+            while(!m.empty() && m.begin()->first<s)
+                m.erase(m.begin());
+            
+            while(p<e.size() && e[p][0]==s)
+                m[e[p++][1]]++;
+            if(m.empty()){
+                if(p==e.size()) break;
+                s = e[p][0];
+                continue;
+            }
+            
+            int d = m.begin()->first;
+            m[d]--;
+            if(m.begin()->second == 0)
+                m.erase(m.begin());
+            result++;
+            s++;
+        }
+        
+        return result;
+    }
+};
