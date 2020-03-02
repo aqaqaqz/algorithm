@@ -1,0 +1,21 @@
+class Solution {
+public:
+    vector<int> smallerNumbersThanCurrent(vector<int>& nums) {
+        map<int, int> m;
+        for(int n : nums) m[n]++;
+        
+        int pre = 0;
+        for(auto iter=m.begin();iter!=m.end();iter++){
+            int n = iter->first;
+            int temp = m[n];
+            m[n] = pre;
+            pre += temp;
+        }
+        
+        vector<int> result;
+        for(int n : nums)
+            result.push_back(m[n]);
+        
+        return result;
+    }
+};
