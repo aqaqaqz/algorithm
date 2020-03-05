@@ -1,0 +1,34 @@
+class Solution {
+    unordered_set<string> s;
+    bool getCnt(string& w){
+        if(s.empty()) return false;
+        
+        vector<bool> v(w.size()+1, false);
+        v[0] = true;
+        for(int i=1;i<=w.size();i++){
+            for(int j=0;j<i;j++){
+                if(!v[j]) continue;
+                if(s.find(w.substr(j, i-j))!=s.end()){
+                    v[i] = true;
+                    break;
+                }
+            }
+        }
+        return v.back();
+    }
+public:
+    vector<string> findAllConcatenatedWordsInADict(vector<string>& words) {
+        sort(words.begin(), words.end(), [](string& s1, string& s2){
+            return s1.size()<s2.size();
+        });
+        
+        vector<string> result;
+        for(string& w : words){
+            if(getCnt(w))
+                result.push_back(w);
+            s.insert(w);
+        }
+        
+        return result;
+    }
+};
