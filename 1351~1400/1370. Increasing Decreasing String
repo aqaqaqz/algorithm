@@ -1,0 +1,24 @@
+class Solution {
+public:
+    string sortString(string s) {
+        map<char, int> m;
+        for(char c : s) m[c]++;
+        
+        string result = "";
+        while(result.size() != s.size()){
+            for(auto iter=m.begin();iter!=m.end();iter++){
+                char c = iter->first;
+                if(m[c]==0) continue;
+                result += c;
+                m[c]--;
+            }
+            for(auto iter=m.rbegin();iter!=m.rend();iter++){
+                char c = iter->first;
+                if(m[c]==0) continue;
+                result += c;
+                m[c]--;
+            }
+        }
+        return result;
+    }
+};
