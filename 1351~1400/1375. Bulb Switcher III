@@ -1,0 +1,15 @@
+class Solution {
+public:
+    int numTimesAllBlue(vector<int>& light) {
+        int cnt = 0;
+        int bNo = 0;
+        int result = 0;
+        for(int b : light){
+            cnt++;
+            bNo = max(bNo, b);
+            if(cnt == bNo) result++;
+        }
+        
+        return result;
+    }
+};
