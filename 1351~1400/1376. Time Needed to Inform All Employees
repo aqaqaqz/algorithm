@@ -1,0 +1,17 @@
+class Solution {
+    int getInfoTime(int id, vector<int>& infoTime, unordered_map<int, vector<int>>& m){
+        if(m.find(id)==m.end()) return 0;
+
+        int temp = 0;
+        for(int n : m[id])
+            temp = max(temp, getInfoTime(n, infoTime, m));
+        return infoTime[id]+temp;
+    }
+public:
+    int numOfMinutes(int n, int headID, vector<int>& manager, vector<int>& informTime) {
+        unordered_map<int, vector<int>> m;
+        for(int i=0;i<manager.size();i++)
+            m[manager[i]].push_back(i);
+        return getInfoTime(headID, informTime, m);
+    }
+};
