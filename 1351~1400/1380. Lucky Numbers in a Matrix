@@ -1,0 +1,29 @@
+class Solution {
+public:
+    vector<int> luckyNumbers (vector<vector<int>>& matrix) {
+        vector<int> result;
+        int mh = matrix.size();
+        int mw = matrix[0].size();
+        for(int h=0;h<mh;h++){
+            int th, tw;
+            int temp = INT_MAX;
+            for(int w=0;w<mw;w++){
+                if(temp > matrix[h][w]){
+                    temp = matrix[h][w];
+                    th = h;
+                    tw = w;
+                }
+            }
+            
+            bool check = true;
+            for(int h2=0;h2<mh;h2++){
+                if(matrix[th][tw] < matrix[h2][tw]){
+                    check = false;
+                    break;
+                }
+            }
+            if(check) result.push_back(matrix[th][tw]);
+        }
+        return result;
+    }
+};
