@@ -1,0 +1,33 @@
+class CustomStack {
+    vector<int> v;
+    int ms;
+public:
+    CustomStack(int maxSize) {
+        ms = maxSize;
+    }
+    
+    void push(int x) {
+        if(v.size() == ms) return;
+        v.push_back(x);
+    }
+    
+    int pop() {
+        if(v.empty()) return -1;
+        int rst = v.back();
+        v.pop_back();
+        return rst;
+    }
+    
+    void increment(int k, int val) {
+        for(int i=0;i<min(k, (int)v.size());i++)
+            v[i] += val;
+    }
+};
+
+/**
+ * Your CustomStack object will be instantiated and called as such:
+ * CustomStack* obj = new CustomStack(maxSize);
+ * obj->push(x);
+ * int param_2 = obj->pop();
+ * obj->increment(k,val);
+ */
