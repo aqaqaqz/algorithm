@@ -1,0 +1,47 @@
+class Solution {
+    vector<vector<char>> result;
+    void findSolution(vector<vector<char>>& b, int cnt){
+        if(cnt == 81)
+            result = b;
+        if(!result.empty()) return;
+        
+        vector<bool> v(10, 0);
+        int h = 0 , w = 0;
+        while(b[h][w] != '.'){
+            w++;
+            if(w==9){
+                h++;
+                w = 0;
+            }
+        }
+        for(int i=0;i<9;i++){
+            if(b[h][i] != '.') v[b[h][i]-'0'] = true;
+            if(b[i][w] != '.') v[b[i][w]-'0'] = true;
+        }
+        int th = (h/3)*3;
+        int tw = (w/3)*3;
+        for(int i=0;i<3;i++){
+            for(int j=0;j<3;j++){
+                if(b[th+i][tw+j] == '.') continue;
+                v[b[th+i][tw+j]-'0'] = true;
+            }
+        }
+        
+        for(int i=1;i<v.size();i++){
+            if(v[i]) continue;
+            b[h][w] = i+'0';
+            findSolution(b, cnt+1);
+            if(!result.empty()) break;
+            b[h][w] = '.';
+        }
+    }
+public:
+    void solveSudoku(vector<vector<char>>& board) {
+        int cnt = 0;
+        for(vector<char>& v : board)
+            for(char& c : v) 
+                cnt += (c!='.'?1:0);
+        findSolution(board, cnt);
+        board = result;
+    }
+};
