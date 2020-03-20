@@ -1,0 +1,27 @@
+class Solution {
+    unordered_set<int> panSet;
+    bool check(string& str, int s, int e){
+        if(str[s]!=str[e]) return false;
+        if(e-s > 1){
+            int temp = (str.size()+1)*(s+1) + (e-1);
+            if(panSet.find(temp) == panSet.end()) return false;
+        }
+        
+        int key = (str.size()+1)*s + e;
+        panSet.insert(key);
+        return true;
+    }
+public:
+    int minCut(string s) {
+        vector<int> v;
+        for(int i=0;i<s.size();i++){
+            int t = INT_MAX;
+            for(int j=i;j>=0;j--){
+                if(check(s, j, i))
+                    t = min( (j==0?-1:v[j-1])+1, t);
+            }
+            v.push_back(t);
+        }
+        return v.back();
+    }
+};
