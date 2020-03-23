@@ -1,0 +1,13 @@
+class Solution {
+public:
+    vector<int> createTargetArray(vector<int>& nums, vector<int>& index) {
+        for(int i=0;i<index.size();i++)
+            for(int j=0;j<i;j++)
+                if(index[j]>=index[i]) index[j]++;
+
+        vector<int> result(nums.size());
+        for(int i=0;i<index.size();i++)
+            result[index[i]] = nums[i];
+        return result;
+    }
+};
