@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int maxNumberOfFamilies(int n, vector<vector<int>>& reservedSeats) {
+        unordered_map<int, vector<bool>> m;
+        for(vector<int>& v : reservedSeats){
+            if(m.find(v[0]) == m.end())
+                m[v[0]] = vector<bool>(10, true);
+            m[v[0]][v[1]-1] = false;
+        }
+        
+        int result = (n-m.size())*2;
+        for(auto iter=m.begin();iter!=m.end();iter++){
+            for(int i=1;i<=6;i+=2){
+                bool able = true;
+                for(int j=0;j<4;j++)
+                    able = (able && iter->second[i+j]);
+                if(able){
+                    result++;
+                    i += 2;
+                }
+            }
+        }
+        return result;
+    }
+};
