@@ -1,0 +1,25 @@
+class Solution {
+    unordered_map<int, int> m;
+    int findVal(int n){
+        if(m.find(n)!=m.end()) return m[n];
+        m[n] = 1;
+        if(n%2 == 0) m[n] += findVal(n/2);
+        else m[n] += findVal(n*3+1);
+        return m[n];
+    }
+public:
+    int getKth(int lo, int hi, int k) {
+        m[1] = 0;
+        
+        vector<vector<int>> v;
+        for(int i=lo;i<=hi;i++)
+            v.push_back(vector<int>{i, findVal(i)});
+        
+        sort(v.begin(), v.end(), [](const vector<int>& v1, const vector<int>& v2){
+            if(v1[1] == v2[1]) return v1[0]<v2[0];
+            return v1[1]<v2[1];
+        });
+        
+        return v[k-1][0];
+    }
+};
