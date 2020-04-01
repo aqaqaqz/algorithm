@@ -1,0 +1,86 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Codec {
+public:
+    // Encodes a tree to a single string.
+    string serialize(TreeNode* root) {
+        vector<string> rst;
+
+        vector<TreeNode*> v{root};
+        bool check = true;
+        while(check){
+            check = false;
+            vector<TreeNode*> temp;
+            for(TreeNode* n : v){
+                if(n!=nullptr){
+                    check = true;
+                    rst.push_back(","+to_string(n->val));
+                    temp.push_back(n->left);
+                    temp.push_back(n->right);
+                }else{
+                    rst.push_back(",null");
+                }
+            }
+            v = temp;
+        }
+        while(!rst.empty() && rst.back()==",null")
+            rst.pop_back();
+
+        string result = "[";
+        for(int i=0;i<rst.size();i++){
+            if(i==0) result += rst[i].substr(1);
+            else result += rst[i];
+        }
+        result += "]";
+        return result;
+    }
+
+    // Decodes your encoded data to tree.
+    TreeNode* deserialize(string data) {
+        vector<string> v;
+        data = data.substr(1);
+        string temp = "";
+        for(char c : data){
+            if(c==',' || c==']'){
+                if(temp != "")
+                    v.push_back(temp);
+                temp = "";
+            }else
+                temp += c;
+        }
+        if(v.empty()) return nullptr;
+        
+        TreeNode* result = makeNode(v[0]);
+        vector<TreeNode*> list{result};
+        int p = 1;
+        while(!list.empty()){
+            vector<TreeNode*> t;
+            for(TreeNode* n : list){
+                if(v.size()>p) n->left = makeNode(v[p++]);
+                if(v.size()>p) n->right = makeNode(v[p++]);
+                if(n->left != nullptr) t.push_back(n->left);
+                if(n->right != nullptr) t.push_back(n->right);
+            }
+            list = t;
+        }
+        
+        return result;
+    }
+    
+    TreeNode* makeNode(string& str){
+        if(str=="null") return nullptr;
+        TreeNode* result = new TreeNode(atoi(str.c_str()));
+        return result;
+    }
+};
+
+// Your Codec object will be instantiated and called as such:
+// Codec codec;
+// codec.deserialize(codec.serialize(root));
