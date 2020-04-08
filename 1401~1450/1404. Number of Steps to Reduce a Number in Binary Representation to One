@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int numSteps(string s) {
+        int result = 0;
+        bool up = false;
+        while(s!="" && s!="1"){
+            int t = s.back()-'0' + (up?1:0);
+            up = false;
+            result++;
+            if(t==1){
+                up = true;
+                result++;
+            }else if(t==2){
+                up = true;
+            }
+            s = s.substr(0, s.size()-1);
+        }
+        if(s=="1" && up) result++;
+        return result;
+    }
+};
