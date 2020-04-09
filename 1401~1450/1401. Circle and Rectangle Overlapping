@@ -1,0 +1,18 @@
+class Solution {
+public:
+    bool checkOverlap(int radius, int x_center, int y_center, int x1, int y1, int x2, int y2) {
+        int type;
+        if(x_center>=x1 && x_center<=x2 && y_center>=y1 && y_center<=y2) return true;
+        if(x_center>=x1 && x_center<=x2){
+            if(abs(y_center-y1)<=radius || abs(y_center-y2)<=radius) return true;
+        }else if(y_center>=y1 && y_center<=y2){
+            if(abs(x_center-x1)<=radius || abs(x_center-x2)<=radius) return true;
+        }else{
+            if((x1-x_center)*(x1-x_center)+(y1-y_center)*(y1-y_center) <= radius*radius) return true;
+            if((x1-x_center)*(x1-x_center)+(y2-y_center)*(y2-y_center) <= radius*radius) return true;
+            if((x2-x_center)*(x2-x_center)+(y1-y_center)*(y1-y_center) <= radius*radius) return true;
+            if((x2-x_center)*(x2-x_center)+(y2-y_center)*(y2-y_center) <= radius*radius) return true;
+        }
+        return false;
+    }
+};
