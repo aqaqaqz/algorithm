@@ -1,0 +1,37 @@
+class Solution {
+    string getResult(vector<pair<int, char>> v, char p){
+        string result = "";
+        sort(v.begin(), v.end(), [](pair<int, char>& p1, pair<int, char>& p2){
+            return p1.first > p2.first;
+        });
+        
+        if(v[0].second != p){
+            if(v[0].first==0) return result;
+            p = v[0].second;
+            for(int i=0;i<2;i++){
+                result += p;
+                v[0].first--;
+                if(v[0].first==0) break;
+            }
+            
+        }else{
+            if(v[1].first == 0) return result;
+            p = v[1].second;
+            for(int i=0;i<1;i++){
+                result += p;
+                v[1].first--;
+                if(v[1].first==0) break;
+            }
+        }
+        
+        return result+getResult(v, p);
+    }
+public:
+    string longestDiverseString(int a, int b, int c) {
+        vector<pair<int, char>> v;
+        v.push_back(make_pair(a, 'a'));
+        v.push_back(make_pair(b, 'b'));
+        v.push_back(make_pair(c, 'c'));
+        return getResult(v, 'z');
+    }
+};
