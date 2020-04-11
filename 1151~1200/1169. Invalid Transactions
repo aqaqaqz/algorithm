@@ -1,0 +1,47 @@
+class Solution {
+public:
+    vector<string> invalidTransactions(vector<string>& transactions) {
+        vector<vector<string>> v;
+        for(string& str : transactions){
+            vector<string> temp;
+            string t = "";
+            for(char c : str){
+                if(c==' ') continue;
+                if(c==','){
+                    temp.push_back(t);
+                    t = "";
+                }else
+                    t += c;
+            }
+            temp.push_back(t);
+            temp.push_back(str);
+            v.push_back(temp);
+        }
+        sort(v.begin(), v.end(), [](vector<string>& v1, vector<string>& v2){
+            if(v1[0]==v2[0]){
+                return atoi(v1[1].c_str())<atoi(v2[1].c_str());
+            }else return v1[0]<v2[0];
+        });
+        
+        vector<bool> able(v.size(), true);
+        for(int i=0;i<v.size();i++){
+            if(atoi(v[i][2].c_str())>1000) able[i] = false;
+            int j = i-1;
+            while(j>=0 && v[i][0]==v[j][0]){
+                if(v[i][3]!=v[j][3]){
+                    if(atoi(v[i][1].c_str()) - atoi(v[j][1].c_str()) <= 60){
+                        able[i] = false;
+                        able[j] = false;
+                    }
+                }
+                j--;
+            }
+        }
+        
+        vector<string> result;
+        for(int i=0;i<v.size();i++){
+            if(!able[i]) result.push_back(v[i][4]);
+        }
+        return result;
+    }
+};
