@@ -1,0 +1,17 @@
+class Solution {
+    int getSatisfaction(vector<int>& satis, vector<vector<int>>& v, int p, int cnt){
+        if(p>=satis.size()) return 0;
+        if(v[p][cnt] != -1) return v[p][cnt];
+        v[p][cnt] = 0;
+        v[p][cnt] = max(v[p][cnt], satis[p]*cnt + getSatisfaction(satis, v, p+1, cnt+1));
+        if(satis[p] < 0)
+            v[p][cnt] = max(v[p][cnt], getSatisfaction(satis, v, p+1, cnt));
+        return v[p][cnt];
+    }
+public:
+    int maxSatisfaction(vector<int>& satisfaction) {
+        sort(satisfaction.begin(), satisfaction.end());
+        vector<vector<int>> v(satisfaction.size(), vector<int>(satisfaction.size()+1, -1));
+        return getSatisfaction(satisfaction, v, 0, 1);
+    }
+};
