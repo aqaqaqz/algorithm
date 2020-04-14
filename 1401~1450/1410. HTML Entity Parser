@@ -1,0 +1,29 @@
+class Solution {
+public:
+    string entityParser(string text) {
+        unordered_map<string, char> m;
+        m["&quot;"] = '\"';
+        m["&apos;"] = '\'';
+        m["&amp;"] = '&';
+        m["&gt;"] = '>';
+        m["&lt;"] = '<';
+        m["&frasl;"] = '/';
+        string result = "";
+        for(int i=0;i<text.size();i++){
+            bool find = false;
+            if(text[i] == '&'){
+                for(int j=2;j<=7 && i+j-1<text.size();j++){
+                    if(m.find(text.substr(i, j))!=m.end()){
+                        result += m[text.substr(i, j)];
+                        i += (j-1);
+                        find = true;
+                        break;
+                    }
+                }
+            }
+            if(!find)
+                result += text[i];
+        }
+        return result;
+    }
+};
