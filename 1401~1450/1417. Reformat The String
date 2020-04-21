@@ -1,0 +1,23 @@
+class Solution {
+public:
+    string reformat(string s) {
+        string str1 = "";
+        string str2 = "";
+        for(char c : s){
+            if(isdigit(c)) str1 += c;
+            else str2 += c;
+        }
+        if(str1.size() < str2.size()){
+            string t = str1;
+            str1 = str2;
+            str2 = t;
+        }
+        if(str1.size()-str2.size() > 1) return "";
+        string result = "";
+        for(int i=0;i<str1.size();i++){
+            result += str1[i];
+            if(i<str2.size()) result += str2[i];
+        }
+        return result;
+    }
+};
