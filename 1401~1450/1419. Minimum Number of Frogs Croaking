@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int minNumberOfFrogs(string croakOfFrogs) {
+        unordered_map<char, int> m;
+        m['c'] = 0; m['r'] = 1;
+        m['o'] = 2; m['a'] = 3;
+        m['k'] = 4;
+        vector<int> v(5, 0);
+        
+        int result = 0;
+        for(char c : croakOfFrogs){
+            if(m.find(c) == m.end()) return -1;
+            int idx = m[c];
+            v[idx]++;
+            if(idx != 0 && v[idx]>v[idx-1]) return -1;
+            if(v.back()>0){
+                result = max(result, v.front());
+                for(int& n : v) n -= v.back();
+            }
+        }
+        if(v.front() != 0) return -1;
+        return result;
+    }
+};
