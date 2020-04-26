@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int maxScore(string s) {
+        vector<int> z(s.size());
+        vector<int> o(s.size());
+        for(int i=0;i<s.size();i++){
+            z[i] = (s[i]=='0'?1:0);
+            if(i==0) continue;
+            z[i] += z[i-1];
+        }
+        for(int i=s.size()-1;i>=0;i--){
+            o[i] = (s[i]=='1'?1:0);
+            if(i==s.size()-1) continue;
+            o[i] += o[i+1];
+        }
+        
+        int result = 0;
+        for(int i=0;i<s.size()-1;i++)
+            result = max(result, z[i]+o[i+1]);
+        return result;
+    }
+};
