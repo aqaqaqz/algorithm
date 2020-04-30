@@ -1,0 +1,21 @@
+class Solution {
+public:
+    vector<int> findDiagonalOrder(vector<vector<int>>& nums) {
+        unordered_map<int, vector<int>> m;
+        int l = 0;
+        for(int h=0;h<nums.size();h++){
+            for(int w=0;w<nums[h].size();w++){
+                l = max(l, h+w);
+                m[h+w].push_back(nums[h][w]);
+            }
+        }
+        
+        vector<int> result;
+        for(int i=0;i<=l;i++){
+            if(m.find(i)==m.end()) continue;
+            for(int j=m[i].size()-1;j>=0;j--)
+                result.push_back(m[i][j]);
+        }
+        return result;
+    }
+};
