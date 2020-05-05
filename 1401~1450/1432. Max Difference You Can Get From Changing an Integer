@@ -1,0 +1,52 @@
+class Solution {
+public:
+    int maxDiff(int num) {
+        vector<int> ori;
+        while(num != 0){
+            ori.push_back(num%10);
+            num /= 10;
+        }
+        reverse(ori.begin(), ori.end());
+        
+        vector<int> big = ori;
+        for(int i=0;i<big.size();i++){
+            if(big[i] != 9){
+                int t = big[i];
+                for(int j=i;j<big.size();j++)
+                    if(big[j]==t) big[j] = 9;
+                break;
+            }
+        }
+        
+        vector<int> small = ori;
+        if(small[0] == 1){
+            for(int i=1;i<small.size();i++){
+                if(small[i]!=1 && small[i]!=0){
+                    int t = small[i];
+                    for(int j=i;j<small.size();j++)
+                        if(small[j] == t) small[j] = 0;
+                    break;
+                }
+            }
+        }else{
+            int t = small[0];
+            for(int i=0;i<small.size();i++){
+                if(small[i] == t) small[i] = 1;
+            }
+        }
+        
+        int b = 0;
+        for(int n : big){
+            b *= 10;
+            b += n;
+        }
+        
+        int s = 0;
+        for(int n : small){
+            s *= 10;
+            s += n;
+        }
+        
+        return b-s;
+    }
+};
