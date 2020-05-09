@@ -1,0 +1,23 @@
+class Solution {
+    bool checkBreak(string& s1, string& s2){
+        vector<int> v(26);
+        for(char c : s2) v[c-'a']++;
+        for(char c : s1){
+            bool able = false;
+            for(int i=c-'a';i<26;i++){
+                if(v[i]>0){
+                    v[i]--;
+                    able = true;
+                    break;
+                }
+            }
+            if(!able) return false;
+        }
+        return true;
+    }
+public:
+    bool checkIfCanBreak(string s1, string s2) {
+        if(checkBreak(s1, s2)) return true;
+        return checkBreak(s2, s1);
+    }
+};
