@@ -1,0 +1,31 @@
+class Solution {
+public:
+    int countTriplets(vector<int>& arr) {
+        int result = 0;
+        int t = 0;
+        unordered_map<int, int> m;
+
+        int p = 0;
+        for(int n : arr) {
+            p ^= n;
+            m[p]++;
+        }
+        p = 0;
+
+        for(int i=0;i<arr.size();i++){
+            p ^= arr[i];
+            m[p]--;
+            t ^= arr[i];
+
+            result += m[t^p];
+
+            int t2 = t;
+            for(int j=0;j<i;j++){
+                t2 ^= arr[j];
+                result += m[t2^p];
+            }
+        }
+
+        return result;
+    }
+};
