@@ -1,0 +1,17 @@
+class Solution {
+public:
+    int maxPower(string s) {
+        int result = 0;
+        int t = 0;
+        char pre = ' ';
+        for(char c : s){
+            if(c == pre) t++;
+            else {
+                pre = c;
+                t = 1;
+            }
+            result = max(result, t);
+        }
+        return result;
+    }
+};
