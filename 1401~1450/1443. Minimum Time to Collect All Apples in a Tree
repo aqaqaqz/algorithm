@@ -1,0 +1,24 @@
+class Solution {
+    int getMinTime(unordered_map<int, vector<int>>& m, vector<bool>& hasApple, vector<bool>& visit, int p){
+        if(visit[p]) return 0;
+        visit[p] = true;
+        if(m[p].empty())
+            return ((hasApple[p]&&p!=0)?2:0);
+
+        int t = 0;
+        for(int n : m[p])
+            t += getMinTime(m, hasApple, visit, n);
+
+        return (((hasApple[p]||t!=0)&&p!=0)?t+2:t);
+    }
+public:
+    int minTime(int n, vector<vector<int>>& edges, vector<bool>& hasApple) {
+        unordered_map<int, vector<int>> m;
+        for(vector<int>& v : edges){
+            m[v[0]].push_back(v[1]);
+            m[v[1]].push_back(v[0]);
+        }
+        vector<bool> visit(n, false);
+        return getMinTime(m, hasApple, visit, 0);
+    }
+};
