@@ -1,0 +1,23 @@
+class Solution {
+public:
+    bool check(int a, int b){
+        while(b!=0){
+            int t = a%b;
+            a = b;
+            b = t;
+        }
+        return a==1;
+    }
+    
+    vector<string> simplifiedFractions(int n) {
+        vector<string> result;
+        for(int i=1;i<=n;i++){
+            for(int j=i+1;j<=n;j++){
+                if(check(i, j))
+                    result.push_back( to_string(i) + "/" + to_string(j));
+            }
+        }
+        
+        return result;
+    }
+};
