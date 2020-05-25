@@ -1,0 +1,34 @@
+class Solution {
+public:
+    vector<int> peopleIndexes(vector<vector<string>>& fc) {
+        int cnt = 0;
+        unordered_map<string, int> m;
+        for(int i=0;i<fc.size();i++)
+            for(string& s : fc[i])
+                m[s] = cnt++;
+
+        vector<bitset<50001>> com;
+        for(vector<string>& v : fc){
+            bitset<50001> b;
+            for(string& s : v)
+                b[m[s]] = 1;
+            com.push_back(b);
+        }
+
+        vector<int> result;
+        for(int i=0;i<com.size();i++){
+            bool find = false;
+            for(int j=0;j<com.size();j++){
+                if(i==j) continue;
+                if((com[i]&com[j]) == com[i]){
+                    find = true;
+                    break;
+                }
+            }
+            if(!find) result.push_back(i);
+        }
+
+        return result;
+        
+    }
+};
