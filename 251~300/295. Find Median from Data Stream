@@ -1,0 +1,41 @@
+class MedianFinder {
+    multiset<int> s1; //small
+    multiset<int> s2; //big
+public:
+    /** initialize your data structure here. */
+    MedianFinder() {}
+    
+    void addNum(int num) {
+        if(s1.empty() || *s1.rbegin()>=num)
+            s1.insert(num);
+        else
+            s2.insert(num);
+        
+        if(abs((int)s1.size()-(int)s2.size()) == 2){
+            if(s1.size()>s2.size()){
+                auto iter = s1.end();
+                iter--;
+                s2.insert(*iter);
+                s1.erase(iter);
+            }else{
+                s1.insert(*s2.begin());
+                s2.erase(s2.begin());
+            }
+        }
+    }
+    
+    double findMedian() {
+        if(s1.size()==s2.size()){
+            return (double)(*s1.rbegin()+*s2.begin())/2;
+        }else if(s1.size()>s2.size())
+            return *s1.rbegin();
+        else 
+            return *s2.begin();
+    }
+};
+/**
+ * Your MedianFinder object will be instantiated and called as such:
+ * MedianFinder* obj = new MedianFinder();
+ * obj->addNum(num);
+ * double param_2 = obj->findMedian();
+ */
