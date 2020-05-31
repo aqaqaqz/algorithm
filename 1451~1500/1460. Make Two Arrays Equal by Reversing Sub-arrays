@@ -1,0 +1,15 @@
+class Solution {
+public:
+    bool canBeEqual(vector<int>& target, vector<int>& arr) {
+        if(target.size() != arr.size()) return false;
+        unordered_map<int, int> m1;
+        unordered_map<int, int> m2;
+        for(int n : target) m1[n]++;
+        for(int n : arr) m2[n]++;
+        
+        for(auto iter=m1.begin();iter!=m1.end();iter++)
+            if(iter->second != m2[iter->first]) return false;
+
+        return true;
+    }
+};
