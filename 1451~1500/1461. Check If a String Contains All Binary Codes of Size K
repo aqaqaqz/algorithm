@@ -1,0 +1,21 @@
+class Solution {
+public:
+    bool hasAllCodes(string str, int k) {
+        if(str.size() <= k) return false;
+        unordered_set<int> s;
+        int m = pow(2, k)-1;
+        int t = 0;
+        for(int i=0;i<k;i++)
+            t += (str[i]=='1'?pow(2, k-i-1):0);
+        s.insert(t);
+        
+        for(int i=k;i<str.size();i++){
+            t <<= 1;
+            t &= m;
+            t += (str[i]-'0');
+            s.insert(t);
+        }
+        
+        return (s.size()==pow(2, k));
+    }
+};
