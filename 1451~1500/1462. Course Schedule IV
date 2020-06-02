@@ -1,0 +1,28 @@
+class Solution {
+    unordered_map<int, vector<int>> m;
+    vector<vector<int>> path;
+    bool check(int p, int d){
+        if(path[p][d] != -1) return path[p][d];
+
+        path[p][d] = 0;
+        for(int next : m[p]){
+            if(next == d || check(next, d)){
+                path[p][d] = 1;
+                break;
+            }
+        }
+        return path[p][d];
+    }
+public:
+    vector<bool> checkIfPrerequisite(int n, vector<vector<int>>& prerequisites, vector<vector<int>>& queries) {
+        for(vector<int>& v : prerequisites)
+            m[v[0]].push_back(v[1]);
+        path.resize(n, vector<int>(n, -1));
+
+        vector<bool> result;
+        for(vector<int>& v : queries){
+            result.push_back(check(v[0], v[1]));
+        }
+        return result;
+    }
+};
