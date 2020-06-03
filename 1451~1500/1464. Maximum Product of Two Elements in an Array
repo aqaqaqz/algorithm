@@ -1,0 +1,16 @@
+class Solution {
+public:
+    int maxProduct(vector<int>& nums) {
+        if(nums.size()<2) return -1;
+        vector<int> v(2, 0);
+        for(int n : nums){
+            if(n >= v[0]){
+                v[1] = v[0];
+                v[0] = n;
+            }else if(n > v[1]){
+                v[1] = n;
+            }
+        }
+        return (v[0]-1)*(v[1]-1);
+    }
+};
