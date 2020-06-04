@@ -1,0 +1,34 @@
+class Solution {
+public:
+    int minReorder(int n, vector<vector<int>>& connections) {
+        unordered_map<int, vector<int>> in;
+        unordered_map<int, vector<int>> out;
+
+        for(vector<int>& v : connections){
+            out[v[0]].push_back(v[1]);
+            in[v[1]].push_back(v[0]);
+        }
+
+        vector<bool> visit(n, false);
+        visit[0] = true;
+        vector<int> list(1, 0);
+        int result = 0;
+        while(!list.empty()){
+            vector<int> temp;
+            for(int city : list){
+                visit[city] = true;
+                for(int n : in[city]){
+                    if(visit[n]) continue;
+                    temp.push_back(n);
+                }
+                for(int n : out[city]){
+                    if(visit[n]) continue;
+                    result++;
+                    temp.push_back(n);
+                }
+            }
+            list = temp;
+        }
+        return result;
+    }
+};
