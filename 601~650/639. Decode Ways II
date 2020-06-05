@@ -1,0 +1,42 @@
+class Solution {
+    const int mod = 1e9+7;
+    int getCnt(vector<int>& v, string& s, int p){
+        if(v[p]!=-1) return v[p];
+        if(s[p] == '0') return 0;
+
+        long long l1 = 0;
+        long long l2 = 0;
+
+        if(s[p] == '*') l1 = 9;
+        else l1 = 1;
+
+        if(p+1 < s.size()){
+            if(s[p] == '*' && s[p+1] == '*') l2 = 15;
+            else if(s[p] == '*'){
+                if(s[p+1] > '6') l2 = 1;
+                else l2 = 2;
+            }else if(s[p+1] == '*'){
+                if(s[p] == '1') l2 = 9;
+                if(s[p] == '2') l2 = 6;
+            }else if(atoi(s.substr(p,2).c_str())<=26) l2 = 1;
+        }
+
+        v[p] = 0;
+        if(p+1 < s.size())
+            v[p] = (v[p] + l1*getCnt(v, s, p+1))%mod;
+        else
+            v[p] = (v[p] + l1)%mod;
+
+        if(p+2 < s.size())
+            v[p] = (v[p] + l2*getCnt(v, s, p+2))%mod;
+        else
+            v[p] = (v[p] + l2)%mod;
+
+        return v[p];
+    }
+public:
+    int numDecodings(string s) {
+        vector<int> v(s.size(), -1);
+        return getCnt(v, s, 0);
+    }
+};
