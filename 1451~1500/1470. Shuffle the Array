@@ -1,0 +1,13 @@
+class Solution {
+public:
+    vector<int> shuffle(vector<int>& nums, int n) {
+        vector<int> result;
+        int xp = 0;
+        int yp = n;
+        for(int i=0;i<n;i++){
+            result.push_back(nums[xp++]);
+            result.push_back(nums[yp++]);
+        }
+        return result;
+    }
+};
