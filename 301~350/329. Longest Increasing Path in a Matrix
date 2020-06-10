@@ -1,0 +1,28 @@
+class Solution {
+    int getLen(vector<vector<int>>& m, vector<vector<int>>& v, int h, int w, int pre, bool f){
+        if(h<0 || w<0 || h==v.size() || w==v[0].size()) return 0;
+        if(!f && pre<=m[h][w]) return 0;
+        if(v[h][w] != -1) return v[h][w];
+
+        v[h][w] = 0;
+        v[h][w] = max(v[h][w], getLen(m, v, h+1, w, m[h][w], false));
+        v[h][w] = max(v[h][w], getLen(m, v, h, w+1, m[h][w], false));
+        v[h][w] = max(v[h][w], getLen(m, v, h-1, w, m[h][w], false));
+        v[h][w] = max(v[h][w], getLen(m, v, h, w-1, m[h][w], false));
+        v[h][w]++;
+        return v[h][w];
+    }
+public:
+    int longestIncreasingPath(vector<vector<int>>& matrix) {
+        if(matrix.empty()) return 0;
+        vector<vector<int>> v(matrix.size(), vector<int>(matrix[0].size(), -1));
+
+        matrix[0].push_back(INT_MAX);
+        int result = 0;
+        for(int h=0;h<matrix.size();h++)
+            for(int w=0;w<matrix[0].size();w++)
+                result = max(result, getLen(matrix, v, h, w, -1, true));
+        
+        return result;
+    }
+};
