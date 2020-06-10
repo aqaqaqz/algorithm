@@ -1,0 +1,28 @@
+class Solution {
+    void change(vector<int>& a, vector<int>& b, int p){
+        int t = a[p];
+        a[p] = b[p];
+        b[p] = t;
+    }
+    int getAble(vector<vector<int>>& v, vector<int>& a, vector<int>& b, int p, int r){
+        //r -> 전 단계가 뒤집혔는지 여부 0->그대로, 1->뒤집
+        if(p==a.size()) return 0;
+        if(v[r][p] != -1) return v[r][p];
+        v[r][p] = 100000;
+
+        if(p==0 || (a[p-1]<a[p] && b[p-1]<b[p]))
+            v[r][p] = getAble(v, a, b, p+1, 0);
+        
+        change(a, b, p);
+        if(p==0 || (a[p-1]<a[p] && b[p-1]<b[p]))
+            v[r][p] = min(v[r][p], getAble(v, a, b, p+1, 1)+1);
+        change(a, b, p);
+        
+        return v[r][p];
+    }
+public:
+    int minSwap(vector<int>& A, vector<int>& B) {
+        vector<vector<int>> v(2, vector<int>(A.size(), -1));
+        return getAble(v, A, B, 0, 0);
+    }
+};
