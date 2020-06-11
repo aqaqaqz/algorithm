@@ -1,0 +1,30 @@
+class Solution {
+    int result = 0;
+    void makePerms(vector<int>& a, int pre, int visit){
+        if(visit == (1<<a.size())-1){
+            result++;
+            return;
+        }
+        int p = -1;
+        for(int i=0;i<a.size();i++){
+            if( (1<<i & visit) == 1<<i) continue;
+            if(p == a[i]) continue;
+            p = a[i];
+            int t = a[pre]+a[i];
+            if((int)sqrt(t)*(int)sqrt(t) == t){
+                makePerms(a, i, (visit+(1<<i)));
+            }
+        }
+    }
+public:
+    int numSquarefulPerms(vector<int>& A) {
+        sort(A.begin(), A.end());
+        int p = -1;
+        for(int i=0;i<A.size();i++){
+            if(p==A[i]) continue;
+            p = A[i];
+            makePerms(A, i, 1<<i);
+        }
+        return result;
+    }
+};
