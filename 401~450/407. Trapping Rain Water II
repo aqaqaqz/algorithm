@@ -1,0 +1,54 @@
+class Solution {
+    void makeRst(int& result, vector<vector<int>>& hm, multimap<int, vector<int>>& m, vector<vector<bool>>& v, int h, int w, int water){
+        if(h<0 || w<0 || h==hm.size() || w==hm[0].size()) return;
+        if(v[h][w]) return;
+        
+        v[h][w] = true;
+        if(hm[h][w] >= water){
+            m.insert(make_pair(hm[h][w], vector<int>{h, w}));
+            return;
+        }
+        result += (water - hm[h][w]);
+        hm[h][w] = water;
+        m.insert(make_pair(water, vector<int>{h, w}));
+    }
+public:
+    int trapRainWater(vector<vector<int>>& heightMap) {
+        multimap<int, vector<int>> m;
+        int mh = heightMap.size();
+        int mw = heightMap[0].size();
+        vector<vector<bool>> visit(mh, vector<bool>(mw, false));
+
+        for(int i=1;i<mh-1;i++){
+            m.insert(make_pair(heightMap[i][0], vector<int>{i, 0}));
+            m.insert(make_pair(heightMap[i][mw-1], vector<int>{i, mw-1}));
+            visit[i][0] = true;
+            visit[i][mw-1] = true;
+        }
+        for(int i=1;i<mw-1;i++){
+            m.insert(make_pair(heightMap[0][i], vector<int>{0, i}));
+            m.insert(make_pair(heightMap[mh-1][i], vector<int>{mh-1, i}));
+            visit[0][i] = true;
+            visit[mh-1][i] = true;
+        }
+        visit[0][0] = true;
+        visit[0][mw-1] = true;
+        visit[mh-1][0] = true;
+        visit[mh-1][mw-1] = true;
+
+        int result = 0;
+        int water;
+        while(!m.empty()){
+            water = m.begin()->first;
+            int h = m.begin()->second[0];
+            int w = m.begin()->second[1];
+            m.erase(m.begin());
+            
+            makeRst(result, heightMap, m, visit, h+1, w, water);
+            makeRst(result, heightMap, m, visit, h, w+1, water);
+            makeRst(result, heightMap, m, visit, h-1, w, water);
+            makeRst(result, heightMap, m, visit, h, w-1, water);
+        }
+        return result;
+    }
+};
