@@ -1,0 +1,28 @@
+class Solution {
+public:
+    int minSumOfLengths(vector<int>& arr, int target) {
+        vector<int> grp1(arr.size(), INT_MAX);
+        vector<int> grp2(arr.size(), INT_MAX);
+        
+        int sum = 0;
+        int f = 0;
+        for(int i=0;i<arr.size();i++){
+            sum += arr[i];
+            while(sum > target)
+                sum -= arr[f++];
+            if(sum == target)
+                grp1[f] = i-f+1;
+        }
+        
+        for(int i=arr.size()-1;i>=0;i--)
+            grp2[i] = min(grp1[i], i+1<arr.size()?grp2[i+1]:INT_MAX);
+
+        int result = INT_MAX;
+        for(int i=0;i<arr.size();i++){
+            if(grp1[i] == INT_MAX) continue;
+            if(i+grp1[i]>=arr.size() || grp2[i+grp1[i]]==INT_MAX) continue;
+            result = min(result, grp1[i]+grp2[i+grp1[i]]);
+        }
+        return (result==INT_MAX?-1:result);
+    }
+};
