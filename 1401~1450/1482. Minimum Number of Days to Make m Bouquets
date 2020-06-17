@@ -1,0 +1,37 @@
+class Solution {
+    int getCnt(vector<int>& b, int d, int k){
+        int l = 0;
+        int able = 0;
+        for(int n : b){
+            if(d>=n){
+                l++;
+            }else{
+                l = 0;
+            }
+            if(l == k){
+                l = 0;
+                able++;
+            }
+        }
+
+        return able;
+    }
+public:
+    int minDays(vector<int>& bloomDay, int m, int k) {
+        int s = 1;
+        int e = 0;
+        for(int n : bloomDay) e = max(e, n);
+        int result = INT_MAX;
+
+        while(s <= e){
+            int day = (s+e)/2;
+            if(getCnt(bloomDay, day, k) >= m){
+                e = day-1;
+                result = min(result, day);
+            }else{
+                s = day+1;
+            }
+        }
+        return (result==INT_MAX?-1:result);
+    }
+};
