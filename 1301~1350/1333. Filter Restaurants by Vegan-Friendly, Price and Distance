@@ -1,0 +1,22 @@
+class Solution {
+public:
+    vector<int> filterRestaurants(vector<vector<int>>& restaurants, int veganFriendly, int maxPrice, int maxDistance) {
+        vector<int> idxList;
+        for(int i=0;i<restaurants.size();i++){
+            if((veganFriendly==0 || restaurants[i][2]==veganFriendly) 
+               && restaurants[i][3]<=maxPrice 
+               && restaurants[i][4]<=maxDistance)
+                idxList.push_back(i);
+        }
+
+        sort(idxList.begin(), idxList.end(), [&restaurants](int &r1, int &r2){
+            if(restaurants[r1][1] == restaurants[r2][1])
+                return restaurants[r1][0] > restaurants[r2][0];
+            return restaurants[r1][1] > restaurants[r2][1];
+        });
+
+        vector<int> result;
+        for(int i : idxList) result.push_back(restaurants[i][0]);
+        return result;
+    }
+};
