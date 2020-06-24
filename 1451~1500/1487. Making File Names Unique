@@ -1,0 +1,30 @@
+class Solution {
+    string myItoa(int n){
+        string str = "";
+        while(n!=0){
+            str = (char)(n%10 + '0') + str;
+            n /= 10;
+        }
+        return str;
+    }
+public:
+    vector<string> getFolderNames(vector<string>& names) {
+        unordered_set<string> s;
+        unordered_map<string, int> m;
+        for(string& dir : names){
+            if(s.find(dir)==s.end()){
+                s.insert(dir);
+            }else{
+                while(true){
+                    string temp = dir + "(" + myItoa(++m[dir]) + ")";
+                    if(s.find(temp)==s.end()){
+                        dir = temp;
+                        s.insert(dir);
+                        break;
+                    }
+                }
+            }
+        }
+        return names;
+    }
+};
