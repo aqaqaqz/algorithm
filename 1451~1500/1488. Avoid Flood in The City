@@ -1,0 +1,39 @@
+class Solution {
+    int findDryPos(set<int>& s, int p){
+        s.insert(p);
+        auto iter = s.find(p);
+        iter++;
+        if(iter == s.end()) return -1;
+        int pos = *iter;
+        s.erase(p);
+        s.erase(iter);
+        return pos;
+    }
+public:
+    vector<int> avoidFlood(vector<int>& rains) {
+        vector<int> result;
+        unordered_map<int, int> m;
+        set<int> dryPos;
+        int dryCnt = 0;
+        
+        for(int i=0;i<rains.size();i++){
+            int n = rains[i];
+            if(n == 0){
+                result.push_back(0);
+                dryPos.insert(i);
+            }else{
+                result.push_back(-1);
+                if(m.find(n)!=m.end()){
+                    int p = findDryPos(dryPos, m[n]);
+                    if(p == -1) return vector<int>();
+                    result[p] = n;
+                }
+                m[n] = i;
+            }
+        }
+        for(int& n : result)
+            if(n==0) n = 1;
+        
+        return result;
+    }
+};
