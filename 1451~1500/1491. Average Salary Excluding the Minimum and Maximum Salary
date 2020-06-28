@@ -1,0 +1,14 @@
+class Solution {
+public:
+    double average(vector<int>& salary) {
+        int maxS = INT_MIN;
+        int minS = INT_MAX;
+        int sum = 0;
+        for(int  n : salary){
+            maxS = max(maxS, n);
+            minS = min(minS, n);
+            sum += n;
+        }
+        return ((double)sum-maxS-minS)/(salary.size()-2);
+    }
+};
