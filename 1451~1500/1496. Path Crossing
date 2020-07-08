@@ -1,0 +1,24 @@
+class Solution {
+public:
+    bool isPathCrossing(string path) {
+        bool result = false;
+        unordered_map<char, vector<int>> m;
+        m['N'] = vector<int>{-1, 0};
+        m['S'] = vector<int>{1, 0};
+        m['W'] = vector<int>{0, -1};
+        m['E'] = vector<int>{0, 1};
+        unordered_set<int> s;
+        
+        vector<int> p{0, 0};
+        s.insert(0);
+        for(char c : path){
+            p[0] += m[c][0];
+            p[1] += m[c][1];
+            int key = p[0]*(path.size()+1) + p[1];
+            if(s.find(key) != s.end()) return true;
+            s.insert(key);
+        }
+        
+        return false;
+    }
+};
