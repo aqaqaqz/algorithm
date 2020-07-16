@@ -1,0 +1,27 @@
+class Solution {
+public:
+    string reformatDate(string date) {
+        unordered_map<string, string> m;
+        m["Jan"] = "01"; m["Feb"] = "02"; m["Mar"] = "03";
+        m["Apr"] = "04"; m["May"] = "05"; m["Jun"] = "06";
+        m["Jul"] = "07"; m["Aug"] = "08"; m["Sep"] = "09";
+        m["Oct"] = "10"; m["Nov"] = "11"; m["Dec"] = "12";
+        
+        vector<string> v;
+        string s = "";
+        for(char c : date){
+            if(c == ' '){
+                v.push_back(s);
+                s = "";
+            }else if(isalpha(c) && v.size()==1){
+                s += c;
+            }else if(isdigit(c))
+                s += c;
+        }
+        v.push_back(s);
+        
+        if(v[0].size() == 1) v[0] = "0"+v[0];
+        return v[2]+"-"+m[v[1]]+"-"+v[0];
+        
+    }
+};
