@@ -1,0 +1,67 @@
+class Solution {
+    int makeLen(vector<vector<int>>& m, vector<vector<int>>& v, int h, int w){
+        if(w<0 || w>=m[0].size()) return 0;
+        if(v[h][w] != -1) return 0;
+        if(m[h][w] == 0)
+            v[h][w] = 0;
+        else
+            v[h][w] = 1 + makeLen(m, v, h, w+1);
+        
+        return v[h][w];
+    }
+public:
+    int numSubmat(vector<vector<int>>& mat) {
+        vector<vector<int>> v(mat.size(), vector<int>(mat[0].size(), -1));
+        for(int h=0;h<mat.size();h++)
+            for(int w=0;w<mat[0].size();w++)
+                makeLen(mat, v, h, w);
+        
+        int result = 0;
+        for(int h=0;h<mat.size();h++){
+            for(int w=0;w<mat[0].size();w++){
+                if(mat[h][w] == 0) continue;
+                int th = h+1;
+                int l = v[h][w];
+                result += v[h][w];
+                while(th<mat.size() && mat[th][w]==1){
+                    l = min(l, v[th][w]);
+                    result += l;
+                    th++;
+                }
+            }
+        }
+        
+        return result;
+    }
+};
+
+/*
+000
+000
+000
+
+101
+010
+101
+
+111
+111
+111
+
+100
+100
+100
+
+111
+000
+000
+
+100
+010
+001
+
+100
+110
+111
+
+*/
