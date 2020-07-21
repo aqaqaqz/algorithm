@@ -1,0 +1,26 @@
+class Solution {
+public:
+    int rangeSum(vector<int>& nums, int n, int left, int right) {
+        int mod = 1e9+7;
+        multimap<int, int> m;
+        for(int i=0;i<nums.size();i++)
+            m.insert(make_pair(nums[i], i));
+
+        int result = 0;
+        for(int i=1;i<=right;i++){
+            int val = m.begin()->first;
+            int next = m.begin()->second+1;
+            if(i>=left){
+                result += val;
+                if(result >= mod)
+                    result %= mod;
+            }
+            
+            m.erase(m.begin());
+            if(next < nums.size())
+                m.insert(make_pair(val+nums[next], next));
+        }
+        
+        return result;
+    }
+};
