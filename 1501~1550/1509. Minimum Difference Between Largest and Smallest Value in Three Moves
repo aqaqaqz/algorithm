@@ -1,0 +1,19 @@
+class Solution {
+public:
+    int minDifference(vector<int>& nums) {
+        if(nums.size() < 5) return 0;
+        
+        sort(nums.begin(), nums.end());
+        int result = INT_MAX;
+        int s = 3;
+        int e = nums.size()-1;
+        
+        while(s>=0){
+            result = min(result, nums[e]-nums[s]);
+            s--;
+            e--;
+        }
+        
+        return result;
+    }
+};
