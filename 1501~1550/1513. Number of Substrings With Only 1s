@@ -1,0 +1,26 @@
+class Solution {
+public:
+    int numSub(string s) {
+        unordered_map<int, int> m;
+        int l = 0;
+        for(char c : s){
+            if(c=='1') l++;
+            else{
+                m[l]++;
+                l = 0;
+            }
+        }
+        m[l]++;
+        
+        long long result = 0;
+        int mod = 1e9+7;
+        
+        for(auto iter=m.begin();iter!=m.end();iter++){
+            int n = iter->first;
+            result += ((long long)n*(n+1)/2)*iter->second;
+            result %= mod;
+        }
+        
+        return result;
+    }
+};
