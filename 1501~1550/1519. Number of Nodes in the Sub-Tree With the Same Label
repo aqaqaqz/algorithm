@@ -1,0 +1,27 @@
+class Solution {
+    vector<int> getSubCnt(int p, unordered_map<int, vector<int>>& m, string& labels, vector<int>& result, int pre){
+        vector<int> v(26, 0);
+        v[labels[p]-'a']++;
+        for(int n : m[p]){
+            if(n==pre) continue;
+            vector<int> t = getSubCnt(n, m, labels, result, p);
+            for(int i=0;i<26;i++)
+                v[i] += t[i];
+        }
+        
+        result[p] = v[labels[p]-'a'];
+        return v;
+    }
+public:
+    vector<int> countSubTrees(int n, vector<vector<int>>& edges, string labels) {
+        unordered_map<int, vector<int>> m;
+        for(vector<int> v : edges){
+            m[v[0]].push_back(v[1]);
+            m[v[1]].push_back(v[0]);
+        }
+        vector<int> result(n, 0);
+        getSubCnt(0, m, labels, result, -1);
+        
+        return result;
+    }
+};
