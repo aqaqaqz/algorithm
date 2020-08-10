@@ -1,0 +1,22 @@
+class Solution {
+    int getCost(int s, int e, int cs, int ce, vector<int>& cuts, vector<vector<int>>& v){
+        if(cs>ce) return 0;
+        if(cs==ce) return e-s;
+        if(v[cs][ce] != -1) return v[cs][ce];
+        
+        v[cs][ce] = e-s;
+        int temp = INT_MAX;
+        for(int i=cs;i<=ce;i++){
+            temp = min(temp, getCost(s, cuts[i], cs, i-1, cuts, v)+getCost(cuts[i], e, i+1, ce, cuts, v));
+        }
+        
+        v[cs][ce] += temp;
+        return v[cs][ce];
+    }
+public:
+    int minCost(int n, vector<int>& cuts) {
+        sort(cuts.begin(), cuts.end());
+        vector<vector<int>> v(cuts.size(), vector<int>(cuts.size(), -1));
+        return getCost(0, n, 0, cuts.size()-1, cuts, v);        
+    }
+};

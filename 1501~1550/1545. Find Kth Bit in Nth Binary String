@@ -1,0 +1,15 @@
+class Solution {
+public:
+    char findKthBit(int n, int k) {
+        string str = "0";
+        while(--n){
+            string temp = str;
+            temp += "1";
+            for(int i=str.size()-1;i>=0;i--){
+                temp += (str[i]=='0'?"1":"0");
+            }
+            str = temp;
+        }
+        return str[k-1];
+    }
+};
