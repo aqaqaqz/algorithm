@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int numSplits(string s) {
+        vector<int> l(26, 0);
+        vector<int> r(26, 0);
+        for(char c : s)
+            r[c-'a']++;
+        
+        int result = 0;
+        for(char c : s){
+            l[c-'a']++;
+            r[c-'a']--;
+            int lCnt = 0, rCnt = 0;
+            for(int n : l)
+                if(n!=0) lCnt++;
+            for(int n : r)
+                if(n!=0) rCnt++;
+            if(lCnt==rCnt) result++;
+        }
+        
+        return result;
+    }
+};
