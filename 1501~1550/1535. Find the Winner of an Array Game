@@ -1,0 +1,13 @@
+class Solution {
+public:
+    int getWinner(vector<int>& arr, int k) {
+        unordered_map<int, int> m;
+        int p = arr[0];
+        for(int i=1;i<arr.size();i++){
+            p = max(arr[i], p);
+            m[p]++;
+            if(m[p] == k) return p;
+        }
+        return p;
+    }
+};
