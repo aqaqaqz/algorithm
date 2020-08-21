@@ -1,0 +1,32 @@
+#define swap(a, b) {int c; c=a; a=b; b=c;}
+
+class Solution {
+public:
+    int minSwaps(vector<vector<int>>& grid) {
+        vector<int> v;
+        for(int i=0;i<grid.size();i++){
+            int cnt = 0;
+            int p = grid[i].size()-1;
+            while(p>=0 && grid[i][p]==0){
+                cnt++;
+                p--;
+            }
+            v.push_back(cnt);
+        }
+
+        int result = 0;
+        for(int i=0;i<v.size();i++){
+            int need = grid[i].size()-1-i;
+            int p = i;
+            for(p;p<v.size();p++){
+                if(v[p] >= need) break;
+            }
+            if(p==v.size()) return -1;
+            result += p-i;
+            for(int j=p;j>i;j--)
+                swap(v[j], v[j-1]);
+        }
+
+        return result;
+    }
+};
