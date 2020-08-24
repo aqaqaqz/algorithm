@@ -1,0 +1,15 @@
+class Solution {
+public:
+    int findKthPositive(vector<int>& arr, int k) {
+        int pre = 0;
+        for(int n : arr){
+            k -= (n-pre-1);
+            pre = n;
+            if(k <= 0){
+                k--;
+                break;
+            }
+        }
+        return pre+k;
+    }
+};
