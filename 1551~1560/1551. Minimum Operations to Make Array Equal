@@ -1,0 +1,11 @@
+class Solution {
+public:
+    int minOperations(int n) {
+        int result = 0;
+        bool odd = (n%2==1);
+        for(int i=1;i<=n/2;i++)
+            result += (odd?i*2:(i-1)*2+1);
+        
+        return result;
+    }
+};
