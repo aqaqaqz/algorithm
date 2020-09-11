@@ -1,0 +1,29 @@
+class Solution {
+    int getCnt(vector<int>& v, int d){
+        int cnt = 1;
+        int pre = 0;
+        for(int i=1;i<v.size();i++){
+            if(v[i]-v[pre]>=d){
+                pre = i;
+                cnt++;
+            }
+        }
+        return cnt;
+    }
+public:
+    int maxDistance(vector<int>& position, int ball) {
+        sort(position.begin(), position.end());
+        int s = 1;
+        int result = 0;
+        int e = position.back()-position.front();
+        while(s <= e){
+            int m = (s+e)/2;
+            if(getCnt(position, m) >= ball){
+                result = max(result, m);
+                s = m+1;
+            }else
+                e = m-1;
+        }
+        return result;
+    }
+};
