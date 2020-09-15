@@ -1,0 +1,28 @@
+class Solution {
+public:
+    int minOperations(vector<int>& nums) {
+        int result = 0;
+        while(true){
+            for(int& n : nums){
+                if(n%2 == 1){
+                    n--;
+                    result++;
+                }
+                n /= 2;
+            }
+            
+            bool loop = false;
+            for(int& n : nums){
+                if(n > 0){
+                    loop = true;
+                    break;
+                }
+            }
+            if(!loop) break;
+            
+            result++;
+        }
+        
+        return result;
+    }
+};
