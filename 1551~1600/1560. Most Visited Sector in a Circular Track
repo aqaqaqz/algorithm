@@ -1,0 +1,27 @@
+class Solution {
+public:
+    vector<int> mostVisited(int n, vector<int>& rounds) {
+        vector<int> result;
+        if(rounds.empty()) return result;
+
+        int maxVisit = 0;
+        unordered_map<int, int> m;
+        for(int i=1;i<rounds.size();i++){
+            for(int p=rounds[i-1];;p++){
+                if(p>n) p = 1;
+                if(p==rounds[i]) break;
+                m[p]++;
+                maxVisit = max(maxVisit, m[p]);
+            }
+        }
+        m[rounds.back()]++;
+        maxVisit = max(maxVisit, m[rounds.back()]);
+        
+        for(auto iter=m.begin();iter!=m.end();iter++)
+            if(iter->second == maxVisit) result.push_back(iter->first);
+
+        sort(result.begin(), result.end());
+        
+        return result;
+    }
+};
