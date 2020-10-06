@@ -1,0 +1,19 @@
+class Solution {
+public:
+    bool containsPattern(vector<int>& arr, int m, int k) {
+        int p = 0, l = 0, c = 0;
+        while(p+c*m < arr.size()){
+            if(arr[p] != arr[p+m*c]){
+                p++; l=0; c=0;
+                continue;
+            }else c++;
+            
+            if(c == k){
+                p++; l++; c=0;
+            }
+            
+            if(l == m) return true;
+        }
+        return false;
+    }
+};
