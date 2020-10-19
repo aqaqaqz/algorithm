@@ -1,0 +1,21 @@
+class Solution {
+    int getSum(vector<vector<int>>& v, int h, int w, int nh, int nw){
+        int sum = 0;
+        while(h>=0 && w>=0 && h<v.size() && w<v[0].size()){
+            sum += v[h][w];
+            h += nh;
+            w += nw;
+        }
+        return sum;
+    }
+public:
+    int diagonalSum(vector<vector<int>>& mat) {
+        int l = mat.size();
+        int result = getSum(mat, 0, 0, 1, 1);
+        result += getSum(mat, 0, l-1, 1, -1);
+        if(mat.size()%2 == 1)
+            result -= mat[l/2][l/2];
+        
+        return result;
+    }
+};
