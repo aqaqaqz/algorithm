@@ -1,0 +1,48 @@
+class Solution {
+public:
+    int numWays(string s) {
+        long long cnt = 0;
+        for(char c : s)
+            if(c == '1') cnt++;
+        
+        if(cnt%3 != 0) return 0;
+        cnt /= 3;
+        
+		long long result = 0;
+		if(cnt == 0){
+            cnt = s.size()-1;
+			result = (cnt*cnt-cnt)/2;
+		}else{
+			long long len1=0, len2=0;
+			int t = 0;
+			for(int i=0;i<s.size();i++){
+				if(s[i] == '1') t++;
+				if(t == cnt){
+					i++;
+					while(s[i] == '0'){
+						i++;
+						len1++;
+					}
+
+					break;
+				}
+			}
+
+			t = 0;
+			for(int i=s.size()-1;i>=0;i--){
+				if(s[i] == '1') t++;
+				if(t == cnt){
+					i--;
+					while(s[i] == '0'){
+						i--;
+						len2++;
+					}
+
+					break;
+				}
+			}
+			result = (len1+1)*(len2+1);
+		}
+		return result%(int)(1e9+7);
+    }
+};
