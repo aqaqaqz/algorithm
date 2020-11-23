@@ -1,0 +1,23 @@
+class Solution {
+    int findTriplets(vector<int>& n1, vector<int>& n2){
+        int cnt = 0;
+        unordered_map<long long, int> m;
+        
+        for(int i=0;i<n2.size();i++){
+            for(int j=i+1;j<n2.size();j++){
+                m[(long long)n2[i]*n2[j]]++;
+            }
+        }
+        for(long long n : n1)
+            cnt += m[n*n];
+        
+        return cnt;
+    }
+public:
+    int numTriplets(vector<int>& nums1, vector<int>& nums2) {
+        int result = 0;
+        result += findTriplets(nums1, nums2);
+        result += findTriplets(nums2, nums1);
+        return result;
+    }
+};
