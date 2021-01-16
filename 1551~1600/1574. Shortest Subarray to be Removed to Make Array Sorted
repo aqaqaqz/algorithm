@@ -1,0 +1,38 @@
+class Solution {
+    int getPos(vector<int>& v, int s, int e, int f){
+        if(s>=e) return s;
+        int m = (s+e)/2;
+        if(v[m]>=f) e = m;
+        else s = m+1;
+        return getPos(v, s, e, f);
+    }
+public:
+    int findLengthOfShortestSubarray(vector<int>& arr) {
+        vector<vector<int>> v;
+        for(int s=0;s<arr.size();s++){
+            int e = s;
+            while(e+1<arr.size() && arr[e]<=arr[e+1])
+                e++;
+            v.push_back(vector<int>{s, e});
+            s = e;
+        }
+        if(v.size()==1) return 0;
+        
+        int result = 0;
+        vector<int> f = v.front();
+        vector<int> b = v.back();
+        for(int i=0;i<=f[1];i++){
+            int t = i+1;
+            int p = getPos(arr, b[0], b[1], arr[i]);
+            if(p < arr.size()){
+                if(arr[p]<arr[i]) p++;
+                t += (arr.size()-p);
+            }
+            
+            result = max(result, t);
+        }
+        result = max(result, b[1]-b[0]+1);
+        
+        return arr.size()-result;
+    }
+};
