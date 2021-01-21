@@ -1,0 +1,37 @@
+class Solution {
+    multimap<int, vector<int>> m;
+    vector<bool> visit;
+    
+    void makeList(vector<vector<int>>& p, int pos){
+        for(int i=0;i<p.size();i++){
+            if(visit[i]) continue;
+            int dis = abs(p[i][0]-p[pos][0]) + abs(p[i][1]-p[pos][1]);
+            m.insert(make_pair(dis, vector<int>{pos, i}));
+        }
+    }
+public:
+    int minCostConnectPoints(vector<vector<int>>& points) {
+        visit.resize(points.size(), false);
+        
+        makeList(points, 0);
+        int cnt = 1;
+        visit[0] = true;
+        int result = 0;
+        
+        while(cnt < points.size()){
+            auto iter = m.begin();
+            
+            vector<int> v = iter->second;
+            if(!visit[v[1]]){
+                cnt++;
+                visit[v[1]] = true;
+                makeList(points, v[1]);
+                result += iter->first;
+            }
+            
+            m.erase(iter);
+        }
+        
+        return result;
+    }
+};
