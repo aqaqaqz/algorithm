@@ -1,0 +1,36 @@
+class Solution {
+    string makeEmptyStr(int n){
+        string s = "";
+        while(n>0){
+            s += ' ';
+            n--;
+        }
+        return s;
+    }
+public:
+    string reorderSpaces(string text) {
+        int cnt = 0;
+        vector<string> v;
+        string s = "";
+        for(char c : text){
+            if(c == ' '){
+                cnt++;
+                if(s != "") v.push_back(s);
+                s = "";
+            }else s += c;
+        }
+        if(s != "") v.push_back(s);
+
+        string result = "";
+        int spaceCnt = cnt/max((int)v.size()-1, 1);
+        for(int i=0;i<v.size()-1;i++){
+            result += v[i];
+            result += makeEmptyStr(spaceCnt);
+            cnt -= spaceCnt;
+        }
+        
+        result += v.back();
+        result += makeEmptyStr(cnt);
+        return result;
+    }
+};
