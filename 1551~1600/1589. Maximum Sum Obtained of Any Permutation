@@ -1,0 +1,38 @@
+class Solution {
+public:
+    int maxSumRangeQuery(vector<int>& nums, vector<vector<int>>& requests) {
+        
+        sort(requests.begin(), requests.end(), [](vector<int>& v1, vector<int>& v2)->bool{
+            if(v1[0]==v2[0]) return v1[1]<v2[1];
+            return v1[0]<v2[0];
+        });
+
+        int p = 0;
+        int cnt = 0;
+        unordered_map<int, int> em;
+        vector<long long> v(nums.size(), 0);
+        long long result = 0;
+        const int mod = 1e9 + 7;
+        
+        for(int i=0;i<nums.size();i++){
+            while(p<requests.size() && requests[p][0]<=i){
+                cnt++;
+                em[requests[p][1]]++;
+                p++;
+            }
+            cnt -= em[i-1];
+            v[i] = cnt;
+        }
+        
+        sort(nums.begin(), nums.end());
+        sort(v.begin(), v.end());
+        p = v.size()-1;
+        while(p>=0 && v[p]!=0){
+            result += v[p]*nums[p];
+            result %= mod;
+            p--;
+        }
+        
+        return result;
+    }
+};
