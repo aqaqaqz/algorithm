@@ -1,0 +1,23 @@
+class Solution {
+    int result = 0;
+    unordered_set<string> m;
+    void findResult(int sp, string& s, int cnt){
+        if(sp>=s.size()){
+            result = max(result, cnt);
+            return;
+        }
+        
+        for(int i=1;i<=s.size()-sp;i++){
+            string t = s.substr(sp, i);
+            if(m.find(t) != m.end()) continue;
+            m.insert(t);
+            findResult(sp+i, s, cnt+1);
+            m.erase(t);
+        }
+    }
+public:
+    int maxUniqueSplit(string s) {
+        findResult(0, s, 0);
+        return result;
+    }
+};
