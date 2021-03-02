@@ -1,0 +1,18 @@
+class Solution {
+public:
+    int minOperations(vector<string>& logs) {
+        string up = "../";
+        string now = "./";
+        
+        int result = 0;
+        for(string& s : logs){
+            if(up == s)
+                result--;
+            else if(now != s)
+                result++;
+            result = max(result, 0);
+        }
+        
+        return result;
+    }
+};

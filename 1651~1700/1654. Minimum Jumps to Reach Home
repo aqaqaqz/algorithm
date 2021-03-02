@@ -1,0 +1,37 @@
+class Solution {
+public:
+    int minimumJumps(vector<int>& forbidden, int a, int b, int x) {
+        vector<vector<int>> visit(6001, vector<int>(2, -1));
+        for(int n : forbidden){
+            visit[n][0] = 0;
+            visit[n][1] = 0;
+        }
+        
+        int result = INT_MAX;
+        queue<vector<int>> q;
+        
+        q.push(vector<int>{0, 0, 0});
+        
+        while(!q.empty()){
+            vector<int> v = q.front();
+            q.pop();
+            int p = v[0];
+            int cnt = v[1];
+            int back = v[2];
+            
+            if(x == p)
+                result = min(result, cnt);
+            
+            if(p+a<6001 && visit[p+a][0]==-1){
+                visit[p+a][0] = 0;
+                q.push(vector<int>{p+a, cnt+1, 0});
+            }
+            if(p-b>0 && back==0 && visit[p-b][1]==-1){
+                visit[p-b][1] = 0;
+                q.push(vector<int>{p-b, cnt+1, 1});
+            }
+        }
+        
+        return (result==INT_MAX)?-1:result;
+    }
+};

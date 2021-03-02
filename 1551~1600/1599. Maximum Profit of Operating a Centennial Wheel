@@ -1,0 +1,27 @@
+class Solution {
+public:
+    int minOperationsMaxProfit(vector<int>& customers, int boardingCost, int runningCost) {
+        int result = -1;
+        int maxBene = 0;
+        int bene = 0;
+        int cnt = 0;
+        int l = 0;
+        
+        while(true){
+            if(l < customers.size())
+                cnt += customers[l];
+            l++;
+            
+            int boarding = min(cnt, 4);
+            cnt -= boarding;
+            bene += (boarding*boardingCost - runningCost);
+            if(bene > maxBene){
+                maxBene = bene;
+                result = l;
+            }
+            
+            if(cnt == 0 && l>=customers.size()) break;
+        }
+        return result;
+    }
+};
