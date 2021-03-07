@@ -1,0 +1,21 @@
+class Solution {
+public:
+    vector<vector<int>> restoreMatrix(vector<int>& rowSum, vector<int>& colSum) {
+        vector<vector<int>> result(rowSum.size(), vector<int>(colSum.size(), 0));
+        result[0] = colSum;
+        for(int r=0;r<rowSum.size()-1;r++){
+            int sum = 0;
+            for(int c=0;c<colSum.size();c++){
+                if(sum+result[r][c] < rowSum[r]){
+                    rowSum[r] -= result[r][c];
+                }else{
+                    int last = result[r][c] - rowSum[r];
+                    result[r][c] = rowSum[r];
+                    rowSum[r] = 0;
+                    result[r+1][c] = last;
+                }
+            }
+        }
+        return result;
+    }
+};
