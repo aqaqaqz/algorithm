@@ -1,0 +1,35 @@
+class Solution {
+    public String multiply(String num1, String num2) {
+        int[] rst = new int[num1.length()+num2.length()];
+
+        int p = 0;
+        for(int i=num1.length()-1;i>=0;i--){
+            int p2 = 0;
+            for(int j=num2.length()-1;j>=0;j--){
+                int n1 = num1.charAt(i)-'0';
+                int n2 = num2.charAt(j)-'0';
+                int r = n1 * n2;
+                rst[p+p2] += (r%10);
+                rst[p+p2+1] += r/10;
+                p2++;
+            }
+            p++;
+        }
+        
+        int up = 0;
+        StringBuffer sb = new StringBuffer();
+
+        for(int i=0;i<rst.length;i++){
+            rst[i] += up;
+            up = rst[i]/10;
+            rst[i] %= 10;
+            
+            sb.append((char)(rst[i]+(int)'0'));
+        }
+        while(sb.charAt(sb.length()-1) == '0')
+            sb.delete(sb.length()-1);
+        sb.reverse();
+
+        return sb.toString();
+    }
+}
