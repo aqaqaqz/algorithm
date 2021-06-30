@@ -1,0 +1,15 @@
+class Solution {
+public:
+    int specialArray(vector<int>& nums) {
+        unordered_map<int, int> m;
+        for(int n : nums) m[n]++;
+        
+        int cnt = 0;
+        for(int i=1000;i>=0;i--){
+            cnt += m[i];
+            if(i == cnt) return i;
+        }
+        
+        return -1;
+    }
+};

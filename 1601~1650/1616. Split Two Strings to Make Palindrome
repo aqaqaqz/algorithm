@@ -1,0 +1,56 @@
+class Solution {
+    vector<bool> checkPanlin(string& str){
+        vector<bool> v(str.size(), false);
+
+        if(str.size()%2 == 0){
+            int e = str.size()/2;
+            int s = e-1;
+            while(s >= 0){
+                if(str[s] == str[e]){
+                    v[s--] = true;
+                    v[e++] = true;
+                }else break;
+            }
+        }else{
+            int m = str.size()/2;
+            int l = 0;
+            while(m>=l){
+                if(str[m-l] == str[m+l]){
+                    v[m-l] = true;
+                    v[m+l] = true;
+                }else break;
+                l++;
+            }
+        }
+
+        return v;
+    }
+public:
+    bool checkPalindromeFormation(string a, string b) {
+        vector<bool> aPanlin = checkPanlin(a);
+        vector<bool> bPanlin = checkPanlin(b);
+
+        if(aPanlin[0] || bPanlin[0]) return true;
+
+        int l = a.size()-1;
+        for(int i=0;i<a.size()/2;i++){
+            if(a[i] == b[l-i]){
+                if(aPanlin[i+1] || bPanlin[i+1])
+                    return true;
+            }else break;
+
+            if(i+1 == a.size()/2) return true;
+        }
+
+        for(int i=0;i<a.size()/2;i++){
+            if(b[i] == a[l-i]){
+                if(aPanlin[i+1] || bPanlin[i+1])
+                    return true;
+            }else break;
+
+            if(i+1 == a.size()/2) return true;
+        }
+
+        return false;
+    }
+};
