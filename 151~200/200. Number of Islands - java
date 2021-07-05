@@ -1,0 +1,25 @@
+class Solution {
+    public void convertLand(int h, int w, char[][] grid){
+        if(h<0 || w<0 || h==grid.length || w==grid[0].length) return;
+        if(grid[h][w] == '0') return;
+        grid[h][w] = '0';
+        
+        convertLand(h+1, w, grid);
+        convertLand(h, w+1, grid);
+        convertLand(h-1, w, grid);
+        convertLand(h, w-1, grid);
+    }
+    
+    public int numIslands(char[][] grid) {
+        int result = 0;
+        for(int h=0;h<grid.length;h++){
+            for(int w=0;w<grid[h].length;w++){
+                if(grid[h][w] == '1'){
+                    result++;
+                    convertLand(h, w, grid);
+                }
+            }
+        }
+        return result;
+    }
+}
