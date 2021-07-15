@@ -1,0 +1,24 @@
+class Solution {
+private:
+    bool contains(vector<char>& v, char c){
+        for(char t : v) if(c==t) return true;
+        return false;
+    }
+public:
+    string removeDuplicateLetters(string s) {
+        unordered_map<char, int> m;
+        for(char c : s) m[c]++;
+        
+        vector<char> v;
+        for(char c : s){
+            m[c]--;
+            if(contains(v, c)) continue;
+            while(!v.empty() 
+                  && m[v.back()] > 0
+                  && v.back()>c) v.pop_back();
+            v.push_back(c);
+        }
+        
+        return string(v.begin(), v.end());
+    }
+};
