@@ -1,0 +1,14 @@
+class Solution {
+public:
+    int arraySign(vector<int>& nums) {
+        int result = 1;
+        for(int n : nums){
+            if(n == 0){
+                result = 0; 
+                break;
+            }
+            result *= (n>0?1:-1);
+        }
+        return result;
+    }
+};
