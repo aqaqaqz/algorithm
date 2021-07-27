@@ -1,0 +1,45 @@
+class WordPos {
+private:
+    int arrIdx;
+    int charIdx;
+    vector<string> list;
+public:
+    WordPos(){}
+    WordPos(vector<string> v){
+        arrIdx = 0;
+        charIdx = 0;
+        list = v;
+    }
+    
+    bool checkIdx(){
+        if(list.size() == arrIdx) return false;
+        if(charIdx == list[arrIdx].size()){
+            arrIdx++;
+            charIdx = 0;
+            return checkIdx();
+        }
+        return true;
+    }
+    
+    char getNextChar(){
+        if(!checkIdx()) return 'X';
+        return list[arrIdx][charIdx++];
+    }
+};
+
+class Solution {
+public:
+    bool arrayStringsAreEqual(vector<string>& word1, vector<string>& word2) {
+        WordPos w1(word1);
+        WordPos w2(word2);
+        
+        while(true){
+            char c1 = w1.getNextChar();
+            char c2 = w2.getNextChar();
+            if(c1 == 'X' && c2 == 'X') break;
+            if(c1 == 'X' || c2 == 'X' || c1 != c2) return false;
+        }
+        
+        return true;
+    }
+};
