@@ -1,0 +1,28 @@
+class Solution {
+    int findNext(int s, int c, vector<int>& v){
+        if(s == v.size()) s = 0;
+        if(v[s] != -1){
+            if(c == 1) return s;
+            return findNext(s+1, c-1, v);
+        }
+        return findNext(s+1, c, v);
+    }
+public:
+    int findTheWinner(int n, int k) {
+        vector<int> v;
+        while(n--)
+            v.push_back(v.size()+1);
+
+        int cnt = v.size();
+        int idx = 0;
+        while(cnt != 1){
+            idx = findNext(idx, k, v);
+            v[idx] = -1;
+            cnt--;
+        }
+        
+        for(int n : v)
+            if(n != -1) return n;
+        return -1;
+    }
+};
