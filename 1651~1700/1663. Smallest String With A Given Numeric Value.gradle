@@ -1,0 +1,17 @@
+class Solution {
+public:
+    string getSmallestString(int n, int k) {
+        vector<char> v;
+        while(n){
+            int alpha = 0;
+            if(k > n){
+                alpha = min(k-n, 25);
+            }
+            v.push_back('a'+alpha);
+            k -= (alpha+1);
+            n--;
+        }
+        reverse(v.begin(), v.end());
+        return string(v.begin(), v.end());
+    }
+};
