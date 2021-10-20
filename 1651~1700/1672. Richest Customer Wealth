@@ -1,0 +1,16 @@
+class Solution {
+private:
+    int getMoney(vector<int>& v){
+        int sum = 0;
+        for(int n : v) sum += n;
+        return sum;
+    }
+public:
+    int maximumWealth(vector<vector<int>>& accounts) {
+        int result = 0;
+        for(vector<int>& v : accounts)
+            result = max(result, getMoney(v));
+        
+        return result;
+    }
+};
