@@ -1,0 +1,45 @@
+class Solution {
+private:
+    bool checkWay(vector<int>& o, int p, int l){
+        if(l<0 || l>2) return false;
+        if(o[p] == 0) return true;
+        return (o[p] != l+1);
+    }
+public:
+    int minSideJumps(vector<int>& obstacles) {
+        int len = obstacles.size();
+        vector<vector<int>> cache(len, vector<int>(3, INT_MAX));
+        
+        cache[0][0] = 1;
+        cache[0][1] = 0;
+        cache[0][2] = 1;
+        
+        for(int p=1;p<len;p++){
+            //front
+            for(int l=0;l<3;l++){
+                if(!checkWay(obstacles, p, l)) continue;
+                cache[p][l] = min(cache[p][l], cache[p-1][l]);
+            }
+            //down
+            for(int l=0;l<3;l++){
+                if(!checkWay(obstacles, p, l)) continue;
+                
+                for(int i=1;i<=2;i++){
+                    //up
+                    if(checkWay(obstacles, p, l+i) && cache[p][l]!=INT_MAX)
+                        cache[p][l+i] = min(cache[p][l+i], cache[p][l]+1);
+                    
+                    //down
+                    if(checkWay(obstacles, p, l-i) && cache[p][l]!=INT_MAX)
+                        cache[p][l-i] = min(cache[p][l-i], cache[p][l]+1);
+                };
+            }
+        }
+        
+        int result = INT_MAX;
+        for(int i=0;i<3;i++)
+            result = min(result, cache[len-1][i]);
+        
+        return result;
+    }
+};
