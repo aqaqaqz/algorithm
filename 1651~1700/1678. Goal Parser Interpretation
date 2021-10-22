@@ -1,0 +1,21 @@
+class Solution {
+public:
+    string interpret(string command) {
+        string key = "";
+        unordered_map<string, string> m;
+        m["G"] = "G";
+        m["()"] = "o";
+        m["(al)"] = "al";
+        string result = "";
+        
+        for(char c : command){
+            key += c;
+            if(m.find(key) != m.end()){
+                result += m[key];
+                key = "";
+            }
+        }
+        
+        return result;
+    }
+};
