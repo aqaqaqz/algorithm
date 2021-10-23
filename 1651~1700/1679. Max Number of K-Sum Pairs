@@ -1,0 +1,27 @@
+class Solution {
+public:
+    int maxOperations(vector<int>& nums, int k) {
+        unordered_map<int, int> m;
+        for(int n : nums) m[n]++;
+        
+        int result = 0;
+        for(auto iter=m.begin();iter!=m.end();iter++){
+            int n1 = iter->first;
+            int n2 = k-n1;
+            if(n2 < 0) continue;
+            if(m.find(n2) == m.end()) continue;
+            
+            int count = 0;
+            if(n1==n2)
+                count = m[n1]/2;
+            else
+                count = min(m[n1], m[n2]);
+            
+            m[n1] -= count;
+            m[n2] -= count;
+            result += count;
+        }
+        
+        return result;
+    }
+};
