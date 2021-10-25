@@ -1,0 +1,28 @@
+class Solution {
+private:
+    vector<bool> getCharContain(string str){
+        vector<bool> rst(26, 0);
+        for(char c : str) rst[c-'a'] = true;
+        return rst;
+    }
+    
+    bool checkContains(vector<bool>& allow, vector<bool>& w){
+        for(int i=0;i<26;i++){
+            if(!allow[i] && w[i]) return false;
+        }
+        return true;
+    }
+public:
+    int countConsistentStrings(string allowed, vector<string>& words) {
+        vector<bool> allowedChar = getCharContain(allowed);
+        
+        int result = 0;
+        for(string word : words){
+            vector<bool> wordChar = getCharContain(word);
+            if(checkContains(allowedChar, wordChar))
+                result++;
+        }
+        
+        return result;
+    }
+};
