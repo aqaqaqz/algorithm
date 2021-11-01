@@ -1,0 +1,26 @@
+class Solution {
+public:
+    string reformatNumber(string number) {
+        string temp = "";
+        
+        for(char c : number){
+            if(!isdigit(c)) continue;
+            temp += c;
+        }
+   
+        string result = "";
+        for(int i=0;i<temp.size()/3;i++){
+            if(i!=0) result += "-";
+            result += temp.substr(i*3, 3);
+        }
+        
+        if(temp.size()%3 == 0) return result;
+        
+        if(temp.size()%3 == 1)
+            result = result.substr(0, result.size()-1);
+        if(result != "") result += "-";
+        result += temp.substr(temp.size()-2);
+        
+        return result;
+    }
+};
