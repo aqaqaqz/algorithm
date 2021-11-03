@@ -1,0 +1,32 @@
+class Solution {
+public:
+    int countStudents(vector<int>& students, vector<int>& sandwiches) {
+        int result = students.size();
+        
+        int p = 0;
+        while(true){
+            bool able = false;
+            for(int& n : students){
+                if(n == -1) continue;
+                
+                if(n == sandwiches[p]){
+                    p++;
+                    n = -1;
+                    result--;
+                    able = true;
+                }
+            }
+            
+            if(!able) break;
+        }
+        
+        return result;
+    }
+};
+
+/*
+111 000 -> 3
+111 100 -> 2
+111 101 -> 2
+111 111 -> 0
+*/
