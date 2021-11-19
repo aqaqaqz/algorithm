@@ -1,0 +1,25 @@
+class Solution {
+private:
+    bool getArithmetic(int l, int r, vector<int>& nums){
+        if(r-l < 2) return true;
+        
+        vector<int> temp(nums.begin()+l, nums.begin()+r+1);
+        sort(temp.begin(), temp.end());
+        
+        int gap = temp[1]-temp[0];
+        for(int i=0;i<temp.size()-1;i++){
+            if(temp[i+1]-temp[i] != gap) return false;
+        }
+        
+        return true;
+    }
+public:
+    vector<bool> checkArithmeticSubarrays(vector<int>& nums, vector<int>& l, vector<int>& r) {
+        vector<bool> result;
+        
+        for(int i=0;i<l.size();i++)
+            result.push_back(getArithmetic(l[i], r[i], nums));
+        
+        return result;
+    }
+};
