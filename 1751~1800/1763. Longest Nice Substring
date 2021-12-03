@@ -1,0 +1,30 @@
+class Solution {
+private:
+    bool check(string s){
+        set<char> cs;
+        for(char c : s){
+            cs.insert(c);
+        }
+
+        int gap = 'A'-'a';
+        for(auto iter=cs.begin();iter!=cs.end();iter++){
+            char c = *iter;
+            if(cs.find(c-gap)!=cs.end() || cs.find(c+gap)!=cs.end()) continue;
+            return false;
+        }
+
+        return true;
+    }
+public:
+    string longestNiceSubstring(string s) {
+       string result = "";
+       for(int i=0;i<s.size();i++){
+           for(int j=1;j<=s.size()-i;j++){
+               string temp = s.substr(i, j);
+               if(check(temp) && temp.size()>result.size()) result = temp;
+           }
+       }
+
+       return result;
+    }
+};
