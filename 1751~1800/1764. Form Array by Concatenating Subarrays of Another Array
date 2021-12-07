@@ -1,0 +1,25 @@
+class Solution {
+private:
+    bool check(vector<int>& v, vector<int>& t, int p){
+        if(p+v.size() > t.size()) return false;
+
+        for(int& n : v){
+            if(n != t[p++]) return false;
+        }
+
+        return true;
+    }
+public:
+    bool canChoose(vector<vector<int>>& groups, vector<int>& nums) {
+        int p = 0;
+        int g = 0;
+        while(g<groups.size() && p<nums.size()){
+            if(check(groups[g], nums, p)){
+                p += groups[g].size();
+                g++;
+            }else p++;
+        }
+
+        return (g==groups.size());
+    }
+};
