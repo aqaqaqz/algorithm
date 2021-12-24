@@ -1,0 +1,38 @@
+class Solution {
+private:
+	deque<vector<int>> list;
+	void pushPos(int h, int w, int v, vector<vector<int>>& isWater){
+		isWater[h][w] = v;
+		list.push_back(vector<int>{h, w, v});
+	}
+public:
+    vector<vector<int>> highestPeak(vector<vector<int>>& isWater) {
+        for(int h=0;h<isWater.size();h++){
+            for(int w=0;w<isWater[h].size();w++){
+                if(isWater[h][w] == 1){
+					isWater[h][w] = -1;
+                    list.push_back(vector<int>{h, w, 0});
+				}
+			}
+		}
+
+        while(!list.empty()){
+            int h = list.front()[0];
+            int w = list.front()[1];
+            int v = list.front()[2];
+            list.pop_front();
+
+			if(h+1<isWater.size() && isWater[h+1][w]==0) pushPos(h+1, w, v+1, isWater);
+			if(w+1<isWater[0].size() && isWater[h][w+1]==0) pushPos(h, w+1, v+1, isWater);
+			if(h-1>=0 && isWater[h-1][w]==0) pushPos(h-1, w, v+1, isWater);
+            if(w-1>=0 && isWater[h][w-1]==0)  pushPos(h, w-1, v+1, isWater);
+        }
+
+		for(int h=0;h<isWater.size();h++)
+            for(int w=0;w<isWater[h].size();w++)
+                if(isWater[h][w] == -1)
+					isWater[h][w] = 0;
+
+        return isWater;
+    }
+};
