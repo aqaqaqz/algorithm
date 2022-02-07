@@ -1,0 +1,54 @@
+class Solution {
+private:
+    vector<vector<int>> d;
+    vector<int> result;
+    bool getCost(vector<vector<int>>& g, int h, int w, int l){
+        int sum = 0;
+        for(vector<int>& dir : d){
+            int len = l-1;
+            if(len == 0){
+                sum = g[h][w];
+                break;    
+            }
+
+            while(len--){
+                sum += g[h][w];
+                h += dir[0];
+                w += dir[1];
+
+                if(h<0 || w<0 || h==g.size() || w==g[0].size()) return false;
+            }
+        }
+
+        if(find(result.begin(), result.end(), sum) == result.end())
+            result.push_back(sum);
+
+        if(result.size() > 3){
+            sort(result.begin(), result.end());
+            reverse(result.begin(), result.end());
+            result.resize(3);
+        }
+
+        return true;
+    }
+public:
+    Solution(){
+        d.push_back(vector<int>{-1, 1});
+        d.push_back(vector<int>{1, 1});
+        d.push_back(vector<int>{1, -1});
+        d.push_back(vector<int>{-1, -1});
+    }
+    vector<int> getBiggestThree(vector<vector<int>>& grid) {
+        for(int h=0;h<grid.size();h++){
+            for(int w=0;w<grid[0].size();w++){
+                int l = 1;
+                while(getCost(grid, h, w, l++));
+            }
+        }
+
+        sort(result.begin(), result.end());
+        reverse(result.begin(), result.end());
+
+        return result;
+    }
+};
