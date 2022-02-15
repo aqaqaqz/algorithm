@@ -1,0 +1,16 @@
+class Solution {
+private:
+    int myAtoi(string& s){
+        int rst = 0;
+        int ten = 1;
+        for(int i=s.size()-1;i>=0;i--){
+            rst += ten*(s[i]-'a');
+            ten *= 10;
+        }
+        return rst;
+    }
+public:
+    bool isSumEqual(string firstWord, string secondWord, string targetWord) {
+        return (myAtoi(firstWord)+myAtoi(secondWord)==myAtoi(targetWord));
+    }
+};
