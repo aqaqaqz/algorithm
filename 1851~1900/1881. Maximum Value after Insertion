@@ -1,0 +1,21 @@
+class Solution {
+public:
+    string maxValue(string n, int x) {
+        bool negative = false;
+        if(n[0] == '-') negative = true;
+
+        int p = 0; if(negative) p = 1;
+        while(p<n.size()){
+            if(negative){
+                if(n[p]-'0' > x)
+                    return n.substr(0,p) + ((char)(x+'0')) + n.substr(p);
+            }else{
+                if(n[p]-'0' < x)
+                    return n.substr(0,p) + ((char)(x+'0')) + n.substr(p);
+            }
+            p++;
+        }
+
+        return n+((char)(x+'0'));
+    }
+};
