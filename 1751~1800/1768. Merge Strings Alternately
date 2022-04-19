@@ -16,4 +16,4 @@ public:
             
         return string(result.begvin(), result.end());
     }
-};
+}; 
