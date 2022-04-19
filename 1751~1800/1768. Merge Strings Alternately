@@ -1,0 +1,19 @@
+class Solution {
+private:
+    void insertChar(vector<char>& v, const string s, int p){
+        if(p >= s.size()) return;
+        
+        v.push_back(s[p]);
+    }
+public:
+    string mergeAlternately(string word1, string word2) {
+        vector<char> result;
+        
+        for(int i=0;i<max(word1.size(), word2.size());i++){
+            insertChar(result, word1, i);
+            insertChar(result, word2, i);
+        }
+            
+        return string(result.begvin(), result.end());
+    }
+};
