@@ -1,0 +1,33 @@
+class Solution {
+public:
+    vector<int> minOperations(string boxes) {
+        int leftOneCount = 0;
+        int rightOneCount = 0;
+        int leftCost = 0;
+        int rightCost = 0;
+        
+        for(int i=0;i<boxes.size();i++){
+            if(boxes[i] == '1'){
+                rightOneCount++;
+                rightCost += (i+1);
+            }
+        }
+        
+        vector<int> result;
+        for(int i=0;i<boxes.size();i++){
+            rightCost -= rightOneCount;
+            if(boxes[i]=='1')
+                rightOneCount--;
+            
+            
+            result.push_back(leftCost+rightCost);
+            
+            if(boxes[i]=='1')
+                leftOneCount++;
+            leftCost += leftOneCount;
+        }
+        
+        
+        return result;
+    }
+};
