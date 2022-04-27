@@ -1,0 +1,18 @@
+class Solution {
+public:
+    int countMatches(vector<vector<string>>& items, string ruleKey, string ruleValue) {
+        unordered_map<string, int> typeMap;
+        unordered_map<string, int> colorMap;
+        unordered_map<string, int> nameMap;
+        
+        for(int i=0;i<items.size();i++){
+            typeMap[items[i][0]]++;
+            colorMap[items[i][1]]++;
+            nameMap[items[i][2]]++;
+        }
+        
+        if("type"==ruleKey) return typeMap[ruleValue];
+        if("color"==ruleKey) return colorMap[ruleValue];
+        return nameMap[ruleValue];
+    }
+};
