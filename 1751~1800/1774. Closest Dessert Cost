@@ -1,0 +1,31 @@
+class Solution {
+    void makeTopping(unordered_set<int>& s, vector<int> &t, int c, int p){
+        if(p >= t.size()) return;
+        
+        s.insert(c);
+        s.insert(c+t[p]);
+        s.insert(c+t[p]*2);
+        
+        makeTopping(s, t, c, p+1);
+        makeTopping(s, t, c+t[p], p+1);
+        makeTopping(s, t, c+t[p]*2, p+1);
+    }
+public:
+    int closestCost(vector<int>& baseCosts, vector<int>& toppingCosts, int target) {
+        unordered_set<int> topping;
+        makeTopping(topping, toppingCosts, 0, 0);
+        
+        int result = INT_MAX;
+        for(int i=0;i<baseCosts.size();i++){
+            for(auto iter=topping.begin();iter!=topping.end();iter++){
+                int cost = baseCosts[i] + *iter;
+                if(abs(result-target) > abs(cost-target))
+                    result = cost;
+                else if(abs(result-target) == abs(cost-target) && result > cost)
+                    result = cost;
+            }
+        }
+        
+        return result;
+    }
+};
