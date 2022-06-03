@@ -1,0 +1,51 @@
+class Solution {
+private:
+    const int MAX_CNT = 1e9+7;
+    int getCnt(const map<long long, long long>& m){
+        long long cnt = 0;
+        for(auto iter=m.begin();iter!=m.end();iter++){
+            cnt += iter->second;
+            cnt %= MAX_CNT;
+        }
+        
+        return cnt;
+    }
+public:
+    int getNumberOfBacklogOrders(vector<vector<int>>& orders) {
+        
+        int result = 0;
+        map<long long, long long> buyMap;
+        map<long long, long long> sellMap;
+        
+        for(vector<int>& v : orders){
+            if(v[2] == 0){
+                for(auto iter=sellMap.begin();iter!=sellMap.end();iter++){
+                    if(v[0] >= iter->first){
+                        int amt = min((long long)v[1], iter->second);
+                        v[1] -= amt;
+                        iter->second -= amt;
+                        if(v[1] == 0) break;
+                    }else break;
+                }
+                while(!sellMap.empty() && sellMap.begin()->second == 0)
+                    sellMap.erase(sellMap.begin()->first);
+                if(v[1] > 0) buyMap[v[0]] += v[1];
+            }else{
+                for(auto iter=buyMap.rbegin();iter!=buyMap.rend();iter++){
+                    if(v[0] <= iter->first){
+                        int amt = min((long long)v[1], iter->second);
+                        v[1] -= amt;
+                        iter->second -= amt;
+                        if(v[0] == 0) break;
+                    }else break;
+                }
+                while(!buyMap.empty() && buyMap.rbegin()->second == 0)
+                    buyMap.erase(buyMap.rbegin()->first);
+                if(v[1] > 0) sellMap[v[0]] += v[1];
+            }
+        }
+        
+        result = (getCnt(buyMap)+getCnt(sellMap)) % MAX_CNT;
+        return result;
+    }
+};
