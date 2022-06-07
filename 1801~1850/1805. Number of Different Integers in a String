@@ -1,0 +1,23 @@
+class Solution {
+    string removeFrontZero(string s){
+        while(s.size() > 0 && s[0] == '0')
+            s = s.substr(1);
+        return s;
+    }
+public:
+    int numDifferentIntegers(string word) {
+        unordered_set<string> s;
+        string temp = "";
+        for(int i=0;i<word.size();i++){
+            if(isdigit(word[i])){
+                temp += word[i];
+            }else if(!temp.empty()){
+                s.insert(removeFrontZero(temp));
+                temp = "";
+            }
+        }
+        if(!temp.empty()) s.insert(removeFrontZero(temp));
+        
+        return s.size();
+    }
+};
