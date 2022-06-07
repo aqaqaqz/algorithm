@@ -1,0 +1,38 @@
+class Solution {
+    long long getSum(long long x){
+        long long sum = x;
+        return x*(x+1)/2;
+    }
+
+    long long getMinSum(int v, int cnt){
+        long long minSum = 0;
+        minSum += getSum(v);
+        if(v == cnt) return minSum;
+        if(v > cnt) return minSum - getSum(v-cnt);
+        return minSum + (cnt - v);
+    }
+
+    bool checkAble(int v, int n, int i, int maxSum){
+        int leftCnt = i;
+        int rightCnt = n - i - 1;
+        long long sum = v + getMinSum(v-1, leftCnt) + getMinSum(v-1, rightCnt);
+
+        if(sum <= maxSum) return true;
+        return false;
+    }
+public:
+    int maxValue(int n, int index, int maxSum) {
+        int s = 1;
+        int e = 1e9;
+        int result;
+
+        while(s <= e){
+            result = (s+e)/2;
+            if(checkAble(result, n, index, maxSum)) s = result + 1;
+            else e = result - 1;
+        }
+
+        if(!checkAble(result, n, index, maxSum)) result--;
+        return result;
+    }
+};
