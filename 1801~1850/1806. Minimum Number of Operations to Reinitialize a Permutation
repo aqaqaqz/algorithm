@@ -1,0 +1,30 @@
+class Solution {
+private:
+    vector<int> nextPerm(const vector<int>& v){
+        vector<int> next(v.size());
+        for(int i=0;i<v.size();i++){
+            int nextIdx;
+            if(i%2 == 0)  nextIdx = i/2;
+            else nextIdx = v.size()/2 + (i-1)/2;
+            next[i] = v[nextIdx];
+        }
+        
+        return next;
+    }
+public:
+    int reinitializePermutation(int n) {
+        vector<int> perm;
+        vector<int> temp;
+        for(int i=0;i<n;i++) perm.push_back(i);
+        temp = perm;
+        
+        int cnt = 0;
+        while(true){
+            cnt++;
+            temp = nextPerm(temp);
+            if(perm == temp) break;
+        }
+        
+        return cnt;
+    }
+};
