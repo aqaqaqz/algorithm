@@ -1,0 +1,35 @@
+class Solution {
+private:
+    string getKey(const string& s, int& p){
+        string key = "";
+        while(s[p] != ')') key += s[p++];
+        p++;
+        return key;
+    }
+public:
+    string evaluate(string s, vector<vector<string>>& knowledge) {
+        unordered_map<string, string> m;
+        for(vector<string>& v : knowledge)
+            m[v[0]] = v[1];
+        
+        string result = "";
+        int p = 0;
+        while(p<s.size()){
+            char c = s[p++];
+            if(c != '('){
+                result += c;
+                continue;
+            }
+                
+            string key = getKey(s, p);
+            if(m.find(key) == m.end()){
+                result += '?';
+                continue;
+            }
+            
+            result += m[key];
+        }
+        
+        return result;
+    }
+};
