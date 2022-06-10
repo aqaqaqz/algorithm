@@ -1,0 +1,42 @@
+class Solution {
+private:
+    vector<string> splitSentence(string str){
+        vector<string> rst;
+        
+        string temp = "";
+        for(int i=0;i<str.size();i++){
+            if(str[i] == ' '){
+                if(temp != "") rst.push_back(temp);
+                temp = "";
+                continue;
+            }
+            temp += str[i];
+        }
+        if(temp != "") rst.push_back(temp);
+        
+        return rst;
+    }
+    
+    bool checkSimilarity(string smiliar, string target){
+        vector<string> s = splitSentence(smiliar);
+        vector<string> t = splitSentence(target);
+        
+        int f=0, e=s.size()-1;
+        for(int i=0;i<t.size();i++){
+            if(f==s.size()) break;
+            if(t[i] != s[f]) break;
+            f++;
+        }
+        for(int i=t.size()-1;i>=0;i--){
+            if(e < 0) break;
+            if(t[i] != s[e]) break;
+            e--;
+        }
+        
+        return f>e;
+    }
+public:
+    bool areSentencesSimilar(string sentence1, string sentence2) {
+        return (checkSimilarity(sentence1, sentence2) || checkSimilarity(sentence2, sentence1));
+    }
+};
