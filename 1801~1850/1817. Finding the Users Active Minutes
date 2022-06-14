@@ -1,0 +1,19 @@
+class Solution {
+public:
+    vector<int> findingUsersActiveMinutes(vector<vector<int>>& logs, int k) {
+        vector<int> result(k);
+        unordered_map<int, unordered_set<int>> m;
+        
+        for(vector<int>& v : logs)
+            m[v[0]].insert(v[1]);
+        
+        for(auto iter=m.begin();iter!=m.end();iter++){
+            int uam = iter->second.size();
+            if(uam == 0) continue;
+            
+            result[uam-1]++;
+        }
+        
+        return result;
+    }
+};
