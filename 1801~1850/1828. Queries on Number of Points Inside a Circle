@@ -1,0 +1,22 @@
+class Solution {
+private:
+    bool checkCircle(int x, int y, int r, int px, int py){
+        int tx = px - x;
+        int ty = py - y;
+        return (tx*tx + ty*ty <= r*r);
+    }    
+public:
+    vector<int> countPoints(vector<vector<int>>& points, vector<vector<int>>& queries) {
+        vector<int> result;
+        
+        for(vector<int>& q : queries){
+            int cnt = 0;
+            for(vector<int>& p : points){
+                if(checkCircle(q[0], q[1], q[2], p[0], p[1])) cnt++;
+            }
+            result.push_back(cnt);
+        }
+        
+        return result;
+    }
+};
