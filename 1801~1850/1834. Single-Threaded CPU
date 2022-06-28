@@ -1,0 +1,38 @@
+class cmp {
+public:
+    bool operator() (const vector<int>& v1, const vector<int>& v2) {
+        if(v1[1] == v2[1]) return v1[2] > v2[2];
+        return v1[1] > v2[1];
+    }
+};
+
+class Solution {
+public:
+    vector<int> getOrder(vector<vector<int>>& tasks) {
+        for(int i=0;i<tasks.size();i++)
+            tasks[i].push_back(i);
+        
+        sort(tasks.begin(), tasks.end(), [](const vector<int>& v1, const vector<int>& v2) -> bool {
+            if(v1[0] == v2[0]) return v1[1] < v2[1];
+            return v1[0] < v2[0];
+        });
+        
+        vector<int> result;
+        priority_queue<vector<int>, vector<vector<int>>, cmp> q;
+        long long time = 1;
+        int idx = 0;
+        
+        while(result.size() != tasks.size()){
+            if(idx<tasks.size() && q.empty() && time<tasks[idx][0]) time = tasks[idx][0];
+            while(idx<tasks.size() && tasks[idx][0]<=time)
+                q.push(tasks[idx++]);
+            
+            vector<int> v = q.top();
+            q.pop();
+            time += v[1];
+            result.push_back(v[2]);
+        }
+          
+        return result;
+    }
+};
