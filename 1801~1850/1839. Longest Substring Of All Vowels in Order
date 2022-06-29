@@ -1,0 +1,43 @@
+class Solution {
+public:
+    int longestBeautifulSubstring(string word) {
+        vector<vector<int>> v;
+        char pre = '@';
+        int len = 0;
+        for(int i=0;i<word.size();i++){
+            if(pre != word[i]){
+                if(len != 0) v.push_back(vector<int>{pre-'a', len});
+                pre = word[i];
+                len = 1;
+            }else len++;
+        }
+        if(len != 0) v.push_back(vector<int>{pre-'a', len});
+        
+        int idx = 0;
+        vector<int> l{'a'-'a', 'e'-'a', 'i'-'a', 'o'-'a', 'u'-'a'};
+        
+        int result = 0;
+        len = 0;
+        for(vector<int>& t : v){
+            if(l[idx] == t[0]){
+                idx++;
+                len += t[1];
+                if(idx == 5){
+                    result = max(result, len);
+                    len = 0;
+                    idx = 0;
+                }
+            }else{
+                if(t[0] == 'a'-'a'){
+                    idx = 1;
+                    len = t[1];
+                }else{
+                    idx = 0;
+                    len = 0;
+                }
+            }
+        }
+        
+        return result;
+    }
+};
