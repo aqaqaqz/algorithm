@@ -1,0 +1,16 @@
+class Solution {
+public:
+    string replaceDigits(string s) {
+        string result = "";
+        for(int i=0;i<s.size();i++){
+            if(isalpha(s[i])){
+                result += s[i];
+                continue;
+            }
+            
+            result += (s[i-1]+s[i]-'0');
+        }
+        
+        return result;
+    }
+};
