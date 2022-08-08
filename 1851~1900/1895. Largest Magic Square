@@ -1,0 +1,69 @@
+class Solution {
+	vector<vector<int>> right;
+	vector<vector<int>> down;
+	vector<vector<int>> diagonal1;
+	vector<vector<int>> diagonal2;
+
+	void initLargestMagicSquare(vector<vector<int>>& g){
+		right = g;
+		down = g;
+		diagonal1 = g;
+		diagonal2 = g;
+
+		makeSumGrid(right, 0, 1);
+		makeSumGrid(down, 1, 0);
+		makeSumGrid(diagonal1, 1, 1);
+
+		for(int h=1;h<diagonal2.size();h++){
+			for(int w=0;w<diagonal2[0].size()-1;w++){
+				diagonal2[h][w] += diagonal2[h-1][w+1];
+			}
+		}
+	}
+
+	void makeSumGrid(vector<vector<int>>& g, int _h, int _w){
+		for(int h=_h;h<g.size();h++){
+			for(int w=_w;w<g[0].size();w++){
+				g[h][w] += g[h-_h][w-_w];
+			}
+		}
+	}
+
+	bool checkMagicSquare(int h, int w, int l){
+		int rightSum = right[h][w+l-1] - (w>0?right[h][w-1]:0);
+		int downSum = down[h+l-1][w] - (h>0?down[h-1][w]:0);
+		int diagonalSum1 = diagonal1[h+l-1][w+l-1] - ((h>0&&w>0)?diagonal1[h-1][w-1]:0);
+		int diagonalSum2 = diagonal2[h+l-1][w] - ((h>0&&(w+l<diagonal2[0].size()))?diagonal2[h-1][w+l]:0);
+
+		if(rightSum != downSum) return false;
+		if(downSum != diagonalSum1) return false;
+        if(diagonalSum1 != diagonalSum2) return false;
+
+		for(int p=1;p<l;p++){
+			int _rightSum = right[h+p][w+l-1] - (w>0?right[h+p][w-1]:0);
+			int _downSum = down[h+l-1][w+p] - (h>0?down[h-1][w+p]:0);
+			if(_rightSum != rightSum) return false;
+			if(_downSum != downSum) return false;
+		}
+
+		return true;
+	}
+public:
+	int largestMagicSquare(vector<vector<int>>& grid) {
+		initLargestMagicSquare(grid);
+
+        int result = 0;
+		for(int h=0;h<grid.size();h++){
+            for(int w=0;w<grid[0].size();w++){
+                int maxLen = min(grid.size()-h, grid[0].size()-w);
+                
+                for(int l=1;l<=maxLen;l++){
+                    if(checkMagicSquare(h, w, l))
+                        result = max(result, l);
+                }
+            }
+        }
+
+		return result;
+	}
+};
