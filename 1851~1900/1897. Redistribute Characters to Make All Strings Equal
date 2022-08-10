@@ -1,0 +1,19 @@
+class Solution {
+public:
+    bool makeEqual(vector<string>& words) {
+        unordered_map<char, int> m;
+        const int cnt = words.size();
+        
+        for(const string& str : words){
+            for(int i=0;i<str.size();i++){
+                m[str[i]]++;
+            }
+        }
+        
+        for(auto iter=m.begin();iter!=m.end();iter++){
+            if(iter->second % cnt != 0) return false;
+        }
+        
+        return true;
+    }
+};
