@@ -1,0 +1,28 @@
+class Solution {
+    bool checkDesc(string s1, string s2){
+        unsigned long long big = stoull(s1);
+        unsigned long long small = stoull(s2);
+        
+        return (big-small==1);
+    }
+    
+    bool checkNum(const string& s, string pre, int p){
+        if(p >= s.size()) return true;
+        for(int i=p;i<s.size();i++){
+            string temp = s.substr(p, i-p+1);
+            if(checkDesc(pre, temp) && checkNum(s, temp, i+1)){
+                return true;
+            }
+        }
+        return false;
+    }
+public:
+    bool splitString(string s) {
+        for(int i=0;i<s.size()-1;i++){
+            if(checkNum(s, s.substr(0, i+1), i+1))
+                return true;
+        }
+
+        return false;
+    }
+};
