@@ -1,0 +1,20 @@
+class Solution {
+public:
+    int maximumPopulation(vector<vector<int>>& logs) {
+        unordered_map<int, int> m;
+        for(vector<int>& v : logs){
+            for(int i=v[0];i<v[1];i++)
+                m[i]++;
+        }
+
+        vector<int> v(2);
+        for(auto iter=m.begin();iter!=m.end();iter++){
+            if(v[1]<iter->second || (v[1]==iter->second && v[0]>iter->first)){
+                v[0] = iter->first;
+                v[1] = iter->second;
+            }
+        }
+
+        return v[0];
+    }
+};
