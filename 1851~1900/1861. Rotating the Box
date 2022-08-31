@@ -1,0 +1,32 @@
+class Solution {
+    int getStoneCnt(vector<vector<char>>& v, int h, int w){
+        if(h<0 || v[h][w]=='*') return 0;
+        
+        int isStone = (v[h][w]=='#');
+        v[h][w] = '.';
+        return (isStone?1:0)+getStoneCnt(v, h-1, w);
+    }
+public:
+    vector<vector<char>> rotateTheBox(vector<vector<char>>& box) {
+        vector<vector<char>> result(box[0].size(), vector<char>(box.size()));
+
+        int w = box.size() - 1;
+        for(vector<char>& v : box){
+            int h = 0;
+            for(char c : v) result[h++][w] = c;
+            w--;
+        }
+
+        for(int h=result.size();h>=0;h--){
+            for(int w=0;w<result[0].size();w++){
+                if(h==result.size() || result[h][w]=='*'){
+                    int cnt = getStoneCnt(result, h-1, w);
+                    int hp = h-1;
+                    while(cnt--) result[hp--][w] = '#';
+                }
+            }
+        }
+
+        return result;
+    }
+};
