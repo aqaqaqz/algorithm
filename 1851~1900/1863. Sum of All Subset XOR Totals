@@ -1,0 +1,15 @@
+class Solution {
+    int getXORSum(const vector<int>& n, const int p, int pre){
+        if(p == n.size()) return 0;
+
+        int sum = pre ^ n[p];
+        sum += getXORSum(n, p+1, sum);
+        sum += getXORSum(n, p+1, pre);
+
+        return sum;
+    }
+public:
+    int subsetXORSum(vector<int>& nums) {
+        return getXORSum(nums, 0, 0);
+    }
+};
