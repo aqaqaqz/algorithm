@@ -1,0 +1,25 @@
+class Solution {
+    void rotateMat(vector<vector<int>>& m){
+        vector<vector<int>> rm;
+
+        for(int w=0;w<m.size();w++){
+            vector<int> t;
+            for(int h=0;h<m.size();h++){
+                t.push_back(m[h][w]);
+            }
+            reverse(t.begin(), t.end());
+            rm.push_back(t);
+        }
+
+        m = rm;
+    }
+public:
+    bool findRotation(vector<vector<int>>& mat, vector<vector<int>>& target) {
+        for(int i=0;i<4;i++){
+            rotateMat(mat);
+            if(mat == target) return true;
+        }
+
+        return false;
+    }
+};
