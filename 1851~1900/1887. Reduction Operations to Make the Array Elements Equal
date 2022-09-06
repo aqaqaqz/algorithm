@@ -1,0 +1,17 @@
+class Solution {
+public:
+    int reductionOperations(vector<int>& nums) {
+        map<int, int> m;
+        for(int n : nums)
+            m[n]++;
+        
+        int result = 0;
+        int cnt = 0;
+        for(auto iter=m.begin();iter!=m.end();iter++){
+            cnt += iter->second;
+            result += (nums.size() - cnt);
+        }
+
+        return result;
+    }
+};
