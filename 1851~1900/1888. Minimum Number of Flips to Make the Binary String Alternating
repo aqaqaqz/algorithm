@@ -1,0 +1,51 @@
+class Solution {
+private:
+    int getMinCount(const string& s, bool flag){
+        int cnt = 0;
+
+        for(int i=0;i<s.size();i++){
+            if(flag){
+                cnt += (s[i]=='0'?0:1);
+            }else{
+                cnt += (s[i]=='0'?1:0);
+            }
+            flag = !flag;
+        }
+
+        return cnt;
+    }
+
+    int getEnd(const string& s, int p, char c){
+        if(s.size()%2==0 && s[p]==c) return 1;
+        if(s.size()%2==1 && s[p]!=c) return 1;
+
+        return 0;
+    }
+
+public:
+    int minFlips(string s) {
+        int zero = getMinCount(s, true), one = getMinCount(s, false);
+        int result = min(zero, one);
+
+        for(int f=1;f<s.size();f++){
+            int pf = f - 1;
+
+            //find start zero
+            int tempZero = one;
+            tempZero -= (s[pf]=='0'?1:0);
+            tempZero += getEnd(s, pf, '0');
+
+            //find start one
+            int tempOne = zero;
+            tempOne -= (s[pf]=='1'?1:0);
+            tempOne += getEnd(s, pf, '1');
+
+            zero = tempZero;
+            one = tempOne;
+            result = min(result, zero);
+            result = min(result, one);
+        }
+
+        return result;
+    }
+};
