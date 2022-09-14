@@ -1,0 +1,24 @@
+class Solution {
+    vector<int> getPos(vector<vector<int>>& m, int h, int w){
+        int left = (w-1<0?-1:m[h][w-1]);
+        int right = (w+1>=m[0].size()?-1:m[h][w+1]);
+        int top = (h-1<0?-1:m[h-1][w]);
+        int bottom = (h+1>=m.size()?-1:m[h+1][w]);
+
+        int val = m[h][w];
+        val = max(val, left);
+        val = max(val, right);
+        val = max(val, top);
+        val = max(val, bottom);
+
+        if(val == m[h][w]) return vector<int>{h, w};
+        if(val == left) return getPos(m, h, w-1);
+        if(val == right) return getPos(m, h, w+1);
+        if(val == top) return getPos(m, h-1, w);
+        return getPos(m, h+1, w);
+    }
+public:
+    vector<int> findPeakGrid(vector<vector<int>>& mat) {
+        return getPos(mat, 0, 0);
+    }
+};
