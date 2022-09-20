@@ -1,0 +1,46 @@
+class Solution {
+    void addMinutes(int& h, int& m){
+        m += 15;
+
+        if(m >= 60){
+            m %= 60;
+            h++;
+        }
+    }
+
+    int compareTime(int h1, int m1, int h2, int m2){
+        //return 1 when time1 is big
+        //return 0 when time1 equals time2
+        //return -1 when time1 is small
+        if(h1 > h2) return 1;
+        if(h1 < h2) return -1;
+        if(m1 == m2) return 0;
+        return (m1>m2?1:-1);
+    }
+public:
+    int numberOfRounds(string loginTime, string logoutTime) {
+        int loginHour = atoi(loginTime.substr(0, 2).c_str());
+        int loginMin = atoi(loginTime.substr(3, 2).c_str());
+        
+        int logoutHour = atoi(logoutTime.substr(0, 2).c_str());
+        int logoutMin = atoi(logoutTime.substr(3, 2).c_str());
+
+        if(compareTime(loginHour, loginMin, logoutHour, logoutMin) == 1)
+            logoutHour += 24;
+
+        int result = 0;
+        int sh=0, sm=0;
+
+        for(int i=0;i<192;i++){
+            int eh = sh, em = sm;
+            addMinutes(eh, em);
+            if(compareTime(loginHour, loginMin, sh, sm)<=0 
+                    && compareTime(logoutHour, logoutMin, eh, em)>=0)
+                result++;
+            addMinutes(sh, sm);
+        }
+
+        return result;
+
+    }
+};
