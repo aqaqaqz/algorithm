@@ -1,0 +1,37 @@
+class Solution {
+    void makeLandList(vector<vector<int>>& g, vector<vector<int>>& l, int h, int w){
+        if(h<0 || w<0 || h>=g.size() || w>=g[0].size()) return;
+        if(g[h][w] != 1) return;
+
+        l.push_back(vector<int>{h, w});
+        g[h][w] = 0;
+
+        makeLandList(g, l, h-1, w);
+        makeLandList(g, l, h, w-1);
+        makeLandList(g, l, h+1, w);
+        makeLandList(g, l, h, w+1);
+    }
+public:
+    int countSubIslands(vector<vector<int>>& grid1, vector<vector<int>>& grid2) {
+        int result = 0;
+
+        for(int h=0;h<grid2.size();h++){
+            for(int w=0;w<grid2[0].size();w++){
+                if(grid2[h][w] == 1){
+                    vector<vector<int>> landList;
+                    makeLandList(grid2, landList, h, w);
+
+                    bool checkLand = true;
+                    for(const vector<int>& v : landList){
+                        if(grid1[v[0]][v[1]] != 1) checkLand = false;
+                        if(!checkLand) break;
+                    }
+
+                    if(checkLand) result++;
+                }
+            }
+        }
+
+        return result;
+    }
+};
