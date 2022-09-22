@@ -1,0 +1,20 @@
+class Solution {
+    bool check(vector<int>& n, int p, int v, int c){
+        if(n.size() == p) return true;
+        
+        bool result = false;
+        
+        if(c == 0)
+            result |= check(n, p+1, v, 1);
+        
+        if(n[p] > v)
+            result |= check(n, p+1, n[p], c);
+        
+        return result;
+            
+    }
+public:
+    bool canBeIncreasing(vector<int>& nums) {
+        return check(nums, 0, -1, 0);
+    }
+};
