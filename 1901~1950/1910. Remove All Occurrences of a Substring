@@ -1,0 +1,23 @@
+class Solution {
+    bool checkOccur(vector<char>& v, const string& p){
+        if(v.size() < p.size()) return false;
+        
+        for(int i=0;i<p.size();i++)
+            if(v[v.size()-1-i] != p[p.size()-1-i]) return false;
+        
+        for(int i=0;i<p.size();i++) 
+            v.pop_back();
+        
+        return true;
+    }
+public:
+    string removeOccurrences(string s, string part) {
+        vector<char> v;
+        for(int i=0;i<s.size();i++){
+            v.push_back(s[i]);
+            while(checkOccur(v, part));
+        }
+        
+        return string(v.begin(), v.end());
+    }
+};
