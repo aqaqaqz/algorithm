@@ -1,0 +1,31 @@
+class Solution {
+    int MOD = 1e9 + 7;
+    unordered_map<string, long long> m;
+    
+    long long getPow(int n, long long c){
+        if(c == 0) return 1;
+        if(c == 1) return n;
+        
+        string key = to_string(n) + "," + to_string(c);
+        if(m.find(key) != m.end()) return m[key];
+        
+        long long result = getPow(n, c/2);
+        if(c%2 == 0) result *= result;
+        else result *= getPow(n, c/2+1);
+        result %= MOD;
+        m[key] = result;
+        
+        return m[key];
+    }
+public:
+    int countGoodNumbers(long long n) {
+        long long fourCnt = n/2;
+        long long fiveCnt = n/2 + (n%2);
+        
+        long long result = getPow(4, fourCnt);
+        result *= getPow(5, fiveCnt);
+        result %= MOD;
+        
+        return result;
+    }
+};
