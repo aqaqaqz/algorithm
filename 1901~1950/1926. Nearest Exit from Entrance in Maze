@@ -1,0 +1,39 @@
+class Solution {
+    bool able(vector<vector<char>>& maze, int h, int w){
+        if(h<0 || w<0 || h>=maze.size() || w>=maze[0].size()) return false;
+        if(maze[h][w] == '.') return true;
+
+        return false;
+    }
+    
+    bool checkExit(vector<vector<char>>& maze, int h, int w){
+        if(h == 0 || w == 0 || h+1==maze.size() || w+1==maze[0].size()) return true;
+        return false;
+    }
+public:
+    int nearestExit(vector<vector<char>>& maze, vector<int>& entrance) {
+        deque<vector<int>> pos;
+        entrance.push_back(0);
+        pos.push_back(entrance);
+
+        int result = INT_MAX;
+        while(!pos.empty()){
+            int h = pos.front()[0];
+            int w = pos.front()[1];
+            int l = pos.front()[2];
+            pos.pop_front();
+
+            if(able(maze, h, w)){
+                maze[h][w] = 'X';
+                if(l != 0 && checkExit(maze, h, w)) result = min(result, l);
+                pos.push_back(vector<int>{h+1, w, l+1});
+                pos.push_back(vector<int>{h-1, w, l+1});
+                pos.push_back(vector<int>{h, w+1, l+1});
+                pos.push_back(vector<int>{h, w-1, l+1});
+            }
+        }
+
+        if(result == INT_MAX) result = -1;
+        return result;
+    }
+};
