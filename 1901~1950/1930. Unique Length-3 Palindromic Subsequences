@@ -1,0 +1,34 @@
+class Solution {
+public:
+    int countPalindromicSubsequence(string s) {
+        int result = 0;
+        for(int i=0;i<26;i++){
+            int f = -1, e = -1;
+            for(int j=0;j<s.size();j++){
+                if(s[j]-'a' == i){
+                    f = j;
+                    break;
+                }
+            }
+
+            for(int j=s.size()-1;j>=0;j--){
+                if(s[j]-'a' == i){
+                    e = j;
+                    break;
+                }
+            }
+
+            if(f == e) continue;
+
+            set<char> cnt;
+            for(int j=f+1;j<e;j++){
+                cnt.insert(s[j]);
+            }
+
+            result += cnt.size();
+        }
+
+        return result;
+
+    }
+};
