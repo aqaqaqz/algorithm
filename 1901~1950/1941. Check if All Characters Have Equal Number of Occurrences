@@ -1,0 +1,13 @@
+class Solution {
+public:
+    bool areOccurrencesEqual(string s) {
+        unordered_map<char, int> cnt;
+        for(int i=0;i<s.size();i++)
+            cnt[s[i]]++;
+        
+        for(auto iter=cnt.begin();iter!=cnt.end();iter++)
+            if(iter->second != cnt.begin()->second) return false;
+        
+        return true;
+    }
+};
