@@ -1,0 +1,25 @@
+class Solution {
+    string makeMaximum(string& n, vector<int>& c, int p){
+        if(n.size() == p) return n;
+
+        int v = n[p]-'0';
+        if(v >= c[v]) return makeMaximum(n, c, p+1);
+
+        string result = n.substr(0, p);
+
+        for(;p<n.size();p++){
+            v = n[p]-'0';
+            if(v > c[v]) break;
+
+            result.append(to_string(c[v]));
+        }
+
+        result.append(n.substr(p));
+
+        return result;
+    }
+public:
+    string maximumNumber(string num, vector<int>& change) {
+        return makeMaximum(num, change, 0);
+    }
+};
