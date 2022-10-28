@@ -1,0 +1,24 @@
+class Solution {
+public:
+    vector<vector<long long>> splitPainting(vector<vector<int>>& segments) {
+        map<int, long long> m;
+
+        for(const vector<int>& v : segments){
+            m[v[0]] += v[2];
+            m[v[1]] += -1*v[2];
+        }
+
+        int pre = 0;
+        long long sum = 0;
+        vector<vector<long long>> result;
+        for(auto iter=m.begin();iter!=m.end();iter++){
+            if(sum != 0)
+                result.push_back(vector<long long>{pre, iter->first, sum});
+
+            pre = iter->first;
+            sum += iter->second;
+        }
+
+        return result;
+    }
+};
