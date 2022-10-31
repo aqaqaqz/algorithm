@@ -1,0 +1,14 @@
+class Solution {
+public:
+    long long numberOfWeeks(vector<int>& milestones) {
+        long long result = 0;
+        sort(milestones.begin(), milestones.end());
+
+        long long sum = 0; 
+        for(int n : milestones) sum += n;
+        sum -= milestones.back();
+        if(milestones.back() <= sum+1) return sum+milestones.back();
+
+        return sum*2+1;
+    }
+};
