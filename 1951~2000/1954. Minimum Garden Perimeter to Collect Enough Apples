@@ -1,0 +1,35 @@
+/*
+0 = 0
+1 = 0
+2 = 1*4 + 2*4 = (1+2)*4 0~0
+3 = 0;
+4 = 2*4 + 3*4 +3*3 + 4*4 = (2+3+3+4)*4; 3~3
+5 = 0;
+6 = 3*4 + 4*4 + 4*4 + 5*5 + 5*4 + 6*4 (3+4+4+5+5+6)*4; 4~5
+
+n/2+1 ~ n-1
+*/
+
+class Solution {
+    long long getApples(long long s){
+        long long l = s/2-1;
+        long long cnt = s*(s+1)/2 - l*(l+1)/2;
+
+        long long t1 = s/2 + 1;
+        long long t2 = s-1;
+        if(t2 >= t1)
+            cnt += (t2*(t2+1)/2 - t1*(t1-1)/2);
+
+        return cnt*4;
+    }
+public:
+    long long minimumPerimeter(long long neededApples) {
+        long long side = 0;
+        while(neededApples > 0){
+            side += 2;
+            neededApples -= getApples(side);
+        }
+
+        return side*4;
+    }
+};
