@@ -1,0 +1,32 @@
+class Solution {
+    bool checkLegal(vector<vector<char>>& board, int r, int c, char color, int dr, int dc){
+        int len = 2;
+
+        while(r<board.size() && c<board[0].size()){
+            if(board[r][c] == '.') 
+                return false;
+
+            if(board[r][c] == color)
+                return len>2;
+
+            r += dr;
+            c += dc;
+            len++;
+        }
+
+        return false;
+    }
+public:
+    bool checkMove(vector<vector<char>>& board, int rMove, int cMove, char color) {
+        bool result = false;
+
+        for(int dr=-1;dr<=1;dr++){
+            for(int dc=-1;dc<=1;dc++){
+                if(dr==0 && dc==0) continue;
+                result |= checkLegal(board, rMove+dr, cMove+dc, color, dr, dc);
+            }
+        }
+
+        return result;
+    }
+};
