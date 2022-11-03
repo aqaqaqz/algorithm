@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int minStoneSum(vector<int>& piles, int k) {
+        multiset<int> ms;
+        for(int n : piles) ms.insert(n);
+
+        while(k--){
+            auto iter = ms.end();
+            iter--;
+            int n = ((*iter+1)/2);
+            ms.erase(iter);
+            ms.insert(n);
+        }
+
+        int result = 0;
+        for(auto iter=ms.begin();iter!=ms.end();iter++)
+            result += *iter;
+
+        return result;
+    }
+};
