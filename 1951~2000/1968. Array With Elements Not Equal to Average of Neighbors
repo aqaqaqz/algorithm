@@ -1,0 +1,15 @@
+class Solution {
+    bool check(vector<int>& v){
+        random_shuffle(v.begin(), v.end());
+        for(int i=1;i<v.size()-1;i++){
+            if(v[i-1]+v[i+1] == 2*v[i]) return false;
+        }
+        
+        return true;
+    }
+public:
+    vector<int> rearrangeArray(vector<int>& nums) {
+        while(!check(nums));
+        return nums;
+    }
+};
