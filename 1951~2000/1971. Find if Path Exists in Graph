@@ -1,0 +1,22 @@
+class Solution {
+public:
+    bool validPath(int n, vector<vector<int>>& edges, int source, int destination) {
+        unordered_map<int, vector<int>> m;
+        for(vector<int>& v : edges){
+            m[v[0]].push_back(v[1]);
+            m[v[1]].push_back(v[0]);
+        }
+
+        vector<int> next{source};
+        while(!next.empty()){
+            int p = next.back();
+            if(p == destination) return true;
+            
+            next.pop_back();
+            next.insert(next.end(), m[p].begin(), m[p].end());
+            m[p].clear();
+        }
+
+        return false;
+    }
+};
