@@ -1,0 +1,27 @@
+class Solution {
+private:
+    long long mod = 1e9+7;
+    unordered_map<long long, long long> cache;
+
+    long long myPow(long long n, long long cnt){
+        if(cache.find(cnt) != cache.end()) return cache[cnt];        
+        if(cnt == 0) return 1;
+        if(cnt == 1) return n % mod;
+
+        long long rst = myPow(n, cnt/2) % mod;
+        rst = rst * (myPow(n, cnt/2 + cnt%2) % mod);
+
+        cache[cnt] = rst % mod;
+        return cache[cnt];
+    }
+public:
+    int minNonZeroProduct(int p) {
+        long long num1 = powl(2, p) - 1;
+        long long num2 = num1 - 1;
+
+        long long result = myPow(num2, num2/2);
+        result *= (num1 % mod);
+        
+        return (result % mod);
+    }
+};
