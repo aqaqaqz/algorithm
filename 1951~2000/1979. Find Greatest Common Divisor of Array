@@ -1,0 +1,13 @@
+class Solution {
+public:
+    int findGCD(vector<int>& nums) {
+        sort(nums.begin(), nums.end());
+        
+        for(int i=1000;i>0;i--){
+            if(nums.front()%i==0 && nums.back()%i==0) 
+                return i;
+        }
+        
+        return -1;
+    }
+};
