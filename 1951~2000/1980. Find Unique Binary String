@@ -1,0 +1,37 @@
+class Solution {
+    int convertInt(string& s){
+        int rst = 0;
+        reverse(s.begin(), s.end());
+
+        for(int i=0;i<s.size();i++)
+            rst += (s[i]-'0')*(pow(2, i));
+
+        return rst;
+    }
+
+    string convertBinary(int n, int len){
+        vector<char> v;
+
+        while(n > 0){
+            v.push_back(n%2 + '0');
+            n /= 2;
+        }
+        while(v.size() < len) v.push_back('0');
+        
+        reverse(v.begin(), v.end());
+        return string(v.begin(), v.end());
+    }
+public:
+    string findDifferentBinaryString(vector<string>& nums) {
+        unordered_set<int> m;
+        int len = nums[0].size();
+        
+        for(string& s : nums) m.insert(convertInt(s));
+
+        for(int i=0;i<pow(2, len);i++){
+            if(m.find(i) == m.end()) return convertBinary(i, len);
+        }
+
+        return "";
+    }
+};
