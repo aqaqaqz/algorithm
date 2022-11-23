@@ -1,0 +1,34 @@
+class Solution {
+    void visitLand(vector<vector<int>>& land, int h, int w){
+        if(h<0 || w<0 || h==land.size() || w==land[0].size()) return;
+        if(land[h][w] != 1) return;
+
+        land[h][w] = 0;
+        visitLand(land, h+1, w);
+        visitLand(land, h, w+1);
+        visitLand(land, h-1, w);
+        visitLand(land, h, w-1);
+    }
+public:
+    vector<vector<int>> findFarmland(vector<vector<int>>& land) {
+        vector<vector<int>> result;
+
+        for(int h=0;h<land.size();h++){
+            for(int w=0;w<land[0].size();w++){
+                if(land[h][w] != 1) continue;
+
+                vector<int> t{h, w};
+                vector<int> len{0, 0};
+                while(h+len[0] < land.size() && land[h+len[0]][w]==1) len[0]++;
+                while(w+len[1] < land[0].size() && land[h][w+len[1]]==1) len[1]++;
+                t.push_back(h+len[0]-1);
+                t.push_back(w+len[1]-1);
+
+                visitLand(land, h, w);
+                result.push_back(t);
+            }
+        }
+
+        return result;
+    }
+};
