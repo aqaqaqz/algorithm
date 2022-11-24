@@ -1,0 +1,66 @@
+class LockingTree {
+    vector<int> parent;
+    vector<vector<int>> child;
+    unordered_map<int, int> locked;
+
+    bool isParentLock(int i){
+        if(locked.find(parent[i]) != locked.end()) return true;
+        if(parent[i] == -1) return false;
+        return isParentLock(parent[i]);
+    }
+
+    bool isChildLock(int i){
+        bool l = false;
+        for(int c : child[i]){
+            if(locked.find(c) != locked.end()) return true;
+            l |= isChildLock(c);
+        }
+
+        return l;
+    }
+
+    void unlockChild(int i){
+        for(int c : child[i]){
+            locked.erase(c);
+            unlockChild(c);
+        }
+    }
+public:
+    LockingTree(vector<int>& p) {
+        parent = p;
+        child.resize(p.size());
+        for(int i=0;i<p.size();i++){
+            if(p[i] == -1) continue;
+            child[p[i]].push_back(i);
+        }
+    }
+    
+    bool lock(int num, int user) {
+        if(locked.find(num) != locked.end()) return false;
+        locked[num] = user;
+        return true;
+    }
+    
+    bool unlock(int num, int user) {
+        if(locked.find(num)==locked.end() || locked[num]!=user) return false;
+        locked.erase(num);
+        return true;
+    }
+    
+    bool upgrade(int num, int user) {
+        if(isParentLock(num) || !isChildLock(num) || locked.find(num)!=locked.end())
+            return false;
+        
+        locked[num] = user;
+        unlockChild(num);
+        return true;
+    }
+};
+
+/**
+ * Your LockingTree object will be instantiated and called as such:
+ * LockingTree* obj = new LockingTree(parent);
+ * bool param_1 = obj->lock(num,user);
+ * bool param_2 = obj->unlock(num,user);
+ * bool param_3 = obj->upgrade(num,user);
+ */
