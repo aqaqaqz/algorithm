@@ -1,0 +1,27 @@
+class Solution {
+    int result;
+    int sum;
+    void makeResult(vector<int>& n, int p, int cnt){
+        if(cnt == 0){
+            for(int i=p;i<n.size();i++){
+                if(sum == n[i]) result++;
+            }
+            return;
+        }
+        
+        for(int i=p;i<n.size();i++){
+            sum += n[i];
+            makeResult(n, i+1, cnt-1);
+            sum -= n[i];
+        }
+    }
+public:
+    int countQuadruplets(vector<int>& nums) {
+        result = 0;
+        sum = 0;
+        
+        makeResult(nums, 0, 3);
+
+        return result;
+    }
+};
