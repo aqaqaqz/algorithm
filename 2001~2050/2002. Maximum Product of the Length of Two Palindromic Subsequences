@@ -1,0 +1,40 @@
+class Solution {
+    vector<char> sub1;
+    vector<char> sub2;
+    bool isPalindromic(vector<char>& v){
+        if(v.empty()) return false;
+
+        int f = 0;
+        int e = v.size()-1;
+
+        while(f<e){
+            if(v[f++] != v[e--]) return false;
+        }
+        
+        return true;
+    }
+
+    int getMaxProduct(string& s, int p){
+        int rst = 0;
+        if(isPalindromic(sub1) && isPalindromic(sub2))        
+            rst = max(rst, (int)sub1.size()*(int)sub2.size());
+            
+        if(s.size() == p) return rst;
+        
+        rst = max(rst, getMaxProduct(s, p+1));
+
+        sub1.push_back(s[p]);
+        rst = max(rst, getMaxProduct(s, p+1));
+        sub1.pop_back();
+
+        sub2.push_back(s[p]);
+        rst = max(rst, getMaxProduct(s, p+1));
+        sub2.pop_back();
+
+        return rst;
+    }
+public:
+    int maxProduct(string s) {
+        return getMaxProduct(s, 0);
+    }
+};
