@@ -1,0 +1,23 @@
+class Solution {
+public:
+    vector<int> findOriginalArray(vector<int>& changed) {
+        vector<int> result;
+        map<int, int> m;
+
+        for(int n : changed) m[n]++;
+
+        for(auto iter=m.rbegin();iter!=m.rend();iter++){
+            while(iter->second > 0) {
+                int half = iter->first / 2;
+                m[iter->first]--;
+
+                if(m[half]<1 || iter->first%2==1) return vector<int>{};
+                result.push_back(half);
+                
+                m[half]--;
+            }
+        }
+
+        return result;
+    }
+};
