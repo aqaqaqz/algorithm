@@ -1,0 +1,26 @@
+class Solution {
+    long long getMaxEarn(int p, vector<long long>& cache, unordered_map<int, unordered_map<int, int>>& m){
+        if(p >= cache.size()) return 0;
+        if(cache[p] != -1) return cache[p];
+
+        cache[p] = getMaxEarn(p+1, cache, m);
+        if(m.find(p) == m.end()) return cache[p];
+
+        for(auto iter=m[p].begin();iter!=m[p].end();iter++){
+            long long earn = iter->first - p + iter->second;
+            cache[p] = max(cache[p], earn + getMaxEarn(iter->first, cache, m));
+        }
+        
+        return cache[p];
+    }
+public:
+    long long maxTaxiEarnings(int n, vector<vector<int>>& rides) {
+        vector<long long> cache(n, -1);
+        unordered_map<int, unordered_map<int, int>> m;
+        for(vector<int>& v : rides){
+            m[v[0]][v[1]] = max(m[v[0]][v[1]], v[2]);
+        }
+
+        return getMaxEarn(0, cache, m);
+    }
+};
