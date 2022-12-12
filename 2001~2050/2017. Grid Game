@@ -1,0 +1,24 @@
+class Solution {
+public:
+    long long gridGame(vector<vector<int>>& grid) {
+        const int LEN = grid[0].size();
+        vector<vector<long long>> sum(2, vector<long long>(LEN, 0));
+
+        for(int w=0;w<LEN;w++){
+            sum[0][w] = (w>0?sum[0][w-1]:0) + grid[0][w];
+            sum[1][w] = (w>0?sum[1][w-1]:0) + grid[1][w];
+        }
+
+        long long result = LLONG_MAX;
+        for(int i=LEN-1;i>=0;i--){
+            long long temp = 0;
+            temp = max(temp, sum[0][LEN-1]-sum[0][i]);
+            if(i>0)
+                temp = max(temp, sum[1][i-1]);
+
+            result = min(result, temp);
+        }
+
+        return result;
+    }
+};
