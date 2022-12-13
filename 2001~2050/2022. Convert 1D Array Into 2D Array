@@ -1,0 +1,18 @@
+class Solution {
+public:
+    vector<vector<int>> construct2DArray(vector<int>& original, int m, int n) {
+        vector<vector<int>> result;
+
+        vector<int> temp;
+        for(int num : original){
+            temp.push_back(num);
+            if(temp.size() == n){
+                result.push_back(temp);
+                temp.clear();
+            }
+        }
+
+        if(!temp.empty() || result.size()!=m || result.back().size()!=n) result.clear();
+        return result;
+    }
+};
