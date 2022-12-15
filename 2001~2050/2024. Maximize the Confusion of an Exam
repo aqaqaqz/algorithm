@@ -1,0 +1,33 @@
+class Solution {
+    //tfft
+    int getCount(string ans, int k, char c){
+        int p = 0;
+        int count = 0;
+        int change = 0;
+        int rst = 0;
+
+        for(int i=0;i<ans.size();i++){
+            count++;
+
+            if(ans[i] != c){
+                change++;
+                while(change > k){
+                    count--;
+
+                    if(ans[p++] == c) 
+                        continue;
+                    
+                    change--;
+                }
+            }
+
+            rst = max(rst, count);
+        }
+
+        return rst;
+    }
+public:
+    int maxConsecutiveAnswers(string answerKey, int k) {
+        return max(getCount(answerKey, k, 'T'), getCount(answerKey, k, 'F'));
+    }
+};
