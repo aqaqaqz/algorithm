@@ -1,0 +1,25 @@
+class Solution {
+    void insertNums(unordered_set<int>& s, vector<int>& nums){
+        for(int n : nums) s.insert(n);
+    }
+
+    void insertDuple(unordered_set<int>& s, unordered_set<int>& r, vector<int>& nums){
+        for(int n : nums){
+            if(s.find(n) == n.end()) continue;
+            r.insert(n);
+        }
+    }
+public:
+    vector<int> twoOutOfThree(vector<int>& nums1, vector<int>& nums2, vector<int>& nums3) {
+        unordered_set<int> s;
+        insertNums(s, nums1);
+        unordered_set<int> rst;
+
+        insertDuple(s, rst, nums2);
+        insertNums(s, nums2);
+
+        insertDuple(s, rst, nums3);
+
+        return vector<int>(rst.begin(), rst.end());
+    }
+};
