@@ -1,0 +1,44 @@
+class StockPrice {
+    int latest;
+    map<int, int> t;
+    map<int, int> p;
+public:
+    StockPrice() {
+        latest = -1;
+    }
+    
+    void update(int timestamp, int price) {
+        latest = price;
+
+        if(t.find(timestamp) != t.end()){
+            int pre = t[timestamp];
+            p[pre]--;
+            if(p[pre] == 0) p.erase(pre);
+            
+        }
+
+        p[price]++;
+        t[timestamp] = price;
+    }
+    
+    int current() {
+        return t.rbegin()->second;
+    }
+    
+    int maximum() {
+        return p.rbegin()->first;
+    }
+    
+    int minimum() {
+        return p.begin()->first;
+    }
+};
+
+/**
+ * Your StockPrice object will be instantiated and called as such:
+ * StockPrice* obj = new StockPrice();
+ * obj->update(timestamp,price);
+ * int param_2 = obj->current();
+ * int param_3 = obj->maximum();
+ * int param_4 = obj->minimum();
+ */
