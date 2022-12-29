@@ -1,0 +1,80 @@
+class Bank {
+    const long long MIN_MONEY = 0;
+    const long long MAX_MONEY = 1e12;
+    const long long MAX_ACCOUNT = 1e5;
+    vector<long long> b;
+
+    bool checkCountValid(int c){
+        return c < b.size();
+    }
+
+    bool checkMoneyValid(long long m){
+        if(m < MIN_MONEY) return false;
+        if(m > MAX_MONEY) return false;
+
+        return true;
+    }
+
+    bool checkAccountValild(int c, long long m){
+        long long expectedMoney = b[c] + m;
+        if(expectedMoney < 0)
+            return false;
+        
+        return true;
+    }
+public:
+    Bank(vector<long long>& balance) {
+        b = balance;
+    }
+    
+    bool transfer(int account1, int account2, long long money) {
+        account1--;
+        account2--;
+
+        if(account1 == account2) 
+            return checkAccountValild(account1, -money);
+
+        if(!checkCountValid(account1)) return false;
+        if(!checkCountValid(account2)) return false;
+        if(!checkMoneyValid(money)) return false;
+        if(!checkAccountValild(account1, -money)) return false;
+        if(!checkAccountValild(account2, money)) return false;
+
+        b[account1] -= money;
+        b[account2] += money;
+
+        return true;
+    }
+    
+    bool deposit(int account, long long money) {
+        account--;
+
+        if(!checkCountValid(account)) return false;
+        if(!checkMoneyValid(money)) return false;
+        if(!checkAccountValild(account, money)) return false;
+
+        b[account] += money;
+        
+        return true;
+    }
+    
+    bool withdraw(int account, long long money) {
+        account--;
+        
+        if(!checkCountValid(account)) return false;
+        if(!checkMoneyValid(money)) return false;
+        if(!checkAccountValild(account, -money)) return false;
+
+        b[account] -= money;
+
+        return true;
+    }
+};
+
+/**
+ * Your Bank object will be instantiated and called as such:
+ * Bank* obj = new Bank(balance);
+ * bool param_1 = obj->transfer(account1,account2,money);
+ * bool param_2 = obj->deposit(account,money);
+ * bool param_3 = obj->withdraw(account,money);
+ */
