@@ -1,0 +1,65 @@
+class Solution {
+    bool checkHyphen(const string& s){
+        int cnt = 0;
+
+        for(int i=0;i<s.size();i++){
+            if(s[i] != '-') continue;
+
+            if(i == 0 || i+1 == s.size()) return false;
+            if(!isalpha(s[i-1]) || !isalpha(s[i+1])) return false;
+            cnt++;
+        }
+
+        return cnt<2;
+    }
+
+    bool checkPunch(const string& s){
+        for(int i=0;i<s.size();i++){
+            if(s[i] != '!' && s[i] != '.' && s[i] != ',') continue;
+            if(i+1 != s.size()) return false;
+        }
+
+        return true;
+    }
+
+    bool checkDigit(const string& s){
+        for(int i=0;i<s.size();i++){
+            if(isdigit(s[i])) return false;
+        }
+
+        return true;
+    }
+public:
+    int countValidWords(string sentence) {
+        // hyphens ('-')
+        // punctuation marks ('!', '.', and ',')
+        // spaces (' ')
+
+        vector<string> v;
+        string temp = "";
+        for(int i=0;i<sentence.size();i++){
+            char c = sentence[i];
+
+            if(c == ' '){
+                if(temp != "")
+                    v.push_back(temp);
+                temp = "";
+                continue;
+            }
+
+            temp += c;
+        }
+        if(temp != "") v.push_back(temp);
+
+        int result = 0;
+        for(const string& s : v){
+            if(!checkHyphen(s)) continue;
+            if(!checkDigit(s)) continue;
+            if(!checkPunch(s)) continue;
+
+            result++;
+        }
+
+        return result;
+    }
+};
