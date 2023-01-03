@@ -1,0 +1,27 @@
+class Solution {
+    const int MAX_NUM = 666666;
+    const int MAX_RST = 1224444;
+
+    bool checkBeautifulNum(int n){
+        unordered_map<int, int> m;
+        while(n > 0){
+            m[n%10]++;
+            n /= 10;
+        }
+
+        for(auto iter=m.begin();iter!=m.end();iter++){
+            if(iter->first != iter->second) return false;
+        }
+
+        return true;
+    }
+public:
+    int nextBeautifulNumber(int n) {
+        while(n < MAX_NUM){
+            n++;
+            if(checkBeautifulNum(n)) return n;
+        }
+
+        return MAX_RST;
+    }
+};
