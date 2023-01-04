@@ -1,0 +1,55 @@
+class Solution {
+    unordered_map<int, int> lowCnt; //자신 포함
+    unordered_map<int, unordered_set<int>> m;
+
+    int getLowCnt(int node){
+        if(lowCnt.find(node) != lowCnt.end()) return lowCnt[node];
+
+        lowCnt[node] = 1;
+        if(m.find(node) == m.end()) return lowCnt[node];
+
+        for(auto iter=m[node].begin();iter!=m[node].end();iter++){
+            lowCnt[node] += getLowCnt(*iter);
+        }
+
+        return lowCnt[node];
+    }
+public:
+    int countHighestScoreNodes(vector<int>& parents) {
+        int root = -1;
+        
+        for(int i=0;i<parents.size();i++){
+            m[parents[i]].insert(i);
+            if(parents[i] == -1) root = i;
+        }
+
+        lowCnt[root] = getLowCnt(root);
+
+        int result = 0;
+        long long score = 0;
+        for(int node=0;node<parents.size();node++){
+            long long temp = 1;
+
+            if(m.find(node) == m.end()){
+                temp = lowCnt[root] - 1;
+            }else{
+                int total = lowCnt[root] - 1;
+                
+                for(auto iter=m[node].begin();iter!=m[node].end();iter++){
+                    int cnt = lowCnt[*iter];
+                    temp *= cnt;
+                    total -= cnt;
+                }
+                temp *= max(total, 1);
+            }
+
+            if(temp == score) result++;
+            else if(temp > score){
+                result = 1;
+                score = temp;
+            }
+        }
+
+        return result;
+    }
+};
