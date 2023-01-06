@@ -1,0 +1,36 @@
+class Solution {
+    int findMaxValue(int time, const vector<vector<int>>& events, const vector<int>& v){
+        int s = 0;
+        int e = events.size()-1;
+        int m;
+        while(s <= e){
+            m = (s+e)/2;
+            if(time >= events[m][0]) s = m+1;
+            else e = m-1;
+        }
+        if(events[m][0] <= time) m++;
+
+        if(m < v.size()) return v[m];
+        return 0;
+    }
+public:
+    int maxTwoEvents(vector<vector<int>>& events) {
+        sort(events.begin(), events.end(), [](const vector<int>& v1, const vector<int>& v2){
+            if(v1[0] == v2[0]) return v1[2] < v2[2];
+            return v1[0] < v2[0];
+        });
+
+        int result = 0;
+        vector<int> v(events.size(), events.back()[2]);
+
+        for(int i=(int)v.size()-2;i>=0;i--){
+            v[i] = max(events[i][2], v[i+1]);
+        }
+
+        for(const vector<int>& e : events){
+            result = max(result, e[2] + findMaxValue(e[1], events, v));
+        }
+
+        return result;
+    }
+};
