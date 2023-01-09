@@ -1,0 +1,39 @@
+class Solution {
+    vector<vector<int>> candle;
+    vector<int> cnt;
+
+    int getPlateCount(vector<int>& q){
+        int s = candle[q[0]][1];
+        int e = candle[q[1]][0];
+
+        if(s==-1 || e==-1 || s>e) return 0;
+
+        return cnt[e] - cnt[s];
+    }
+public:
+    vector<int> platesBetweenCandles(string s, vector<vector<int>>& queries) {
+        int pos = -1;
+        int plateCnt = 0;
+        for(int i=0;i<s.size();i++){
+            if(s[i] == '|'){
+                pos = i;
+            }else plateCnt++;
+
+            candle.push_back(vector<int>{pos});
+            cnt.push_back(plateCnt);
+        }
+
+        pos = -1;
+        for(int i=s.size()-1;i>=0;i--){
+            if(s[i] == '|') pos = i;
+            candle[i].push_back(pos);
+        }
+
+        vector<int> result;
+        for(vector<int>& q : queries){
+            result.push_back(getPlateCount(q));
+        }
+
+        return result;
+    }
+};
