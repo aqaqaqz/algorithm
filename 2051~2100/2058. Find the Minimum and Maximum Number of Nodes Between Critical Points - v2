@@ -1,0 +1,51 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+    int first;
+    int recent;
+    vector<int> rst;
+
+    void searchListNode(ListNode* n, int preVal, int p){
+        if(n == NULL) return;
+        if(n->next == NULL) return;
+        if(preVal == -1) return searchListNode(n->next, n->val, p+1);
+
+        int val = n->val;
+        int nextVal = n->next->val;
+
+        if( (val>preVal && val>nextVal) || (val<preVal && val<nextVal) ){
+            int minDis = -1;
+            int maxDis = -1;
+
+            if(recent != -1) minDis = p - recent;
+            if(first != -1) maxDis = p - first;
+
+            if(rst[0] == -1) rst[0] = minDis;
+            else rst[0] = min(rst[0], minDis);
+            
+            rst[1] = max(rst[1], maxDis);
+
+            first = (first==-1?p:first);
+            recent = p;
+        }
+
+        searchListNode(n->next, n->val, p+1);
+    }
+public:
+    vector<int> nodesBetweenCriticalPoints(ListNode* head) {
+        rst = vector<int>{-1, -1};
+        first = -1;
+        recent = -1;
+
+        searchListNode(head, -1, 0);
+        return rst;
+    }
+};
