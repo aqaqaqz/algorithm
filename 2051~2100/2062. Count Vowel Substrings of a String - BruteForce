@@ -1,0 +1,25 @@
+class Solution {
+    int checkVowel(const string& w, int s, int e){
+        unordered_set<char> charSet;
+        for(int i=s;i<=e;i++){
+            if(w[i]!='a' && w[i]!='e' && w[i]!='i' && w[i]!='o' && w[i]!='u')
+                return 0;
+            charSet.insert(w[i]);
+        }
+
+        if(charSet.size() != 5) return 0;
+        return 1;
+    }
+public:
+    int countVowelSubstrings(string word) {
+        int result = 0;
+
+        for(int s=0;s<word.size();s++){
+            for(int e=s+1;e<word.size();e++){
+                result += checkVowel(word, s, e);
+            }
+        }
+
+        return result;
+    }
+};
