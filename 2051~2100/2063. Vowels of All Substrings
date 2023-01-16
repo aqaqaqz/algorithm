@@ -1,0 +1,19 @@
+class Solution {
+public:
+    long long countVowels(string word) {
+        int pos = word.size()/2;
+        long long cnt = word.size();
+        long long nextChange = word.size();
+        long long result = 0;
+
+        for(int i=0;i<word.size();i++){
+            if(word[i]=='a' || word[i]=='e' || word[i]=='i' || word[i]=='o' || word[i]=='u')
+                result += cnt;
+            
+            nextChange -= 2;
+            cnt += nextChange;
+        }
+
+        return result;
+    }
+};
