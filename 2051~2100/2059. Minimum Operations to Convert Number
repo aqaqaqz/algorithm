@@ -1,0 +1,31 @@
+class Solution {
+public:
+    int minimumOperations(vector<int>& nums, int start, int goal) {
+        vector<int> list{start};
+        vector<bool> v(1001, false);
+        int rst = 0;
+
+        while(!list.empty()){
+            vector<int> temp;
+            rst++;
+
+            for(int n : nums){
+                for(int l : list){
+                    vector<int> candidate{l-n, l+n, l^n};
+
+                    for(int c : candidate){
+                        if(c == goal) return rst;
+                        if(c<0 || c>1000 || visit[c]) continue;
+
+                        visit[c] = true;
+                        temp.push_back(c);
+                    }
+                }
+            }
+
+            list = temp;
+        }
+
+        return -1;
+    }
+};
