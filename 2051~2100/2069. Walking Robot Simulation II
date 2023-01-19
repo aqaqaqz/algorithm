@@ -1,0 +1,57 @@
+class Robot {
+    bool h; //첫번째 이동 전까지는 예외처리 필요함
+    vector<string> dirName;
+    int x;
+    int y;
+    int move;
+    int getType(){
+        int t = move;
+        if(t>0 && t<=x) return 0;
+        t -= x;
+        if(t <= y) return 1;
+        t -= y;
+        if(t <= x) return 2;
+        return 3;
+    }
+public:
+    Robot(int width, int height) {
+        dirName = vector<string>{"East", "North", "West", "South"};
+        x = width - 1;
+        y = height - 1;
+        move = 0;
+        h = false;
+    }
+    
+    void step(int num) {
+        if(num > 0) h = true;
+        move += num;
+        move %= (x*2 + y*2);
+    }
+    
+    vector<int> getPos() {
+        if(move == 0) return vector<int>{0, 0};
+        switch(getType()){
+            case 0:
+                return vector<int>{move, 0};
+            case 1:
+                return vector<int>{x, move-x};
+            case 2:
+                return vector<int>{x-(move-x-y), y};
+        }
+        return vector<int>{0, y-(move-2*x-y)};
+    }
+    
+    string getDir() {
+        if(!h) return dirName[0];
+        if(move==0) return dirName[3];
+        return dirName[getType()];
+    }
+};
+
+/**
+ * Your Robot object will be instantiated and called as such:
+ * Robot* obj = new Robot(width, height);
+ * obj->step(num);
+ * vector<int> param_2 = obj->getPos();
+ * string param_3 = obj->getDir();
+ */
