@@ -1,0 +1,37 @@
+class Solution {
+    int getMaxBeauty(vector<vector<int>>& items, int prc){
+        if(items.front()[0] > prc) return 0;
+        if(items.back()[0] < prc) return items.back()[1];
+
+        int s = 0;
+        int e = items.size()-1;
+        int m;
+        while(s <= e){
+            m = (s+e)/2;
+            if(items[m][0] == prc) return items[m][1];
+            if(items[m][0] > prc) e = m-1;
+            else s = m+1;
+        }
+
+        if(prc < items[m][0]) m--;
+        return items[m][1];
+    }
+public:
+    vector<int> maximumBeauty(vector<vector<int>>& items, vector<int>& queries) {
+        sort(items.begin(), items.end(), [](vector<int>& v1, vector<int>& v2){
+            if(v1[0] == v2[0]) return v1[1] > v2[1];
+            return v1[0] < v2[0];
+        });
+
+        for(int i=1;i<items.size();i++){
+            items[i][1] = max(items[i][1], items[i-1][1]);
+        }
+
+        vector<int> result;
+        for(int n : queries){
+            result.push_back(getMaxBeauty(items, n));
+        }
+
+        return result;
+    }
+};
