@@ -1,0 +1,52 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* reverseEvenLengthGroups(ListNode* head) {
+        ListNode* temp = head;
+        vector<int> v;
+        while(temp != NULL){
+            v.push_back(temp->val);
+            temp = temp->next;
+        }
+
+        int g = 1;
+        int p = 0;
+        while(p < v.size()){
+            int len = min(g, (int)v.size() - p);
+            g++;
+
+            if(len%2 != 0){
+                p += len;
+                continue;
+            }
+
+            for(int cnt=0;cnt<len/2;cnt++){
+                int fPos = p + cnt;
+                int ePos = p + (len-cnt-1);
+
+                int temp = v[fPos];
+                v[fPos] = v[ePos];
+                v[ePos] = temp;
+            }
+
+            p += len;
+        }
+
+        temp = head;
+        for(int i=0;i<v.size();i++){
+            temp->val = v[i];
+            temp = temp->next;
+        }
+
+        return head;
+    }
+};
