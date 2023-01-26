@@ -1,0 +1,31 @@
+class Solution {
+    string trim(const string& str){
+        if(str.empty()) return "";
+        int e = str.size()-1;
+
+        while(e>=0 && str[e]==' ') e--;
+
+        if(e<0) return "";
+        return str.substr(0, e+1);
+    }
+public:
+    string decodeCiphertext(string encodedText, int rows) {
+        int len = encodedText.size() / rows;
+        string rst = "";
+        int cnt = 0;
+        int x = 0;
+        int y = 0;
+
+        while(x<len){
+            int p = y++*len + x++;
+            rst += encodedText[p];
+
+            if(x>=len || y>=rows){
+                x = ++cnt;
+                y = 0;
+            }
+        }
+
+        return trim(rst);
+    }
+};
