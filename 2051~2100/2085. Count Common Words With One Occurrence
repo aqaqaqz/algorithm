@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int countWords(vector<string>& words1, vector<string>& words2) {
+        unordered_map<string, int> m1;
+        unordered_map<string, int> m2;
+
+        for(const string& str : words1)
+            m1[str]++;
+        for(const string& str : words2)
+            m2[str]++;
+
+        int result = 0;
+        for(auto iter=m1.begin();iter!=m1.end();iter++){
+            if(m2.find(iter->first) == m2.end()) continue;
+            if(iter->second>1 || m2[iter->first]>1) continue;
+
+            result++;
+        }
+
+        return result;
+    }
+};
