@@ -1,0 +1,25 @@
+class Solution {
+public:
+    vector<int> getAverages(vector<int>& nums, int k) {
+        vector<int> result;
+        long long sum = 0;
+
+        for(int i=0;i<min(k, (int)nums.size());i++) sum += nums[i];
+
+        for(int i=0;i<nums.size();i++){
+            int s = i-k;
+            int e = i+k;
+            if(s-1 >= 0) sum -= nums[s-1];
+            if(e < nums.size()) sum += nums[e];
+
+            if(s<0 || e>=nums.size()){
+                result.push_back(-1);
+                continue;
+            }
+
+            result.push_back(sum / (2*k+1));
+        }
+        
+        return result;
+    }
+};
