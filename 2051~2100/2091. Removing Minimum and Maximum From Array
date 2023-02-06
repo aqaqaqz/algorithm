@@ -1,0 +1,17 @@
+class Solution {
+public:
+    int minimumDeletions(vector<int>& nums) {
+        vector<int> p(2, 0); //0:min, 1:max
+        for(int i=1;i<nums.size();i++){
+            if(nums[i] < nums[p[0]]) p[0] = i;
+            if(nums[i] > nums[p[1]]) p[1] = i;
+        }
+
+        sort(p.begin(), p.end());
+        int result = p[0]+1 + nums.size()-p[1];
+        result = min(result, p[1]+1);
+        result = min(result, (int)nums.size()-p[0]);
+
+        return result;
+    }
+};
