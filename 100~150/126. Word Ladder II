@@ -1,0 +1,71 @@
+class Solution {
+    vector<vector<string>> result;
+    unordered_map<string, vector<string>> m;
+    unordered_set<string> visit;
+    unordered_map<string, vector<deque<string>>> cache;
+
+    bool checkUseLadders(string& s1, string& s2){
+        int cnt = 0;
+
+        for(int i=0;i<s1.size();i++){
+            if(s1[i] == s2[i]) continue;
+            cnt++;
+        }
+
+        return (cnt == 1);
+    }
+
+    vector<deque<string>> makeCache(string& w, string& endWord){
+        if(cache.find(w) != cache.end()) return cache[w];
+
+        if(w == endWord){
+            cache[w] = vector<deque<string>>(1, deque<string>{endWord});
+        }else{
+            cache[w] = vector<deque<string>>();
+            for(string& n : m[w]){
+                vector<deque<string>> temp = makeCache(n, endWord);
+                if(temp.empty()) continue;
+                
+                for(deque<string>& d : temp){
+                    d.push_front(w);
+                    cache[w].push_back(d);
+                }
+            }
+        }
+        
+        return cache[w];
+    }
+public:
+    vector<vector<string>> findLadders(string beginWord, string endWord, vector<string>& wordList) {
+        if(find(wordList.begin(), wordList.end(), endWord) == wordList.end()) return result;
+
+        unordered_set<string> list;
+        list.insert(beginWord);
+        visit.insert(beginWord);
+
+        while(!list.empty()){
+            unordered_set<string> next;
+
+            for(auto iter=list.begin();iter!=list.end();iter++){
+                string l = *iter;
+                for(string& w : wordList){
+                    if(visit.find(w) != visit.end()) continue;
+                    if(!checkUseLadders(w, l)) continue;
+                    m[l].push_back(w);
+                    next.insert(w);
+                }
+            }
+
+            for(auto iter=next.begin();iter!=next.end();iter++)
+                visit.insert(*iter);
+
+            list = next;
+        }
+
+        for(deque<string> d : makeCache(beginWord, endWord)){
+            result.push_back(vector<string>(d.begin(), d.end()));
+        }
+
+        return result;
+    }
+};
