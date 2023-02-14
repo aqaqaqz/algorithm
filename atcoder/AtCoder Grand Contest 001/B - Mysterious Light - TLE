@@ -1,0 +1,16 @@
+#include <iostream>
+ 
+using namespace std;
+ 
+long long getLength(long long a, long long b){
+    if(a == b) return a;
+    return min(a, b)*2 + getLength(min(a, b), max(a, b)-min(a,b));
+}
+ 
+int main(){
+    long long n, x;
+    cin >> n >> x;
+ 
+    long long rst = n + getLength(x, n-x);
+    cout << rst << endl;
+}
