@@ -1,0 +1,27 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+int main(){
+    int len;
+    int result = 0;
+    vector<int> snuke;
+
+    cin >> len;
+    len *= 2;
+    while(len--){
+        int temp;
+        cin >> temp;
+        snuke.push_back(temp);
+    }
+
+    sort(snuke.begin(), snuke.end());
+    for(int i=snuke.size()-1;i>0;i-=2){
+        result += min(snuke[i], snuke[i-1]);
+    }
+
+    cout << result << endl;
+    return 0;
+}
