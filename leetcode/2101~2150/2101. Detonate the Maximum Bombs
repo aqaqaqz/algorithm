@@ -1,0 +1,43 @@
+class Solution {
+    vector<vector<bool>> m;
+    
+    bool check(const vector<int>& v1, const vector<int>& v2){
+        long long dx = v1[0] - v2[0];
+        long long dy = v1[1] - v2[1];
+        long long dr = v1[2];
+        long long d = dx*dx + dy*dy;
+        dr *= dr;
+
+        return dr >= d;
+    }
+
+    int getMaxBombsCount(int p, vector<bool>& visit){
+        if(visit[p]) return 0;
+        visit[p] = true;
+        
+        int cnt = 1;
+        for(int i=0;i<m[p].size();i++){
+            if(!m[p][i] || visit[i]) continue;
+            cnt += getMaxBombsCount(i, visit);
+        } 
+        return cnt;
+    }
+public:
+    int maximumDetonation(vector<vector<int>>& bombs) {
+        m = vector<vector<bool>>(bombs.size(), vector<bool>(bombs.size(), false));
+        for(int i=0;i<bombs.size();i++){
+            for(int j=0;j<bombs.size();j++){
+                if(!check(bombs[i], bombs[j])) continue;
+                m[i][j] = true;
+            }
+        }
+
+        int result = 0;
+        for(int i=0;i<bombs.size();i++){
+            vector<bool> visit(bombs.size(), false);;
+            result = max(result, getMaxBombsCount(i, visit));
+        }
+
+        return result;
+    }
+};
