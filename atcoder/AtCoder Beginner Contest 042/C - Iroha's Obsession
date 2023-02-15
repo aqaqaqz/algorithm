@@ -1,0 +1,35 @@
+#include <iostream>
+#include <unordered_set>
+
+using namespace std;
+
+bool checkDislikeNum(int cost, unordered_set<int> d){
+    while(cost > 0){
+        int t = cost % 10;
+      	cost /= 10;
+        if(d.find(t) == d.end()) continue;
+
+        return false;
+    }
+
+    return true;
+}
+
+int main(){
+    unordered_set<int> dislike;
+    int cost;
+    int n;
+    cin >> cost >> n;
+    while(n--){
+        int num;
+        cin >> num;
+        dislike.insert(num);
+    }
+
+    while(!checkDislikeNum(cost, dislike))
+        cost++;
+
+    cout << cost << endl;
+    return 0;
+
+}
