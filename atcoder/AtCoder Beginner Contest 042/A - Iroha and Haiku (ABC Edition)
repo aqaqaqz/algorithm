@@ -1,0 +1,19 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int main(){
+    vector<int> cnt(2, 0); //[0] : 5, [1] : 7
+    char c;
+
+    for(int i=0;i<3;i++){
+        cin >> c;
+        if(c == '5') cnt[0]++;
+        if(c == '7') cnt[1]++;
+    }
+
+    cout << (cnt[0]==2 && cnt[1]==1?"YES":"NO") << endl;
+
+    return 0;
+}
