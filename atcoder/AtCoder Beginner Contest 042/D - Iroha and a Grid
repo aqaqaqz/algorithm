@@ -1,0 +1,37 @@
+#include <iostream>
+
+using namespace std;
+
+long long fact[3000005],factInv[3000005],mod = 1e9+7;
+ 
+long long mpow(long long x,long long m) {
+    if(!m) return 1;
+    long long tmp = mpow(x,m/2);
+    tmp = tmp*tmp % mod;
+    if(m % 2) return tmp*x%mod;
+    return tmp;
+}
+ 
+long long Com(long long x,long long r) {
+    return fact[x]*factInv[r]%mod*factInv[x-r]%mod;
+}
+
+int main(){
+    fact[0] = 1;
+    for(int i = 1;i <= 3000000;i++) fact[i] = fact[i-1]*i%mod;
+    factInv[3000000] = mpow(fact[3000000],mod-2);
+    for(int i = 2999999;i >= 0;i--) factInv[i] = factInv[i+1]*(i+1)%mod;
+
+    int h, w, a, b;
+    cin >> h >> w >> a >> b;
+    long long result = 0;
+    
+    for(int i=0;i<min(h-a, w-b);i++){
+        result += Com(h-a+b-1, b+i) * Com(w+a-b-1, a+i);
+        result %= mod;
+    }
+
+    cout << result << endl;
+
+    return 0;
+}
