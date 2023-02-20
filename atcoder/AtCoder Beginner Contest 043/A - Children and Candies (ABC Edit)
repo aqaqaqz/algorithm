@@ -1,0 +1,12 @@
+#include <iostream>
+
+using namespace std;
+
+int main(){
+    int cnt;
+    cin >> cnt;
+
+    cout << cnt*(cnt+1)/2 << endl;
+
+    return 0;
+}
