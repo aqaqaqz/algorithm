@@ -1,0 +1,20 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int main(){
+    vector<char> rst;
+    string input;
+    cin >> input;
+  
+    for(int i=0;i<input.size();i++){
+        if(input[i] == 'B'){
+            if(!rst.empty()) rst.pop_back();
+        }else rst.push_back(input[i]);
+    }
+	
+    cout << string(rst.begin(), rst.end()) << endl;
+
+    return 0;
+}
