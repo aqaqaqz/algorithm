@@ -1,0 +1,33 @@
+class Solution {
+public:
+    int minimumRefill(vector<int>& plants, int capacityA, int capacityB) {
+        int aWater = capacityA;
+        int bWater = capacityB;
+
+        int result = 0;
+        for(int posA=0;posA<(plants.size()+1)/2;posA++){
+            int posB = plants.size() - posA - 1;
+
+            if(posA == posB){
+                int water = max(aWater, bWater);
+                if(plants[posA] > water) result++;
+                break;
+            }
+
+            if(plants[posA] > aWater){
+                aWater = capacityA;
+                result++;
+            }
+
+            if(plants[posB] > bWater){
+                bWater = capacityB;
+                result++;
+            }
+
+            aWater -= plants[posA];
+            bWater -= plants[posB];
+        }
+        
+        return result;
+    }
+};
