@@ -1,0 +1,35 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+const int MIN_NUM = -100;
+const int MAX_NUM = 100;
+
+int getCost(const vector<int>& v, int value){
+    int cost = 0;
+    for(const int& n : v)
+        cost += (value-n)*(value-n);
+
+    return cost;
+}
+
+int main(){
+    int n;
+    vector<int> v;
+    cin >> n;
+    
+    while(n--){
+        int t;
+        cin >> t;
+        v.push_back(t);
+    }
+
+    int cost = INT_MAX;
+    for(int value=MIN_NUM;value<=MAX_NUM;value++)
+        cost = min(cost, getCost(v, value));
+
+    cout << cost << endl;
+
+    return 0;
+}
