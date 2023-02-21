@@ -1,0 +1,17 @@
+class Solution {
+    bool checkPalindrome(const string& w){
+        for(int s=0;s<w.size();s++){
+            int e = w.size() - 1 - s;
+            if(w[s] != w[e]) return false;
+        }
+
+        return true;
+    }
+public:
+    string firstPalindrome(vector<string>& words) {
+        for(const string& w : words)
+            if(checkPalindrome(w)) return w;
+        
+        return "";
+    }
+};
