@@ -1,0 +1,14 @@
+#include <iostream>
+
+using namespace std;
+
+int main(){
+    int defCost, defDay, addCost, addDay, totalDay;
+    cin >> totalDay >> defDay >> defCost >> addCost;
+    addDay = max(totalDay-defDay, 0);
+    defDay = min(defDay, totalDay);
+
+    cout << (defDay*defCost + addDay*addCost) << endl;
+
+    return 0;
+}
