@@ -1,0 +1,22 @@
+#include <iostream>
+#include <unordered_map>
+
+using namespace std;
+
+int main(){
+    string input;
+    unordered_map<char, int> m;
+    cin >> input;
+
+    for(int i=0;i<input.size();i++)
+        m[input[i]]++;
+    
+    string result = "Y";
+    for(auto iter=m.begin();iter!=m.end();iter++){
+        if(iter->second%2 == 1) result = "N";
+    }
+
+    cout << result << endl;
+
+    return 0;
+}
