@@ -1,0 +1,17 @@
+class Solution {
+public:
+    int mostWordsFound(vector<string>& sentences) {
+        int result = 0;
+
+        for(string& sentence : sentences){
+            stringstream ss(sentence);
+            int cnt = 0;
+            string token;
+            while(ss >> token) cnt++;
+
+            result = max(result, cnt);
+        }
+
+        return result;
+    }
+};
