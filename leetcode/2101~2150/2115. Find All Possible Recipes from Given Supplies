@@ -1,0 +1,40 @@
+class Solution {
+    unordered_map<string, unordered_set<string>> g;
+    unordered_map<string, bool> own;
+    bool makeRecipe(string s){
+        if(own.find(s) != own.end()) return own[s];
+        if(g.find(s) == g.end()){
+            own[s] = false;
+            return false;
+        } 
+
+        own[s] = false;
+        bool able = true;
+        for(auto iter=g[s].begin();iter!=g[s].end();iter++){
+            able &= makeRecipe(*iter);
+        }
+        own[s] = able;
+
+        return own[s];
+    }
+public:
+    vector<string> findAllRecipes(vector<string>& recipes, vector<vector<string>>& ingredients, vector<string>& supplies) {
+        for(int i=0;i<recipes.size();i++){
+            for(string& s : ingredients[i]){
+                g[recipes[i]].insert(s);
+            }
+        }
+
+        for(string& s : supplies){
+            own[s] = true;
+        }
+
+        vector<string> result;
+        for(string& r : recipes){
+            if(!makeRecipe(r)) continue;
+            result.push_back(r);
+        }
+
+        return result;
+    }
+};
