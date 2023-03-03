@@ -1,0 +1,27 @@
+class Solution {
+    vector<long long> result;
+    unordered_map<long long, vector<long long>> m;
+    void makeResult(int i, int v){
+        if(m.find(v) == m.end())
+            m[v] = vector<long long>(2);
+        
+        m[v][0] += i;
+        m[v][1] += 1;
+
+        result[i] += abs(((long long)i*m[v][1] - m[v][0]));
+    }
+public:
+    vector<long long> getDistances(vector<int>& arr) {
+        result = vector<long long>(arr.size());
+        
+        for(int i=0;i<arr.size();i++)
+            makeResult(i, arr[i]);
+
+        m.clear();
+
+        for(int i=arr.size()-1;i>=0;i--)
+            makeResult(i, arr[i]);
+
+        return result;
+    }
+};
