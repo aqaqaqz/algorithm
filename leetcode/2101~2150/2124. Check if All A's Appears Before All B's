@@ -1,0 +1,13 @@
+class Solution {
+public:
+    bool checkString(string s) {
+        int idx = 0;
+        while(idx<s.size() && s[idx]=='a') idx++;
+
+        for(int i=idx;i<s.size();i++){
+            if(s[i] == 'a') return false;
+        }
+
+        return true;
+    }
+};
