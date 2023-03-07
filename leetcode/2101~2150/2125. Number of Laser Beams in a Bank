@@ -1,0 +1,21 @@
+class Solution {
+    int getLaserCnt(string& s){
+        int cnt = 0;
+        for(int i=0;i<s.size();i++)
+            cnt += (s[i] - '0');
+        return cnt;
+    }
+public:
+    int numberOfBeams(vector<string>& bank) {
+        int pre = 0;
+        int result = 0;
+
+        for(string& s : bank){
+            int cnt = getLaserCnt(s);
+            result += pre*cnt;
+            if(cnt != 0) pre = cnt;
+        }
+
+        return result;
+    }
+};
