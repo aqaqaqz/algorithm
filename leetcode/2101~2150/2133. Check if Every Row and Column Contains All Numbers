@@ -1,0 +1,24 @@
+class Solution {
+    bool checkValid(vector<vector<int>>& m, int p){
+        unordered_set<int> r;
+        unordered_set<int> c;
+
+        for(int i=0;i<m.size();i++){
+            r.insert(m[i][p]);
+            c.insert(m[p][i]);
+        }
+
+        if(r.size() != m.size()) return false;
+        if(c.size() != m.size()) return false;
+
+        return true;
+    }
+public:
+    bool checkValid(vector<vector<int>>& matrix) {
+        for(int i=0;i<matrix.size();i++){
+            if(!checkValid(matrix, i)) return false;
+        }
+
+        return true;
+    }
+};
