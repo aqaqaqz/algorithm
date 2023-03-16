@@ -1,0 +1,25 @@
+class Solution {
+    int val;
+    int result;
+    void makeResult(vector<int>& n, int i, int v){
+        if(i>=n.size()) return;
+        makeResult(n, i+1, v);
+
+        v |= n[i];
+        if(v == val) result++;
+        if(v > val){
+            result = 1;
+            val = v;
+        }
+
+        makeResult(n, i+1, v);
+    }
+public:
+    int countMaxOrSubsets(vector<int>& nums) {
+        val = 0;
+        result = 0;
+        makeResult(nums, 0, 0);
+
+        return result;
+    }
+};
