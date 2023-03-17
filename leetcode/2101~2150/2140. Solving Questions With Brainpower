@@ -1,0 +1,14 @@
+class Solution {
+    long long getMostPoints(vector<long long>& c, vector<vector<int>>& q, int i){
+        if(i >= q.size()) return 0;
+        if(c[i] != -1) return c[i];
+
+        c[i] = max(getMostPoints(c, q, i+q[i][1]+1)+q[i][0], getMostPoints(c, q, i+1));
+        return c[i];
+    }
+public:
+    long long mostPoints(vector<vector<int>>& questions) {
+        vector<long long> cache(questions.size(), -1);
+        return getMostPoints(cache, questions, 0);        
+    }
+};
