@@ -1,0 +1,14 @@
+class Solution {
+public:
+    int numberOfArrays(vector<int>& differences, int lower, int upper) {
+        vector<long long> v(1);
+        vector<long long> m(2);
+        for(int n : differences){
+            v.push_back(v.back() + n);
+            m[0] = min(m[0], v.back());
+            m[1] = max(m[1], v.back());
+        }
+        
+        return max((long long)0, upper-lower-m[1]+m[0]+1);
+    }
+};
