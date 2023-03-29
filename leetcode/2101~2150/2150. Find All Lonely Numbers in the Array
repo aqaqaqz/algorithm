@@ -1,0 +1,17 @@
+class Solution {
+public:
+    vector<int> findLonely(vector<int>& nums) {
+        unordered_map<int, int> m;
+        for(int n : nums) m[n]++;
+
+        vector<int> result;
+        for(auto iter=m.begin();iter!=m.end();iter++){
+            if(iter->second > 1) continue;
+            if(m.find(iter->first - 1) != m.end()) continue;
+            if(m.find(iter->first + 1) != m.end()) continue;
+            result.push_back(iter->first);
+        }
+
+        return result;
+    }
+};
