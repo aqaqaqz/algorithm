@@ -1,0 +1,24 @@
+class Solution {
+public:
+    vector<int> maxScoreIndices(vector<int>& nums) {
+        int score = 0;
+        int l = 0;
+        int r = 0;
+        vector<int> result;
+        for(const int& n : nums) r += n;        
+
+        for(int i=0;i<=nums.size();i++){
+            if(l+r == score) result.push_back(i);
+            if(l+r > score){
+                score = l+r;
+                result.clear();
+                result.push_back(i);
+            }
+            
+            if(i==nums.size()) continue;
+
+            if(nums[i] == 0) l++;
+            else r--;
+        }
+    }
+};
