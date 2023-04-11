@@ -1,0 +1,20 @@
+class Solution {
+public:
+    vector<int> pivotArray(vector<int>& nums, int pivot) {
+        vector<int> left;
+        vector<int> right;
+        int cnt = 0;
+
+        for(int n : nums){
+            if(n == pivot) cnt++;
+            else if(n > pivot) right.push_back(n);
+            else left.push_back(n);
+        }
+
+        vector<int> result(left.begin(), left.end());
+        while(cnt--) result.push_back(pivot);
+        result.insert(result.end(), right.begin(), right.end());
+
+        return result;
+    }
+};
