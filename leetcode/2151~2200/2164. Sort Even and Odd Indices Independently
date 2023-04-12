@@ -1,0 +1,22 @@
+class Solution {
+public:
+    vector<int> sortEvenOdd(vector<int>& nums) {
+        vector<int> o, e;
+        vector<int> result;
+
+        for(int i=0;i<nums.size();i++){
+            if(i%2 == 0) o.push_back(nums[i]);
+            else e.push_back(nums[i]);
+        }
+
+        sort(o.begin(), o.end());
+        sort(e.begin(), e.end(), greater<int>());
+
+        for(int i=0;i<o.size();i++){
+            result.push_back(o[i]);
+            if(i<e.size()) result.push_back(e[i]);
+        }
+
+        return result;
+    }
+};
