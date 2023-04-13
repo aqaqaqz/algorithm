@@ -1,0 +1,42 @@
+#define swap(a, b) {int temp=a; a=b; b=temp;}
+
+class Solution {
+    long long getMaxValue(vector<long long>& v){
+        sort(v.begin(), v.end(), greater<long long>());
+        return makeValue(v);
+    }
+
+    long long getMinValue(vector<long long>& v){
+        sort(v.begin(), v.end());
+        int i = 0;
+        while(i<v.size() && v[i]==0) i++;
+        swap(v[0], v[i]);
+        return makeValue(v);
+    }
+
+    long long makeValue(vector<long long>& v){
+        long long value = 0;
+
+        for(int i=0;i<v.size();i++){
+            value *= 10;
+            value += v[i];
+        }
+
+        return value;
+    }
+public:
+    long long smallestNumber(long long num) {
+        if(num==0) return 0;
+        
+        vector<long long> v;
+        bool negative = num < 0;
+        num = (negative?num*-1:num);
+
+        while(num!=0){
+            v.push_back(num%10);
+            num/=10;
+        }
+        
+        return (negative?getMaxValue(v)*-1:getMinValue(v));
+    }
+};
