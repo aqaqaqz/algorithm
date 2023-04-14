@@ -1,0 +1,62 @@
+#define swap(a, b) {int t = a; a = b; b = t;}
+
+class Bitset {
+    vector<int> change;
+    int flipCount;
+    int oneCount;
+public:
+    Bitset(int size) {
+        flipCount = 0;
+        oneCount = 0;
+        change.assign(size, 0);
+    }
+    
+    void fix(int idx) {
+        if((change[idx]+flipCount)%2 == 1) return;
+        change[idx]++;
+        oneCount++;
+    }
+    
+    void unfix(int idx) {
+        if((change[idx]+flipCount)%2 == 0) return;
+        change[idx]++;
+        oneCount--;
+    }
+    
+    void flip() {
+        oneCount = change.size() - oneCount;
+        flipCount++;
+    }
+    
+    bool all() {
+        return change.size() == oneCount;
+    }
+    
+    bool one() {
+        return oneCount > 0;
+    }
+    
+    int count() {
+        return oneCount;
+    }
+    
+    string toString() {
+        string str = "";
+        for(int i=0;i<change.size();i++){
+            str.append((change[i]+flipCount)%2==0?"0":"1");
+        }
+        return str;
+    }
+};
+
+/**
+ * Your Bitset object will be instantiated and called as such:
+ * Bitset* obj = new Bitset(size);
+ * obj->fix(idx);
+ * obj->unfix(idx);
+ * obj->flip();
+ * bool param_4 = obj->all();
+ * bool param_5 = obj->one();
+ * int param_6 = obj->count();
+ * string param_7 = obj->toString();
+ */
