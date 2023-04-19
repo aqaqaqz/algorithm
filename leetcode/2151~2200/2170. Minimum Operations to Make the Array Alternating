@@ -1,0 +1,33 @@
+class Solution {
+    void orderByCount(unordered_map<int, int>& m, vector<int>& v){
+        for(auto iter=m.begin();iter!=m.end();iter++){
+            if(iter->second >= m[v[0]]){
+                v[1] = v[0];
+                v[0] = iter->first;
+            }else if(iter->second > m[v[1]]){
+                v[1] = iter->first;
+            }
+        }
+    }
+public:
+    int minimumOperations(vector<int>& nums) {
+        unordered_map<int, int> e;
+        unordered_map<int, int> o;
+        vector<int> v1(2, -1);
+        vector<int> v2(2, -1);
+        e[-1] = 0;
+        o[-1] = 0;
+
+        for(int i=0;i<nums.size();i++){
+            if(i%2 == 0) e[nums[i]]++;
+            else o[nums[i]]++;
+        }
+
+        orderByCount(e, v1);
+        orderByCount(o, v2);
+
+        if(v1[0] == v2[0])
+            return nums.size()-max(e[v1[0]]+o[v2[1]], e[v1[1]]+o[v2[0]]);
+        return nums.size()-e[v1[0]]-o[v2[0]];
+    }
+};
