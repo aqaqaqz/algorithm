@@ -1,0 +1,18 @@
+class Solution {
+public:
+    long long minimumRemoval(vector<int>& beans) {
+        long long l = 0;
+        long long r = 0;
+        for(int n : beans) r += n;
+
+        sort(beans.begin(), beans.end());
+        long long result = r;
+        for(int i=0;i<beans.size();i++){
+            r -= beans[i];
+            result = min(result, r-(long long)(beans.size()-i-1)*beans[i] + l);
+            l += beans[i];
+        }
+
+        return result;
+    }
+};
