@@ -1,0 +1,30 @@
+class Solution {
+public:
+    string repeatLimitedString(string s, int repeatLimit) {
+        vector<int> v(26, 0);
+        for(int i=0;i<s.size();i++)
+            v[s[i]-'a']++;
+
+        string result = "";
+        while(true){
+            int maxIdx = v.size()-1;
+            while(maxIdx >= 0 && v[maxIdx] == 0) maxIdx--;
+            if(maxIdx == -1) break;
+
+            for(int cnt=min(v[maxIdx], repeatLimit);cnt>0;cnt--){
+                result += (char)(maxIdx+'a');
+                v[maxIdx]--;
+            }
+
+            if(v[maxIdx] == 0) continue;
+            maxIdx--;
+            while(maxIdx >= 0 && v[maxIdx] == 0) maxIdx--;
+            if(maxIdx == -1) break;
+
+            result += (char)(maxIdx+'a');
+            v[maxIdx]--;
+        }
+
+        return result;
+    }
+};
