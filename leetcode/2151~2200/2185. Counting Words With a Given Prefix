@@ -1,0 +1,21 @@
+class Solution {
+    int checkPreFix(const string& w, const string& p){
+        if(p.size() > w.size()) return 0;
+
+        for(int i=0;i<p.size();i++){
+            if(w[i] != p[i]) return 0;
+        }
+
+        return 1;
+    }
+public:
+    int prefixCount(vector<string>& words, string pref) {
+        int result = 0;
+
+        for(string& w : words){
+            result += checkPreFix(w, pref);
+        }
+
+        return result;
+    }
+};
