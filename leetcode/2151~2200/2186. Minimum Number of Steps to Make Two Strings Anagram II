@@ -1,0 +1,19 @@
+class Solution {
+    vector<int> getCharCount(const string& s){
+        vector<int> v(26, 0);
+        for(int i=0;i<s.size();i++) v[s[i]-'a']++;
+        return v;
+    }
+public:
+    int minSteps(string s, string t) {
+        vector<int> sv = getCharCount(s);
+        vector<int> tv = getCharCount(t);
+
+        int dupleCount = 0;
+
+        for(int i=0;i<26;i++)
+            dupleCount += min(sv[i], tv[i])*2;
+        
+        return s.size() + t.size() - dupleCount;
+    }
+};
