@@ -1,0 +1,35 @@
+/*
+1 <= time.length <= 10^5
+1 <= time[i], totalTrips <= 10^7
+    => max 1e14
+*/
+
+typedef long long ll;
+
+class Solution {
+    ll getTrips(const vector<int>& time, ll r){
+        ll trips = 0;
+        for(const int& t : time)
+            trips += r/t;
+
+        return trips;
+    }
+public:
+    long long minimumTime(vector<int>& time, int totalTrips) {
+        ll s = 1;
+        ll e = 1e14;
+        ll result;
+        while(s <= e){
+            result = (s+e)/2;
+            ll trips = getTrips(time, result);
+            
+            if(trips >= totalTrips){
+                if(getTrips(time, result-1)<totalTrips) break;
+                e = result - 1;
+            }else
+                s = result + 1;
+        }
+
+        return result;
+    }
+};
