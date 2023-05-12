@@ -1,0 +1,32 @@
+class Solution {
+public:
+    vector<int> sortJumbled(vector<int>& mapping, vector<int>& nums) {
+        unordered_map<int, int> ori;
+        for(int i=0;i<nums.size();i++)
+            ori[nums[i]] = i;
+
+        auto convert = [](int n, const vector<int>& m){
+            if(n==0) return m[0];
+            
+            int rst = 0;
+            int ten = 1;
+            while(n > 0){
+                rst += ten*m[n%10];
+                n /= 10;
+                ten *= 10;
+            }
+
+            return rst;
+        };
+
+        sort(nums.begin(), nums.end(), [&convert, &ori, &mapping](const int& n1, const int& n2){
+            int cn1 = convert(n1, mapping);
+            int cn2 = convert(n2, mapping);
+
+            if(cn1 == cn2) return ori[n1] < ori[n2];
+            return cn1 < cn2;
+        });
+
+        return nums;
+    }
+};
