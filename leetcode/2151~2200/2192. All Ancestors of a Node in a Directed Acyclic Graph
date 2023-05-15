@@ -1,0 +1,33 @@
+class Solution {
+    vector<bool> visit;
+    vector<set<int>> ances;
+
+    set<int> makeAncesList(vector<set<int>>& p, vector<bool>& v, int i){
+        if(visit[i]) return ances[i];
+
+        for(auto iter=p[i].begin();iter!=p[i].end();iter++){
+            ances[i].insert(*iter);
+            set<int> temp = makeAncesList(p, v, *iter);
+            ances[i].insert(temp.begin(), temp.end());
+        }
+        visit[i] = true;
+
+        return ances[i];
+    }
+public:
+    vector<vector<int>> getAncestors(int n, vector<vector<int>>& edges) {
+        visit.resize(n, false);
+        ances.resize(n);
+        vector<set<int>> path(n);
+        for(vector<int>& v : edges)
+            path[v[1]].insert(v[0]);
+
+        vector<vector<int>> result;
+        for(int i=0;i<n;i++){
+            set<int> ancesList = makeAncesList(path, visit, i);
+            result.push_back(vector<int>(ancesList.begin(), ancesList.end()));
+        }
+
+        return result;
+    }
+};
