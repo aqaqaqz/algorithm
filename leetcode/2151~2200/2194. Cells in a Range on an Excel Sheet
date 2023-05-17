@@ -1,0 +1,21 @@
+class Solution {
+public:
+    vector<string> cellsInRange(string s) {
+        int rs = s[0] - 'A';
+        int re = s[3] - 'A'; 
+        int cs = s[1] - '0';
+        int ce = s[4] - '0';
+
+        vector<string> result;
+        for(int r=rs;r<=re;r++){
+            for(int c=cs;c<=ce;c++){
+                string temp = "";
+                temp.push_back((char)(r+'A'));
+                temp.push_back((char)(c+'0'));
+                result.push_back(temp);
+            }
+        }
+
+        return result;
+    }
+};
