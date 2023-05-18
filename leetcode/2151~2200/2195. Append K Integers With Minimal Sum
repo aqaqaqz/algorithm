@@ -1,0 +1,27 @@
+class Solution {
+public:
+    long long minimalKSum(vector<int>& nums, int k) {
+        sort(nums.begin(), nums.end());
+
+        long long last = 0;
+        long long cnt = 0;
+        long long sum = 0;
+
+        for(int n : nums){
+            if(last == n) continue;
+
+            if(cnt + (n-last-1) > k){
+                last = last + (k - cnt);
+                cnt = k;
+                break;
+            }
+            
+            cnt += (n-last-1);
+            sum += n;
+            last = n;
+        }
+        if(cnt < k) last += (k - cnt); 
+        
+        return (last*(last+1)/2 - sum);
+    }
+};
