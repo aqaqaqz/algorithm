@@ -1,0 +1,49 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    unordered_set<int> pList;
+    unordered_set<int> cList;
+
+    TreeNode* makeTreeNode(unordered_map<int, vector<int>>& m, int v){
+        if(v == -1) return nullptr;
+
+        TreeNode *newNode = new TreeNode(v);
+        if(m[v].empty()) return newNode;
+
+        newNode->left = makeTreeNode(m, m[v][1]);
+        newNode->right = makeTreeNode(m, m[v][0]);
+        return newNode;
+    }
+public:
+    TreeNode* createBinaryTree(vector<vector<int>>& descriptions) {
+        int rootVal = -1;
+        unordered_map<int, vector<int>> m;
+        
+        for(vector<int>& v : descriptions){
+            //val, child, dir(1:left, 0:right)
+            if(m[v[0]].empty()) m[v[0]] = vector<int>(2, -1);
+            m[v[0]][v[2]] = v[1];
+
+            pList.insert(v[0]);
+            cList.insert(v[1]);
+        }
+
+        for(auto iter=pList.begin();iter!=pList.end();iter++){
+            if(cList.find(*iter) == cList.end()){
+                rootVal = *iter;
+                break;
+            }
+        }
+
+        return makeTreeNode(m, rootVal);
+    }
+};
