@@ -1,0 +1,26 @@
+class Solution {
+    bool isFind(vector<int>& v, vector<vector<bool>>& m){
+        int cnt = 0;
+        for(int x=v[0];x<=v[2];x++){
+            for(int y=v[1];y<=v[3];y++){
+                cnt += (m[x][y]?1:0);
+            }
+        }
+
+        return (cnt==(v[2]-v[0]+1)*(v[3]-v[1]+1));
+    }
+public:
+    int digArtifacts(int n, vector<vector<int>>& artifacts, vector<vector<int>>& dig) {
+        vector<vector<bool>> m(n, vector<bool>(n, false));
+
+        for(vector<int>& v : dig) m[v[0]][v[1]] = true;
+
+        int result = 0;
+        for(vector<int>& v : artifacts){
+            result += (isFind(v, m)?1:0);
+        }
+
+        return result;
+    }
+};
+
