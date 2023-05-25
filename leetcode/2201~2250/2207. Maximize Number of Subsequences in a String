@@ -1,0 +1,36 @@
+typedef long long ll;
+
+class Solution {
+public:
+    long long maximumSubsequenceCount(string text, string pattern) {
+        vector<vector<ll>> v(text.size(), vector<ll>(2, 0));
+        //v[0] : pattern[i][0] count, start front;
+        //v[1] : pattern[i][1] count, start end;
+
+        for(int i=0;i<text.size();i++){
+            if(text[i] == pattern[0]) v[i][0]++;
+            v[i][0] += (i>0?v[i-1][0]:0);
+        }
+
+        for(int i=text.size()-1;i>=0;i--){
+            if(text[i] == pattern[1]) v[i][1]++;
+            v[i][1] += (i+1<text.size()?v[i+1][1]:0);
+        }
+
+        ll result = 0;
+        ll count = 0;
+        for(int i=0;i<text.size()-1;i++){
+            if(text[i] != pattern[0]) continue;
+            count += v[i+1][1];
+        }
+        result += (count + max(v.front()[1], v.back()[0]));
+
+        for(int i=1;i<text.size();i++){
+            ll temp = count;
+            temp += max(v[i-1][0], v[i][1]);
+            result = max(result, temp);
+        }
+
+        return result;
+    }
+};
