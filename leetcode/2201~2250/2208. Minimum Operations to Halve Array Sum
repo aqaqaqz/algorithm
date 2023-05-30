@@ -1,0 +1,27 @@
+class Solution {
+public:
+    int halveArray(vector<int>& nums) {
+        multiset<double> n;
+        double half = 0;
+        for(int i=0;i<nums.size();i++){
+            half += nums[i];
+            n.insert(nums[i]);
+        }
+        half /= 2;
+
+        int result = 0;
+        while(half > 0){
+            auto iter = n.end();
+            iter--;
+            double val = *iter/2;
+            half -= val;
+
+            n.erase(iter);
+            n.insert(val);
+
+            result++;
+        }
+
+        return result;
+    }
+};
