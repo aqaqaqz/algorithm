@@ -1,0 +1,55 @@
+class Solution {
+public:
+    int countCollisions(string directions) {
+        int result = 0;
+
+        for(int i=0;i<directions.size();i++){
+            if(directions[i] != 'S')
+            continue;
+
+            int j = i;
+            while(j>=0 && directions[j]=='R'){
+                directions[j] = 'S';
+                result++;
+            }
+            j = i;
+            while(j<directions.size() && directions[j]=='L'){
+                directions[j] = 'S';
+                result++;
+            }
+        }
+
+        for(int i=0;i<directions.size();i++){
+            if(directions[i] != 'L') continue;
+            if(i==0) continue;
+            if(directions[i-1] == 'L') continue;
+
+            directions[i] = 'S';
+            result++;
+        }
+
+        for(int i=directions.size()-1;i>=0;i--){
+            if(directions[i] != 'R') continue;
+            if(i==directions.size()-1) continue;
+            if(directions[i+1] == 'R') continue;
+
+            directions[i] = 'S';
+            result++;
+        }
+
+        return result;
+    }
+};
+
+/*
+find s. 
+change left R to S.
+change right L to S.
+
+directions[i] == L
+if left direction is S or R, change directions[i] to S. and plus 1.
+
+and search reverse dir.
+direction[i] == R
+if right direction is S or L, change directions[i] to S. and plus 1.
+*/
