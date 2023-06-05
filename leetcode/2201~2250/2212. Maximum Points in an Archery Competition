@@ -1,0 +1,35 @@
+class Solution {
+    vector<int> result;
+    int getBobScore(vector<int>& a, vector<int>& b){
+        int score = 0;
+        for(int i=0;i<a.size();i++){
+            if(a[i] < b[i]) score += i;
+        }
+
+        return score;
+    }
+    void getMaxScore(int cnt, int idx, vector<int>& aliceArrows, vector<int>& bobArrows){
+        if(idx == aliceArrows.size()){
+            if(getBobScore(aliceArrows, result) < getBobScore(aliceArrows, bobArrows))
+                result = bobArrows;
+            return;
+        }
+
+        bobArrows[idx] = 0;
+        getMaxScore(cnt, idx+1, aliceArrows, bobArrows);
+        if(cnt <= aliceArrows[idx]) 
+            return;
+
+        bobArrows[idx] = aliceArrows[idx] + 1;
+        getMaxScore(cnt-aliceArrows[idx]-1, idx+1, aliceArrows, bobArrows);
+    }
+public:
+    vector<int> maximumBobPoints(int numArrows, vector<int>& aliceArrows) {
+        result.assign(aliceArrows.size(), 0);
+        vector<int> bobArrows(aliceArrows.size(), 0);
+        getMaxScore(numArrows, 0, aliceArrows, bobArrows);
+
+        result[0] += (numArrows - accumulate(result.begin(), result.end(), 0));
+        return result;
+    }
+};
