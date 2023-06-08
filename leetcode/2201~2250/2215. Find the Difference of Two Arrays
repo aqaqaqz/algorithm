@@ -1,0 +1,26 @@
+class Solution {
+    unordered_set<int> getNumSet(vector<int>& nums){
+        unordered_set<int> s;
+        for(int n : nums) s.insert(n);
+        return s;
+    }
+
+    vector<int> getUniqueList(unordered_set<int>& n1, unordered_set<int>& n2){
+        vector<int> rst;
+        for(auto iter=n1.begin();iter!=n1.end();iter++){
+            if(n2.find(*iter) != n2.end()) continue;
+
+            rst.push_back(*iter);
+        }
+
+        return rst;
+    }
+
+public:
+    vector<vector<int>> findDifference(vector<int>& nums1, vector<int>& nums2) {
+        unordered_set<int> n1 = getNumSet(nums1);
+        unordered_set<int> n2 = getNumSet(nums2);
+
+        return vector<vector<int>>{getUniqueList(n1, n2), getUniqueList(n2, n1)};
+    }
+};
