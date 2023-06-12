@@ -1,0 +1,33 @@
+class Solution {
+    long long getPanlindrome(int n, int l){
+        long long front = pow(10, (l+1)/2-1) + n -1;
+        if(front >= pow(10, (l+1)/2)) return -1;
+        
+        vector<long long> v;
+        while(front > 0){
+            v.push_back(front%10);
+            front/=10;
+        }
+
+        reverse(v.begin(), v.end());
+        int m = l/2 - 1;
+        while(m > -1)
+            v.push_back(v[m--]);
+
+        long long rst = 0;
+        for(long long n : v){
+            rst *= 10;
+            rst += n;
+        }
+
+        return rst;
+    }
+public:
+    vector<long long> kthPalindrome(vector<int>& queries, int intLength) {
+        vector<long long> result;
+        for(int n : queries)
+            result.push_back(getPanlindrome(n, intLength));
+
+        return result;
+    }
+};
