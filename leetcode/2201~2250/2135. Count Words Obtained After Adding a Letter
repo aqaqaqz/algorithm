@@ -1,0 +1,32 @@
+class Solution {
+    int convertInt(string& s){
+        int n = 0;
+        for(int i=0;i<s.size();i++)
+            n |= (1 << (s[i]-'a'));
+
+        return n;
+    }
+public:
+    int wordCount(vector<string>& startWords, vector<string>& targetWords) {
+        unordered_set<int> startInt;
+        for(string& str : startWords){
+            startInt.insert(convertInt(str));
+        }
+
+        int result = 0;
+        for(string& str : targetWords){
+            int tgt = convertInt(str);
+            for(int i=0;i<26;i++){
+                int temp = tgt & (INT_MAX - (1<<i));
+                if(temp == tgt) continue;
+                
+                if(startInt.find(temp) != startInt.end()){
+                    result++;
+                    break;
+                }
+            }
+        }
+
+        return result;
+    }
+};
