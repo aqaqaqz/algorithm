@@ -1,0 +1,13 @@
+class Solution {
+public:
+    int minBitFlips(int start, int goal) {
+        int dif = start ^ goal;
+        int result = 0;
+        while(dif > 0){
+            result += (dif%2);
+            dif /= 2;
+        }
+
+        return result;
+    }
+};
