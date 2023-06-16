@@ -1,0 +1,23 @@
+class Solution {
+    long long getPatternCount(const string& s, string p){
+        vector<long long> v(s.size(), 0);
+
+        for(int i=s.size()-1;i>=0;i--){
+            if(p.back() == s[i]) v[i]++;
+            v[i] += (i+1<s.size()?v[i+1]:0);
+        }
+        
+        for(int j=p.size()-2;j>=0;j--){
+            for(int i=s.size()-1;i>=0;i--){
+                if(p[j] != s[i]) v[i] = 0;
+                v[i] += (i+1<s.size()?v[i+1]:0);
+            }
+        }
+
+        return v[0];
+    }
+public:
+    long long numberOfWays(string s) {
+        return getPatternCount(s, "010") + getPatternCount(s, "101");
+    }
+};
