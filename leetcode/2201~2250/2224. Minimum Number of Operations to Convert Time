@@ -1,0 +1,26 @@
+class Solution {
+    int getMin(string& s){
+        int h = 10*(s[0]-'0') + (s[1]-'0');
+        int m = 10*(s[3]-'0') + (s[4]-'0');
+        
+        return h*60 + m;
+    }
+public:
+    int convertTime(string current, string correct) {
+        //1, 5, 15, 60 [only increase]
+        int result = 0;
+        vector<int> time{60, 15, 5, 1};
+
+        int t1 = getMin(current);
+        int t2 = getMin(correct);
+
+        for(int t : time){
+            while(t1+t <= t2){
+                t1 += t;
+                result++;
+            }
+        }
+
+        return result;
+    }
+};
