@@ -1,0 +1,22 @@
+class Solution {
+public:
+    vector<vector<int>> findWinners(vector<vector<int>>& matches) {
+        unordered_map<int, int> loseCount;
+        for(vector<int>& v : matches){
+            if(loseCount.find(v[0]) == loseCount.end()) loseCount[v[0]] = 0;
+            if(loseCount.find(v[1]) == loseCount.end()) loseCount[v[1]] = 0;
+            loseCount[v[1]]++;
+        }
+
+        vector<vector<int>> result(2);
+        for(auto iter=loseCount.begin();iter!=loseCount.end();iter++){
+            if(iter->second > 1) continue;
+
+            result[iter->second].push_back(iter->first);
+        }
+
+        sort(result[0].begin(), result[0].end());
+        sort(result[1].begin(), result[1].end());
+        return result;
+    }
+};
