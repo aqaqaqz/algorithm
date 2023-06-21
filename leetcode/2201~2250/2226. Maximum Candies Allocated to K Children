@@ -1,0 +1,29 @@
+typedef long long ll;
+
+class Solution {
+    ll getPiles(vector<int>& c, ll size){
+        if(size == 0) return 0;
+
+        ll cnt = 0;
+        for(int n : c) cnt += n/size;
+
+        return cnt;
+    }
+public:
+    int maximumCandies(vector<int>& candies, long long k) {
+        ll s = 0;
+        ll e = 1e7;
+        ll m;
+        
+        while(s<=e){
+            m = (s+e)/2;
+            ll cnt = getPiles(candies, m);
+
+            if(cnt >= k) s = m+1;
+            else e = m-1;
+        }
+
+        if(getPiles(candies, m) < k) m--;
+        return max((int)m, 0);
+    }
+};
