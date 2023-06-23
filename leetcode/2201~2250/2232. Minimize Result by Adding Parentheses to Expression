@@ -1,0 +1,38 @@
+class Solution {
+    long long getValue(string& s, int i, int j, int p){
+        long long result = 0;
+        vector<long long> v;
+        v.push_back(atoll(s.substr(0, i).c_str()));
+        v.push_back(atoll(s.substr(i, p-i).c_str()));
+        v.push_back(atoll(s.substr(p+1, j-p).c_str()));
+        v.push_back(atoll(s.substr(j+1).c_str()));
+
+        return (v[1]+v[2])*max(v[0], (long long)1)*max(v[3], (long long)1);
+    }
+public:
+    string minimizeResult(string expression) {
+        int p;
+        for(int i=0;i<expression.size();i++){
+            if(expression[i] == '+'){
+                p = i;
+                break;
+            }
+        }
+
+        vector<int> minIdx{-1, -1};
+        long long val = LONG_LONG_MAX;
+        for(int i=0;i<p;i++){
+            for(int j=p+1;j<expression.size();j++){
+                long long t = getValue(expression, i, j, p);
+                if(val > t){
+                    minIdx = vector<int>{i, j};
+                    val = t;
+                }
+            }
+        }
+
+        expression.insert(expression.begin()+minIdx[1]+1, ')');
+        expression.insert(expression.begin()+minIdx[0], '(');
+        return expression;
+    }
+};
