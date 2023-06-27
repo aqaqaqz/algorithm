@@ -1,0 +1,31 @@
+class Solution {
+    const int MOD =  1e9+7;
+public:
+    int maximumProduct(vector<int>& nums, int k) {
+        for(int i=0;i<nums.size();i++){
+            if(nums[i] > 0) continue;
+            nums[i]++;
+            k--;
+        }
+        if(k < 0) return 0;
+
+        multiset<int> s;
+        for(int n : nums) s.insert(n);
+
+        while(k > 0){
+            auto iter = s.begin();
+            int temp = *iter + 1;
+            s.erase(iter);
+            s.insert(temp);
+            k--;
+        }
+
+        long long result = 1;
+        for(auto iter=s.begin();iter!=s.end();iter++){
+            result *= *iter;
+            result %= MOD;
+        }
+
+        return result;
+    }
+};
