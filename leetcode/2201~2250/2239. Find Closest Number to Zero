@@ -1,0 +1,14 @@
+class Solution {
+public:
+    int findClosestNumber(vector<int>& nums) {
+        int result = 10000000;
+        for(int n : nums){
+            if(abs(result) < abs(n)) continue;
+
+            if(abs(result) == abs(n) && result < n) result = n;
+            else if(abs(result) > abs(n)) result = n;
+        }
+
+        return result;
+    }
+};
