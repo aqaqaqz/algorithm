@@ -1,0 +1,30 @@
+class Solution {
+    long double getCline(const vector<int>& v1, const vector<int>& v2){
+        long double difX = v2[0] - v1[0];
+        long double difY = v2[1] - v1[1];
+
+        cout << difX << " " << difY << endl;
+
+        return difY / difX;
+    }
+public:
+    int minimumLines(vector<vector<int>>& stockPrices) {
+        if(stockPrices.size() < 2) return 0;
+        if(stockPrices.size() == 2) return 1;
+
+        int result = 1;
+        sort(stockPrices.begin(), stockPrices.end(), [](const vector<int>& v1, const vector<int>& v2){
+            return v1[0] < v2[0];
+        });
+
+        for(int i=2;i<stockPrices.size();i++){
+            long double pre = getCline(stockPrices[i-2], stockPrices[i-1]);
+            long double now = getCline(stockPrices[i-1], stockPrices[i]);
+
+            if(pre-now != 0) result++;
+        }
+
+        return result;
+    }
+};
+
