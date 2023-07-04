@@ -1,0 +1,14 @@
+class Solution {
+public:
+    long long waysToBuyPensPencils(int total, int cost1, int cost2) {
+        long long result = 0;
+
+        for(int c1=0;c1<=total;c1+=cost1){
+            int last = total - c1;
+            result += last / cost2;
+            result++; // cost2 count is zero
+        }
+
+        return result;
+    }
+};
