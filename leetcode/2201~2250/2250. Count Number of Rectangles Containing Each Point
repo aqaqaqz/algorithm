@@ -1,0 +1,43 @@
+//[[1,2],[2,3],[2,5]]
+//[[2,1],[1,4]]
+class Solution {
+    int getCount(unordered_map<int, vector<int>>& r, vector<int>& p){
+        int count = 0;
+
+        for(auto iter=r.begin();iter!=r.end();iter++){
+            if(iter->first < p[1])
+                continue;
+            
+            int s = 0;
+            int e = iter->second.size()-1;
+            int m;
+
+            while(s <= e){
+                m = (s+e)/2;
+                if(iter->second[m] > p[0]) e = m-1;
+                else if(iter->second[m] < p[0]) s = m+1;
+                else break;
+            }
+
+            if(iter->second[m] < p[0]) m++;
+            count += (iter->second.size() - m);
+        }        
+
+        return count;
+    }
+public:
+    vector<int> countRectangles(vector<vector<int>>& rectangles, vector<vector<int>>& points) {
+        unordered_map<int, vector<int>> m;
+        for(vector<int>& p : rectangles)
+            m[p[1]].push_back(p[0]);     
+
+        for(auto iter=m.begin();iter!=m.end();iter++)
+            sort(iter->second.begin(), iter->second.end());   
+        
+        vector<int> result;
+        for(vector<int>& p : points)
+            result.push_back(getCount(m, p));
+
+        return result;
+    }
+};

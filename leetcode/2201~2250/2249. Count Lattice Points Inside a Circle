@@ -1,0 +1,23 @@
+class Solution {
+    bool checkCircle(int x, int y, vector<vector<int>>& c){
+        for(vector<int>& v : c){
+            bool inner = (x-v[0])*(x-v[0]) + (y-v[1])*(y-v[1]) <= v[2]*v[2];
+            if(inner) return true;
+        }
+
+        return false;
+    }
+public:
+    int countLatticePoints(vector<vector<int>>& circles) {
+        int result = 0;
+        
+        for(int x=0;x<=200;x++){
+            for(int y=0;y<=200;y++){
+                if(!checkCircle(x, y, circles)) continue;
+                result++;
+            }
+        }
+
+        return result;
+    }
+};

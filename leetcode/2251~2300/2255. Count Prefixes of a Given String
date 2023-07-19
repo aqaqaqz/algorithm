@@ -1,0 +1,19 @@
+class Solution {
+    int checkWord(string& w, string& s){
+        if(w.size() > s.size()) return 0;
+
+        for(int i=0;i<w.size();i++){
+            if(w[i] != s[i]) return 0;
+        }
+
+        return 1;
+    }
+public:
+    int countPrefixes(vector<string>& words, string s) {
+        int result = 0;
+
+        for(string& w : words) result += checkWord(w, s);
+
+        return result;
+    }
+};
