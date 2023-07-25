@@ -1,0 +1,27 @@
+class Solution {
+private:
+    const int MOD = 1e9+7;
+    const vector<long long> pad{3,3,3,3,3,4,3,4};
+
+    long long getAbleCount(string& s, vector<int>& c, int i){
+        if(i == s.size()) return 1;
+        if(i > s.size()) return 0;
+        if(c[i] != -1) return c[i];
+
+        long long temp = 0;
+        for(int j=0;j<pad[s[i]-'2'];j++){
+            if(s[i] != s[i+j]) break;
+            temp += getAbleCount(s, c, i+j+1);
+        }
+
+        c[i] = temp % MOD;
+        return c[i];
+    }
+public:
+    int countTexts(string pressedKeys) {
+       vector<int> cache(pressedKeys.size(), -1);
+       getAbleCount(pressedKeys, cache, 0);
+
+       return (int)cache[0];
+    }
+};
