@@ -1,0 +1,27 @@
+class Solution {
+public:
+    int divisorSubstrings(int num, int k) {
+        vector<int> v;
+        int temp = num;
+        while(temp > 0){
+            v.push_back(temp%10);
+            temp /= 10;
+        }
+        reverse(v.begin(), v.end());
+
+        int result = 0;
+        for(int i=0;i<v.size();i++){
+            temp = 0;
+            for(int j=0;j<k;j++){
+                if(i+j >= v.size()) return result;
+                temp *= 10;
+                temp += v[i+j];
+            }
+
+            if(temp==0) continue;
+            result += (num%temp==0?1:0);
+        }
+
+        return result;
+    }
+};
