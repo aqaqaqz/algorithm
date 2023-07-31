@@ -1,0 +1,23 @@
+class Solution {
+public:
+    vector<string> removeAnagrams(vector<string>& words) {
+        vector<string> result;
+
+        for(string& w : words){
+            if(result.empty()){
+                result.push_back(w);
+                continue;
+            }
+
+            string temp1 = w;
+            string temp2 = result.back();
+            sort(temp1.begin(), temp1.end());
+            sort(temp2.begin(), temp2.end());
+            if(temp1 == temp2) continue;
+            
+            result.push_back(w);
+        }
+
+        return result;
+    }
+};
