@@ -1,0 +1,26 @@
+class Solution {
+    void makeBitsetMap(int n, unordered_map<int, int>& m){
+        int idx = 0;
+        while(n > 0){
+            int bit = n % 2;
+            n /= 2;
+            idx++;
+            if(bit == 0) continue;
+
+            m[idx]++;
+        }
+    }
+public:
+    int largestCombination(vector<int>& candidates) {
+        unordered_map<int, int> m;
+        int result = 0;
+
+        for(int n : candidates)
+            makeBitsetMap(n, m);
+        
+        for(auto iter=m.begin();iter!=m.end();iter++)
+            result = max(result, iter->second);
+
+        return result;
+    }   
+};
