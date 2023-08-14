@@ -1,0 +1,47 @@
+class Solution {
+    unordered_map<string, int> m;
+    const string DEFAULT_NAME = "EMPTY_EMPTY_EMPTY";
+
+    void wordsCounting(string& message, string& sender){
+        string w = "";
+        for(int i=0;i<message.size();i++){
+            if(message[i] != ' '){
+                w += message[i];
+                continue;
+            }
+
+            if(w == "") continue;
+            m[sender]++;
+            w = "";
+        }
+
+        m[sender]++;
+    }
+
+    string getLargestSender(){
+        string name = DEFAULT_NAME;
+
+        for(auto iter=m.begin();iter!=m.end();iter++){
+            if(iter->second < m[name]) continue;
+            
+            if(iter->second > m[name]){
+                name = iter->first;
+                continue;
+            }
+
+            if(iter->first > name) 
+                name = iter->first;
+        }
+
+        return name;
+    }
+public:
+    string largestWordCount(vector<string>& messages, vector<string>& senders) {
+        m[DEFAULT_NAME] = 0;
+
+        for(int i=0;i<messages.size();i++)
+            wordsCounting(messages[i], senders[i]);
+
+        return getLargestSender();        
+    }
+};
