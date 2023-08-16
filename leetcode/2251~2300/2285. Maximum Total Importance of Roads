@@ -1,0 +1,31 @@
+class Solution {
+public:
+    long long maximumImportance(int n, vector<vector<int>>& roads) {
+        unordered_map<long long, long long> m;
+        vector<vector<long long>> r;
+        for(vector<int>& v : roads){
+            m[v[0]]++;
+            m[v[1]]++;
+        }
+
+        for(int i=0;i<n;i++)
+            r.push_back(vector<long long>{i, m[i]});
+
+        sort(r.begin(), r.end(), [](vector<long long>& v1, vector<long long>& v2){
+            if(v1[1] == v2[1]) return v1[0] < v2[0];
+            return v1[1] < v2[1];
+        });
+
+        m.clear();
+        for(int i=0;i<r.size();i++)
+            m[r[i][0]] = i+1;
+
+        long long result = 0;
+        for(vector<int>& v : roads){
+            result += (long long)(m[v[0]]);
+            result += (long long)(m[v[1]]);
+        }
+
+        return result;
+    }
+};
