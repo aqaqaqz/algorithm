@@ -1,0 +1,17 @@
+class Solution {
+public:
+    int partitionArray(vector<int>& nums, int k) {
+        sort(nums.begin(), nums.end());
+
+        int result = 1;
+        int pre = nums[0];
+
+        for(int n : nums){
+            if(n-pre <= k) continue;
+            result++;
+            pre = n;
+        }
+
+        return result;
+    }
+};
