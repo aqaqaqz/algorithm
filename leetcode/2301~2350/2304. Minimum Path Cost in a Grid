@@ -1,0 +1,23 @@
+class Solution {
+    int makeCost(vector<vector<int>>& g, vector<vector<int>>& m, vector<vector<int>>& c, int h, int w){
+        if(h == g.size()) return 0;
+        if(c[h][w] != INT_MAX) return c[h][w];
+
+        int val = g[h][w];
+        for(int i=0;i<g[h].size();i++)
+            c[h][w] = min(c[h][w], makeCost(g, m, c, h+1, i) + m[val][i]);
+
+        return c[h][w];
+    }
+public:
+    int minPathCost(vector<vector<int>>& grid, vector<vector<int>>& moveCost) {
+        vector<vector<int>> cost(grid.size(), vector<int>(grid[0].size(), INT_MAX));
+
+        int result = INT_MAX;
+        for(int i=0;i<grid[0].size();i++){
+            result = min(result, makeCost(grid, moveCost, cost, 0, i));
+        }
+
+        return result;
+    }
+};
