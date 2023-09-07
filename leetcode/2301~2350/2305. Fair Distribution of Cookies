@@ -1,0 +1,31 @@
+class Solution {
+    vector<int> bag;
+    int result;
+
+    void findResult(vector<int>& c, int k, int i){
+        if(i==c.size()){
+            int maxCnt = INT_MIN;
+            for(int n : bag){
+                maxCnt = max(maxCnt, n);
+            }
+            if(result <= maxCnt) return;
+            result = maxCnt;
+
+            return;
+        }
+        
+        for(int j=0;j<bag.size();j++){
+            bag[j] += c[i];
+            findResult(c, k, i+1);
+            bag[j] -= c[i];
+        }
+    }
+public:
+    int distributeCookies(vector<int>& cookies, int k) {
+        bag.resize(k, 0);
+        result = INT_MAX;
+        findResult(cookies, k, 0);
+
+        return result;
+    }
+};
