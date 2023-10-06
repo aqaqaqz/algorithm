@@ -1,0 +1,17 @@
+class Solution {
+public:
+    int minimumNumbers(int num, int k) {
+        if(num == 0) return 0;
+        if(k==0 && num%10!=0) return -1;
+        
+        int result = 0;
+        while(num >= 0){
+            result++;
+            num -= k;
+            if(num%10 == 0)
+                return result;
+        }
+        
+        return -1;
+    }
+};
