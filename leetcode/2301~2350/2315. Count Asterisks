@@ -1,0 +1,16 @@
+class Solution {
+public:
+    int countAsterisks(string s) {
+        int idx = 0;
+        int result = 0;
+        for(int i=0;i<s.size();i++){
+            if(s[i] != '|' && s[i] != '*')
+                continue;
+
+            result += (s[i]=='*' && idx%2==0 ? 1 : 0);
+            idx += (s[i]=='|' ? 1 : 0);
+        }
+
+        return result;
+    }
+};
