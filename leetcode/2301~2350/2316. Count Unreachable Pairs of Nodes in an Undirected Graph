@@ -1,0 +1,44 @@
+class Solution {
+    long long getGrpCnt(int i, unordered_map<int, unordered_set<int>>& m, vector<bool>& visit){
+        if(visit[i]) return 0;
+        visit[i] = true;
+
+        long long cnt = 1;
+        for(auto iter=m[i].begin();iter!=m[i].end();iter++){
+            cnt += getGrpCnt(*iter, m, visit);
+        }
+
+        return cnt;
+    }
+public:
+    long long countPairs(int n, vector<vector<int>>& edges) {
+        long long result = 0;
+        long long sum = 0;
+        vector<long long> grpCntList;
+        vector<bool> visit(n, false);
+        unordered_map<int, unordered_set<int>> m;
+
+        for(vector<int>& v : edges){
+            m[v[0]].insert(v[1]);
+            m[v[1]].insert(v[0]);
+        }
+
+        for(int i=0;i<n;i++){
+            if(visit[i]) continue;
+            grpCntList.push_back(getGrpCnt(i, m, visit));
+            sum += grpCntList.back();
+        }
+
+        while(sum != n){
+            grpCntList.push_back(1);
+            sum++;
+        }
+
+        for(long long cnt : grpCntList){
+            sum -= cnt;
+            result += (sum*cnt);
+        }
+        
+        return result;
+    }
+};
