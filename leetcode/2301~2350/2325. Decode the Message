@@ -1,0 +1,20 @@
+class Solution {
+public:
+    string decodeMessage(string key, string message) {
+        unordered_map<char, char> keyMap;
+        for(int i=0;i<key.size();i++){
+            if(key[i] == ' ') continue;
+            if(keyMap.find(key[i]) != keyMap.end()) continue;
+            
+            keyMap[key[i]] = (char)('a'+keyMap.size());
+        }
+        keyMap[' '] = ' ';
+
+        string result = "";
+        for(int i=0;i<message.size();i++){
+            result += keyMap[message[i]];
+        }
+
+        return result;
+    }
+};
