@@ -1,0 +1,34 @@
+class MyNum{
+public:
+    string num;
+    int idx;
+    MyNum(string n, int i){
+        num = n;
+        idx = i;
+    }
+};
+
+class Solution {
+    int excuteQuery(vector<string>& n, vector<int>& q){
+        vector<MyNum> temp;
+        for(int i=0;i<n.size();i++){
+            temp.push_back(MyNum(n[i].substr(n[i].size() - q[1]), i));
+        }
+
+        sort(temp.begin(), temp.end(), [](MyNum& n1, MyNum& n2){
+            if(n1.num == n2.num) return n1.idx < n2.idx;
+            return n1.num < n2.num;
+        });
+
+        return temp[q[0]-1].idx;
+    }
+public:
+    vector<int> smallestTrimmedNumbers(vector<string>& nums, vector<vector<int>>& queries) {
+        vector<int> result;
+        for(vector<int>& q : queries){
+            result.push_back(excuteQuery(nums, q));
+        }
+
+        return result;
+    }
+};
