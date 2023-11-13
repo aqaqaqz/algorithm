@@ -1,0 +1,41 @@
+/*
+"Flush": Five cards of the same suit.
+"Three of a Kind": Three cards of the same rank.
+"Pair": Two cards of the same rank.
+"High Card": Any single card.
+*/
+
+class Solution {
+private:
+    template <typename T>
+    int getSameCount(vector<T>& v){
+        unordered_map<T, int> m;
+        int cnt = 0;
+        for(T t : v){
+            m[t]++;
+            cnt = max(cnt, m[t]);
+        }
+
+        return cnt;
+    }
+    
+    bool isFlush(vector<char>& s){
+        return getSameCount(s) == 5;
+    }
+
+    bool isTriple(vector<int>& r){
+        return getSameCount(r) >= 3;
+    }
+
+    bool isPair(vector<int>& r){
+        return getSameCount(r) >= 2;
+    }
+public:
+    string bestHand(vector<int>& ranks, vector<char>& suits) {
+        if(isFlush(suits)) return "Flush";
+        if(isTriple(ranks)) return "Three of a Kind";
+        if(isPair(ranks)) return "Pair";
+
+        return "High Card";
+    }
+};
