@@ -1,0 +1,23 @@
+typedef long long ll;
+
+class Solution {
+    ll getCount(ll& cnt){
+        ll temp = cnt * (cnt + 1) / 2;
+        cnt = 0;
+
+        return temp;
+    }
+public:
+    long long zeroFilledSubarray(vector<int>& nums) {
+        ll result = 0;
+        ll cnt = 0;
+
+        for(int n : nums){
+            if(n != 0) result += getCount(cnt);
+            else cnt++;
+        }
+
+        result += getCount(cnt);
+        return result;
+    }
+};
