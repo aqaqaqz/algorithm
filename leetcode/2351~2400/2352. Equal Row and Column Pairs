@@ -1,0 +1,24 @@
+class Solution {
+    int getSameCount(vector<vector<int>>& g, vector<int>& v){
+        int cnt = 0;
+        int n = g.size();
+
+        for(int w=0;w<n;w++){
+            for(int h=0;h<n;h++){
+                if(v[h] != g[h][w]) break;
+                if(h+1 == n) cnt++;
+            }
+        }
+
+        return cnt;
+    }
+public:
+    int equalPairs(vector<vector<int>>& grid) {
+        int result = 0;
+
+        for(vector<int>& v : grid)
+            result += getSameCount(grid, v);
+
+        return result;
+    }
+};
