@@ -1,0 +1,12 @@
+class Solution {
+public:
+    int minimumOperations(vector<int>& nums) {
+        unordered_set<int> s;
+        for(int n : nums){
+            if(n == 0) continue;
+            s.insert(n);
+        }
+
+        return s.size();
+    }
+};
