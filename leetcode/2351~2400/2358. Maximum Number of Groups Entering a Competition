@@ -1,0 +1,14 @@
+class Solution {
+    int getSum(int n){
+        return (n+1)*n/2;
+    }
+public:
+    int maximumGroups(vector<int>& grades) {
+        int result = 1;
+
+        while(grades.size() >= getSum(result+1))
+            result++;
+
+        return result;
+    }
+};
