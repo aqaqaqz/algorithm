@@ -1,0 +1,43 @@
+class Solution {
+    void makeDistance(int s, vector<int>& d, const vector<int>& e){
+        queue<vector<int>> q;
+        vector<bool> v(e.size(), false);
+
+        v[s] = true;
+        d[s] = 0;
+        q.push(vector<int>{e[s], 1});
+        while(!q.empty()){
+            vector<int> n = q.front();
+            q.pop();
+
+            if(n[0] == -1) continue;
+            if(v[n[0]]) continue;
+            
+            v[n[0]] = true;
+            d[n[0]] = n[1];
+            q.push(vector<int>{e[n[0]], n[1]+1});
+        }
+    }
+public:
+    int closestMeetingNode(vector<int>& edges, int node1, int node2) {
+        vector<int> d1(edges.size(), -1);
+        vector<int> d2(edges.size(), -1);
+
+        makeDistance(node1, d1, edges);        
+        makeDistance(node2, d2, edges);
+
+        int result = -1;
+        int distance = INT_MAX;
+        for(int i=0;i<edges.size();i++){
+            if(d1[i]==-1 || d2[i]==-1) continue;
+            
+            int temp = max(d1[i], d2[i]);
+            if(temp >= distance) continue;
+
+            result = i;
+            distance = temp;
+        }
+        
+        return result;
+    }
+};
