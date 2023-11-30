@@ -1,0 +1,19 @@
+class Solution {
+    void makeMap(vector<vector<int>>& v, map<int, int>& m){
+        for(vector<int>& t : v)
+            m[t[0]] += t[1];
+    }
+public:
+    vector<vector<int>> mergeSimilarItems(vector<vector<int>>& items1, vector<vector<int>>& items2) {
+        map<int, int> m;
+        makeMap(items1, m);
+        makeMap(items2, m);
+        
+        vector<vector<int>> result;
+        for(auto iter=m.begin();iter!=m.end();iter++){
+            result.push_back(vector<int>{iter->first, iter->second});
+        }
+
+        return result;
+    }
+};
