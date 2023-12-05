@@ -1,0 +1,23 @@
+typedef long long ll;
+
+class Solution {
+public:
+    long long taskSchedulerII(vector<int>& tasks, int space) {
+        ll result = 0; //today
+        unordered_map<int, ll> m;
+
+        for(int i=0;i<tasks.size();i++){
+            result++;
+            ll free = INT_MAX;
+            if(m.find(tasks[i]) != m.end())
+                free = result - 1 - m[tasks[i]];
+
+            if(space > free)
+                result += (space - free);
+            
+            m[tasks[i]] = result;
+        }
+
+        return result;
+    }
+};
