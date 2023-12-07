@@ -1,0 +1,16 @@
+class Solution {
+public:
+    int arithmeticTriplets(vector<int>& nums, int diff) {
+        int result = 0;
+        vector<bool> v(201, false);
+        for(int& n : nums){
+            v[n] = true;
+            if(n - 2*diff < 0) continue;
+            if(!v[n-diff] || !v[n-2*diff]) continue;
+            
+            result++;
+        }
+
+        return result;        
+    }
+};
