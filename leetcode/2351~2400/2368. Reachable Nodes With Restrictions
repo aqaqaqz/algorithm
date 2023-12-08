@@ -1,0 +1,32 @@
+class Solution {
+public:
+    int reachableNodes(int n, vector<vector<int>>& edges, vector<int>& restricted) {
+        unordered_map<int, vector<int>> m;
+        vector<bool> visit(n, false);
+        queue<int> q;
+        q.push(0);
+
+        for(vector<int>& e : edges){
+            m[e[0]].push_back(e[1]);
+            m[e[1]].push_back(e[0]);
+        }
+        
+        for(int r : restricted)
+            visit[r] = true;
+
+        int result = 0;
+        while(!q.empty()){
+            int p = q.front();
+            q.pop(); 
+
+            if(visit[p]) continue;
+
+            result++;
+            visit[p] = true;
+            for(int n : m[p])
+                q.push(n);
+        }
+
+        return result;
+    }
+};
