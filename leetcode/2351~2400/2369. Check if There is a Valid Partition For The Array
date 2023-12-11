@@ -1,0 +1,30 @@
+class Solution {
+    bool isValid(vector<int>& n, vector<int>& c, int p){
+        if(p == n.size()) return true;
+        if(c[p] == -1) checkValid(n, c, p);
+        if(c[p] == 0 ) return false;
+
+        return true;
+    }
+
+    void checkValid(vector<int>& n, vector<int>& c, int p){
+        if(c[p] != -1) return;
+
+        c[p] = 0;
+        
+        if(p+1 >= n.size()) return;
+        if(n[p] == n[p+1] && isValid(n, c, p+2))
+            c[p] |= 1;
+
+        if(p+2 >= n.size()) return;
+        if(n[p]==n[p+1] && n[p]==n[p+2] && isValid(n, c, p+3))
+            c[p] |= 2;
+        if(n[p+1]-n[p]==1 && n[p+2]-n[p+1]==1 && isValid(n, c, p+3))
+            c[p] |= 4;
+    }
+public:
+    bool validPartition(vector<int>& nums) {
+        vector<int> cache(nums.size(), -1);
+        return isValid(nums, cache, 0);
+    }
+};
