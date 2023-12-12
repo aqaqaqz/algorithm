@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int longestIdealString(string s, int k) {
+        unordered_map<int, int> m;
+        for(int i=s.size()-1;i>=0;i--){
+            int c = s[i] - 'a';
+            int f = max(c-k, 0);
+            int e = min(c+k, 25);
+
+            int len = 0;
+            for(int n=f;n<=e;n++)
+                len = max(len, m[n]);
+
+            m[c] = 1+len;
+        }
+
+        int result = 0;
+        for(int i=0;i<=25;i++)
+            result = max(result, m[i]);
+
+        return result;
+    }
+};
