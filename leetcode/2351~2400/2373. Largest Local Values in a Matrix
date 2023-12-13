@@ -1,0 +1,23 @@
+class Solution {
+    int findMaxVal(vector<vector<int>>& g, int h, int w){
+        int val = INT_MIN;
+        for(int i=h-1;i<=h+1;i++)
+            for(int j=w-1;j<=w+1;j++)
+                val = max(val, g[i][j]);
+
+        return val;
+    }
+public:
+    vector<vector<int>> largestLocal(vector<vector<int>>& grid) {
+        vector<vector<int>> result;
+        for(int h=1;h<grid.size()-1;h++){
+            vector<int> row;
+            for(int w=1;w<grid[0].size()-1;w++)
+                row.push_back(findMaxVal(grid, h, w));
+            
+            result.push_back(row);
+        }
+
+        return result;
+    }
+};
