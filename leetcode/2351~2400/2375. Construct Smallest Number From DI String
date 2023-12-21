@@ -1,0 +1,47 @@
+class Solution {
+    vector<char> r;
+    vector<bool> use;
+    bool pushDigit(int p, string& s){
+        if(p==s.size()) return true;
+        int v = r.back() - '0';
+
+        while(v>0 && v<10){
+            if(s[p] == 'I')
+                v++;
+            else
+                v--;
+            
+            if(v<1 || v>9)
+                break;
+
+            if(use[v]) continue;
+
+            use[v] = true;
+            r.push_back('0'+v);
+
+            if(pushDigit(p+1, s)) return true;
+
+            use[v] = false;
+            r.pop_back();
+        }
+
+        return false;
+    }
+public:
+    string smallestNumber(string pattern) {
+        use.assign(10, false);
+
+        for(int i=1;i<10;i++){
+            use[i] = true;
+
+            r.push_back('0' + i);
+            if(pushDigit(0, pattern)) 
+                break;
+            r.pop_back();
+
+            use[i] = false;
+        }
+
+        return string(r.begin(), r.end());
+    }
+};
