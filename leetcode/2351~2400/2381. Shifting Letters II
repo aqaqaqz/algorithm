@@ -1,0 +1,26 @@
+class Solution {
+public:
+    string shiftingLetters(string s, vector<vector<int>>& shifts) {
+        unordered_map<int, int> m;
+
+        for(vector<int>& shift : shifts){
+            int d = (shift[2]==0?-1:1);
+            m[shift[0]] += d;
+            m[shift[1]+1] -= d;
+        }
+
+        int d = 0;
+        for(int i=0;i<s.size();i++){
+            d += m[i];
+            
+            int c = s[i] - 'a' + d;
+            c %= 26;
+            if(c < 0) c += 26;
+            if(c > 25) c -= 26;
+
+            s[i] = c + 'a';
+        }
+
+        return s;
+    }
+};
