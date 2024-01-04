@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int minNumberOfHours(int initialEnergy, int initialExperience, vector<int>& energy, vector<int>& experience) {
+        int result = 0;
+        for(int n : energy){
+            if(n >= initialEnergy){
+                int t = n - initialEnergy + 1;
+                initialEnergy += t;
+                result += t;
+            }
+            initialEnergy -= n;
+        }
+
+        for(int n : experience){
+            if(n >= initialExperience){
+                int t = n - initialExperience + 1;
+                initialExperience += t;
+                result += t;
+            }
+            initialExperience += n;
+        }
+
+        return result;
+    }
+};
