@@ -1,0 +1,32 @@
+class Solution {
+    int searchBS(vector<int>& n, int q){
+        int s = 0;
+        int e = n.size()-1;
+        int m;
+
+        while(s <= e){
+            m = (s+e)/2;
+            if(n[m] == q) break;
+
+            if(n[m] > q) e = m-1;
+            else s = m+1;
+        }
+        if(n[m] > q) m--;
+
+        return m+1;
+    }
+public:
+    vector<int> answerQueries(vector<int>& nums, vector<int>& queries) {
+        int sum = 0;
+        vector<int> result;
+
+        sort(nums.begin(), nums.end());
+        for(int i=1;i<nums.size();i++)
+            nums[i] += nums[i-1];
+
+        for(int q :queries)
+            result.push_back(searchBS(nums, q));
+
+        return result;
+    }
+};
