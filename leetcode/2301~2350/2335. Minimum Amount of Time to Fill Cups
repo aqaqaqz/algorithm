@@ -1,0 +1,17 @@
+class Solution {
+public:
+    int fillCups(vector<int>& amount) {
+        int result = 0;
+
+        while(true){
+            sort(amount.begin(), amount.end());
+            if(amount[2]==0) break;
+
+            result++;
+            amount[2]--;
+            amount[1]--;
+        }
+
+        return result;
+    }
+};
