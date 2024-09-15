@@ -1,0 +1,27 @@
+class Solution {
+    vector<vector<int>> myConvertor(string & str){
+        vector<vector<int>> v;
+        for(int i=0;i<str.size();i++){
+            if(str[i] == '_') continue;
+            
+            int d = (str[i]=='L' ? 1 : 0);
+            v.push_back(vector<int>{d, i});
+        }
+
+        return v;
+    }
+public:
+    bool canChange(string start, string target) {
+        vector<vector<int>> s = myConvertor(start);
+        vector<vector<int>> t = myConvertor(target);
+        
+        if(s.size() != t.size()) return false;
+        for(int i=0;i<s.size();i++){
+            if(s[i][0] != t[i][0]) return false;
+            if(s[i][0] == 0 && s[i][1]>t[i][1]) return false;
+            if(s[i][0] == 1 && s[i][1]<t[i][1]) return false;
+        }
+
+        return true;
+    }
+};
