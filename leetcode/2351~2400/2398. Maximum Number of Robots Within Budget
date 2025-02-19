@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int maximumRobots(vector<int>& chargeTimes, vector<int>& runningCosts, long long budget) {
+        multiset<int> s;
+        long long sum = 0;
+        int pos = 0;
+        int result = 0;
+        
+        for(int i=0;i<chargeTimes.size();i++) {
+            s.insert(chargeTimes[i]);
+            sum += runningCosts[i];
+            while(!s.empty() && *s.rbegin() + s.size()*sum > budget) {
+                sum -= runningCosts[pos];
+                s.erase(s.find(chargeTimes[pos]));
+                pos++;
+            };
+            
+            result = max(result, (int)s.size());
+        }
+
+        return result;
+    }
+};
