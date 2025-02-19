@@ -1,0 +1,49 @@
+class Solution {
+    vector<vector<int>> idxList;
+    set<int> sel;
+    int colCount;
+    
+    int getCount() {
+        int count = 0;
+        for(vector<int>& idx : idxList) {
+            if(idx.size() == 0) {
+                count++;
+                continue;
+            }
+          
+            for(int i=0;i<idx.size();i++) {
+                if(sel.find(idx[i]) == sel.end()) break;
+                if(i+1 == idx.size()) count++;
+            }
+        }
+        
+        return count;
+    }
+    
+    int getMaxCount(int pos, int over) {
+        if(colCount==pos || over == 0) return getCount();
+        
+        int result = getMaxCount(pos+1, over);
+        sel.insert(pos);
+        over--;
+        result = max(result, getMaxCount(pos+1, over));
+        sel.erase(pos);
+        over++;
+        
+        return result;
+    }
+public:
+    int maximumRows(vector<vector<int>>& matrix, int numSelect) {
+        colCount = matrix[0].size();
+        
+        for(vector<int>& v : matrix) {
+            vector<int> idx;
+            for(int i=0;i<v.size();i++) 
+                if(v[i] == 1) idx.push_back(i);
+            
+            idxList.push_back(idx);
+        }
+        
+        return getMaxCount(0, min(colCount, numSelect));
+    }
+};
