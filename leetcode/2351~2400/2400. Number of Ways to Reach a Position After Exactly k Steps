@@ -1,0 +1,21 @@
+class Solution {
+   int MOD = 1000000007;
+   unordered_map<int, unordered_map<int, long long>> cache;
+   long long getWay(int pos, int des, int k){
+      // if(pos<0) return 0;
+      if(pos==des && k==0) return 1;
+      if(abs(pos-des) > k) return 0;
+      if(cache[pos].find(k) != cache[pos].end()){
+         return cache[pos][k];
+      }
+
+      long long way = getWay(pos-1, des, k-1) + getWay(pos+1, des, k-1);
+      way %= MOD;
+      cache[pos][k] = way;
+      return cache[pos][k];
+   }
+public:
+    int numberOfWays(int startPos, int endPos, int k) {
+         return (int)getWay(startPos, endPos, k);
+    }
+};
