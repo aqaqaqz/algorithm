@@ -1,0 +1,18 @@
+class Solution {
+public:
+    int longestNiceSubarray(vector<int>& nums) {
+        int bit = nums[0];
+        int result = 1;
+        int pos = 0;
+
+        for(int i=1;i<nums.size();i++){
+            while((bit&nums[i]) > 0)
+                bit ^= nums[pos++];
+            
+            bit |= nums[i];
+            result = max(result, i-pos+1);
+        }
+
+        return result;
+    }
+};
