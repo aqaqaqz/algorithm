@@ -1,0 +1,16 @@
+class Solution {
+public:
+    int mostFrequentEven(vector<int>& nums) {
+        int result = -1;
+        unordered_map<int, int> m;
+
+        for(const int& n : nums){
+            if(n%2 != 0) continue;
+            m[n]++;
+            if(m[result] < m[n]) result = n;
+            if(m[result] == m[n] && result > n) result = n;
+        }
+
+        return result;
+    }
+};
