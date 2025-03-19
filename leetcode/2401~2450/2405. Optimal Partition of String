@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int partitionString(string s) {
+        int result = 0;
+        vector<bool> use(26, false);
+        for(char c : s){
+            if(use[c-'a']){
+                result++;
+                for(int i=0;i<26;i++) use[i] = false;
+            }
+            use[c-'a'] = true;
+        }
+
+        for(int i=0;i<26;i++){
+            if(use[i]){
+                result++;
+                break;
+            }
+        }
+
+        return result;
+    }
+};
