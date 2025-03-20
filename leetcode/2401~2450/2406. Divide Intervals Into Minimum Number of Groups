@@ -1,0 +1,32 @@
+class Solution {
+public:
+    int minGroups(vector<vector<int>>& intervals) {
+        map<int, multiset<int>> m;
+        for(vector<int>& v : intervals)
+            m[v[0]].insert(v[1]);
+        
+        int result = 0;
+        while(!m.empty()){
+            result++;
+
+            auto iter = m.begin();
+            int s = iter->first;
+            int e = *iter->second.begin();
+            iter->second.erase(iter->second.begin());
+
+            while(m.upper_bound(e) != m.end()){
+                auto next = m.upper_bound(e);
+                e = *next->second.begin();;
+
+                next->second.erase(next->second.begin());
+                if(next->second.empty())
+                    m.erase(next);
+            }
+
+            if(iter->second.empty())
+                m.erase(iter);
+        }
+
+        return result;
+    }
+};
