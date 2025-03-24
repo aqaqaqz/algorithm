@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int matchPlayersAndTrainers(vector<int>& players, vector<int>& trainers) {
+        int result = 0;
+        multiset<int> ts;
+        for(int n : trainers) ts.insert(n);
+        sort(players.begin(), players.end());
+        for(auto iter=players.rbegin();iter!=players.rend();iter++){
+            auto t = ts.equal_range(*iter);
+            if(*t.first == *iter){
+                result++;
+                ts.erase(t.first);
+            }else if(t.second != ts.end() && *t.second >= *iter){
+                result++;
+                ts.erase(t.second);
+            }
+        }
+
+        return result;
+    }
+};
