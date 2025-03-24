@@ -1,0 +1,11 @@
+class Solution {
+public:
+    int matchPlayersAndTrainers(vector<int>& players, vector<int>& trainers) {
+        int result = 0;
+        int pos = trainers.size()-1;
+        sort(players.begin(), players.end());
+        sort(trainers.begin(), trainers.end());
+
+        return result;
+    }
+};
