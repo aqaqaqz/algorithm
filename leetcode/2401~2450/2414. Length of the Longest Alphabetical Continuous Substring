@@ -1,0 +1,16 @@
+class Solution {
+public:
+    int longestContinuousSubstring(string s) {
+        int result = 0;
+        string temp = "";
+        for(char c : s){
+            if(!temp.empty() && (int)temp.back()+1!=(int)c)
+                temp = "";
+            temp.push_back(c);
+
+            result = max(result, (int)temp.size());
+        }
+
+        return result;
+    }
+};
