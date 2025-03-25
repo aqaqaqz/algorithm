@@ -1,0 +1,21 @@
+class Solution {
+public:
+    vector<int> smallestSubarrays(vector<int>& nums) {
+        vector<int> result;
+        vector<int> v(32);
+        for(int i=nums.size()-1;i>=0;i--){
+            for(int j=0;j<32;j++)
+                if((1<<j) & nums[i]) 
+                    v[j] = i;
+
+            int rst = 0;
+            for(int n : v) 
+                rst = max(rst, n);
+
+            result.push_back(rst==0?1:(rst-i+1));
+        }
+
+        reverse(result.begin(), result.end());
+        return result;
+    }
+};
