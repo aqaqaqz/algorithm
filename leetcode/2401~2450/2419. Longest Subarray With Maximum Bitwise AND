@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int longestSubarray(vector<int>& nums) {
+        int val = INT_MIN;
+        int result = 0;
+        int temp = 0;
+
+        for(int n : nums)
+            val = max(val, n);
+        
+        for(int n : nums){
+            if(val == n)
+                temp++;
+            else
+                temp = 0;
+            
+            result = max(result, temp);
+        }
+
+        return result;
+    }
+};
