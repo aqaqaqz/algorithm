@@ -1,0 +1,10 @@
+class Solution {
+public:
+    bool equalFrequency(string word) {
+        vector<int> v(26);
+        for(char c : word)
+            v[c-'a']++;
+
+        return true;
+    }
+};
