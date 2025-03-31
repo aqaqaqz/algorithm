@@ -5,6 +5,17 @@ public:
         for(char c : word)
             v[c-'a']++;
 
-        return true;
+        for(int i=0;i<26;i++){
+            v[i]--;
+            unordered_set<int> s;
+            for(int j=0;j<26;j++){
+                if(v[j] == 0) continue;
+                s.insert(v[j]);
+            }
+            if(s.size() == 1) return true;
+            v[i]++;
+        }
+
+        return false;
     }
 };

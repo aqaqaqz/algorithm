@@ -1,0 +1,18 @@
+class LUPrefix {
+    int rst;
+    vector<bool> v;
+public:
+    LUPrefix(int n) {
+        rst = 0;
+        v.resize(n+2, false);
+    }
+    
+    void upload(int video) {
+        v[video-1] = true;
+        while(v[rst]) rst++;
+    }
+    
+    int longest() {
+        return rst;
+    }
+};
