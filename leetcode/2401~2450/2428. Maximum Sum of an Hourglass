@@ -1,6 +1,20 @@
 class Solution {
+    int getSum(vector<vector<int>>& grid, int h, int w){
+        return grid[h][w]
+                + grid[h][w+1]
+                + grid[h][w+2]
+                + grid[h+1][w+1]
+                + grid[h+2][w]
+                + grid[h+2][w+1]
+                + grid[h+2][w+2];
+    }
 public:
     int maxSum(vector<vector<int>>& grid) {
-        
+        int result = 0;
+        for(int h=0;h<grid.size()-2;h++)
+            for(int w=0;w<grid[0].size()-2;w++)
+                result = max(result, getSum(grid, h, w));
+
+        return result;
     }
 };
