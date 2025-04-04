@@ -1,0 +1,46 @@
+class Solution {
+    vector<int> convertBit(int n){
+        vector<int> v;
+        if(n==0) v.push_back(0);
+        while(n > 0){
+            v.push_back(n%2);
+            n /= 2;
+        }
+
+        return v;
+    }
+public:
+    int minimizeXor(int num1, int num2) {
+        vector<int> v1 = convertBit(num1);
+        vector<int> v2 = convertBit(num2);;
+
+        int countOne = 0;
+        for(int i=0;i<v2.size();i++){
+            countOne += v2[i];
+            v2[i] = 0;
+        }
+
+        for(int i=v2.size()-1;i>=0;i--){
+            if(countOne == 0) break;
+            if(v1[i] == 0) continue;
+            v2[i] = 1;
+            countOne--;
+        }
+
+        for(int i=0;i<v1.size();i++){
+            if(countOne == 0) break;
+            if(v2[i] == 1) continue;
+            v2[i] = 1;
+            countOne--;
+        }
+
+        int result = 0;
+        int two = 1;
+        for(int n : v2){
+            result += (two*n);
+            two *= 2;
+        }
+
+        return result;
+    }
+};
