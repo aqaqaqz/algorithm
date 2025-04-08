@@ -1,0 +1,20 @@
+class Solution {
+public:
+    int hardestWorker(int n, vector<vector<int>>& logs) {
+        int result = 0;
+        int time = 0;
+        int pre = 0;
+        for(vector<int>& l : logs){
+            int t = l[1] - pre;
+            pre = l[1];
+
+            if(t > time){
+                time = t;
+                result = l[0];
+            }else if(t == time)
+                result = min(result, l[0]);
+        }
+
+        return result;
+    }
+};
