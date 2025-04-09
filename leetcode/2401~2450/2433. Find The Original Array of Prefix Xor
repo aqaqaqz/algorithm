@@ -1,0 +1,26 @@
+class Solution {
+public:
+    vector<int> findArray(vector<int>& pref) {
+        vector<int> result{pref[0]};
+        
+        for(int i=1;i<pref.size();i++){
+            int val = 0;
+            int two = 1;
+            int a = pref[i-1];
+            int b = pref[i];
+            while(a!=0 || b!=0){
+                int t = (a%2) + (b%2);
+                val += (t%2) * two;
+
+                two *= 2;
+                a /= 2;
+                b /= 2;
+            }
+
+            result.push_back(val);
+        }
+            
+
+        return result;
+    }
+};
