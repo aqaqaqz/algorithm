@@ -1,0 +1,29 @@
+class Solution {
+public:
+    string robotWithString(string s) {
+        vector<char> t;
+        vector<char> p;
+        multiset<char> ms;
+
+        for(char c : s) ms.insert(c);
+
+        for(char c : s){
+            ms.erase(ms.find(c));
+            t.push_back(c);
+
+            while(!t.empty()
+                    && !ms.empty() 
+                    && *ms.begin() >= t.back() ){
+                p.push_back(t.back());
+                t.pop_back();
+            }
+        }
+
+        while(!t.empty()){
+            p.push_back(t.back());
+            t.pop_back();
+        }
+
+        return string(p.begin(), p.end());
+    }
+};
