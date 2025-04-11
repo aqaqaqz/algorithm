@@ -1,0 +1,30 @@
+class Solution {
+    bool isValid(string s, int i){
+        int t1 = i/10;
+        int t2 = i%10;
+
+        if(s[0]!='?' && s[0]!=(char)(t1+'0')) 
+            return false;
+        if(s[1]!='?' && s[1]!=(char)(t2+'0')) 
+            return false;
+        
+        return true;
+    }
+public:
+    int countTime(string time) {
+        int hCnt = 0;
+        int mCnt = 0;
+        
+        for(int i=0;i<24;i++){
+            if(isValid(time.substr(0, 2), i))
+                hCnt++;
+        }
+
+        for(int i=0;i<60;i++){
+            if(isValid(time.substr(3,2), i))
+                mCnt++;
+        }
+
+        return hCnt*mCnt;
+    }
+};
