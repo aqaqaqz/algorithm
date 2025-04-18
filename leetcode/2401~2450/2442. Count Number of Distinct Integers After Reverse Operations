@@ -1,0 +1,29 @@
+class Solution {
+    int reverseDigit(int n){
+        vector<int> t;
+        int ten = 1;
+        int result = 0;
+
+        while(n>0){
+            t.push_back(n%10);
+            n /= 10;
+        }
+        reverse(t.begin(), t.end());
+        for(int i=0;i<t.size();i++){
+            result += ten*t[i];
+            ten *= 10;
+        }
+
+        return result;
+    }
+public:
+    int countDistinctIntegers(vector<int>& nums) {
+        unordered_set<int> s;
+        for(int n : nums){
+            s.insert(n);
+            s.insert(reverseDigit(n));
+        }
+
+        return s.size();
+    }
+};
