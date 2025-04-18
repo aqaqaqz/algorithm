@@ -1,0 +1,16 @@
+class Solution {
+public:
+    int findMaxK(vector<int>& nums) {
+        int result = -1;
+        unordered_set<int> s;
+        for(int n : nums) {
+            s.insert(n);
+            
+            if(s.find(n*-1) != s.end()) {
+                result = max(result, abs(n));
+            }
+        }
+        
+        return result;
+    }
+};
