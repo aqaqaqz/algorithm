@@ -1,0 +1,22 @@
+class Solution {
+    int getReverseNum(int n){
+        int rst = 0;
+
+        while(n > 0){
+            rst *= 10;
+            rst += (n%10);
+            n /= 10;
+        }
+        
+        return rst;
+    }
+public:
+    bool sumOfNumberAndReverse(int num) {
+        for(int i=0;i<=num;i++){
+            int rNum = getReverseNum(i);
+            if(rNum + i == num) return true;
+        }
+
+        return false;
+    }
+};
