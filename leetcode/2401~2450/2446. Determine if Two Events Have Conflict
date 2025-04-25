@@ -1,0 +1,29 @@
+class Solution {
+    int convertMin(string time){
+        int minute = 0;
+
+        minute += (atoi(time.substr(0, 2).c_str()) * 60);
+        minute += (atoi(time.substr(3, 2).c_str()));
+
+        return minute;
+    }
+
+    bool betweenAB(int m, int a, int b){
+        int s = min(a, b);
+        int e = max(a, b);
+
+        return (m>=s && m<=e);
+    }
+public:
+    bool haveConflict(vector<string>& event1, vector<string>& event2) {
+        int es1 = convertMin(event1[0]);
+        int ee1 = convertMin(event1[1]); 
+        int es2 = convertMin(event2[0]);
+        int ee2 = convertMin(event2[1]); 
+
+        return betweenAB(es1, es2, ee2)
+                || betweenAB(ee1, es2, ee2)
+                || betweenAB(es2, es1, ee1)
+                || betweenAB(ee2, es1, ee1);
+    }
+};
