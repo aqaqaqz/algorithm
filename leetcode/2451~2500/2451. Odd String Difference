@@ -1,0 +1,22 @@
+class Solution {
+public:
+    string oddString(vector<string>& words) {
+        int result = -1;
+
+        for(int i=1;i<words[0].size();i++){
+            unordered_map<int, vector<int>> m;
+            for(int j=0;j<words.size();j++)
+                m[(int)words[j][i] - (int)words[j][i-1]].push_back(j);
+
+            if(m.size() == 1) continue;
+            
+            auto iter = m.begin();
+            if(iter->second.size() == 1) result = iter->second.front();
+            else result = (++iter)->second.front();
+
+            break;
+        }
+
+        return words[result];
+    }
+};
