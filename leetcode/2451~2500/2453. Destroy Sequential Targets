@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int destroyTargets(vector<int>& nums, int space) {
+        int cnt = 0;
+        int result = INT_MAX;
+        unordered_map<int, int> m;
+        for(int n : nums){
+            int t = n % space;
+            m[t]++;
+            cnt = max(cnt, m[t]);
+        }
+
+        for(int n : nums){
+            int t = n % space;
+            if(m[t] != cnt) continue;
+            result = min(result, n);
+        }
+
+        return result;
+    }
+};
