@@ -1,0 +1,37 @@
+class Solution {
+public:
+    vector<vector<string>> mostPopularCreator(vector<string>& creators, vector<string>& ids, vector<int>& views) {
+        vector<vector<string>> result;
+        unordered_map<string, long long> viewMap;
+        unordered_map<string, vector<int>> idMap;
+        long long cnt = 0;
+
+        for(int i=0;i<creators.size();i++){
+            viewMap[creators[i]] += views[i];
+            idMap[creators[i]].push_back(i);
+            cnt = max(cnt, viewMap[creators[i]]);
+        }
+
+        for(auto iter=viewMap.begin();iter!=viewMap.end();iter++){
+            if(cnt == iter->second){
+                string id = iter->first;
+                int idIdx = idMap[id][0];
+                for(int i=1;i<idMap[id].size();i++){
+                    int idIdx2 = idMap[id][i];
+
+                    if(views[idIdx] > views[idIdx2]) continue;
+                    if(views[idIdx] == views[idIdx2]){
+                        if(ids[idIdx] > ids[idIdx2])
+                            idIdx = idIdx2;
+                    }else{
+                        idIdx = idIdx2;
+                    }
+                }
+
+                result.push_back(vector<string>{id, ids[idIdx]});
+            }
+        }
+
+        return result;
+    }
+};
