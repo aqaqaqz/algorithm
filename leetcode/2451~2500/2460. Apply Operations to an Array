@@ -1,0 +1,34 @@
+class Solution {
+public:
+    vector<int> applyOperations(vector<int>& nums) {
+        vector<int> result;
+        int zeroCnt = 0;
+
+        for(int i=0;i<nums.size();i++){
+            if(i+1 == nums.size()){
+                result.push_back(nums[i]);
+                continue;
+            }
+
+            if(nums[i] == 0){
+                zeroCnt++;
+                continue;
+            }
+
+            if(nums[i] == nums[i+1]){
+                result.push_back(nums[i+1]*2);
+                zeroCnt++;
+                i++;
+                continue;
+            }
+
+            result.push_back(nums[i]);
+        }
+        
+
+        while(zeroCnt--)
+            result.push_back(0);
+
+        return result;
+    }
+};
