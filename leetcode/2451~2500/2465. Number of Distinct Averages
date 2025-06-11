@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int distinctAverages(vector<int>& nums) {
+        unordered_set<double> a;
+        multi_set<int> b;
+        for(int n : nums) b.insert(n);
+
+        while(!b.empty()){
+            auto iter = b.begin();
+            double n1 = (double)*iter;
+            iter = --b.end();
+            double n2 = (double)*iter;
+
+            a.insert((n1+n2)/2);
+            b.erase(b.begin());
+            b.erase(iter);
+        }
+
+        return a.size();
+    }
+};
