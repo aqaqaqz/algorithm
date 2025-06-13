@@ -1,0 +1,32 @@
+class Solution {
+    
+
+public:
+    int countGoodStrings(int low, int high, int zero, int one) {
+        long long result = 0;
+        int MOD = 1e9 + 7;
+        vector<long long> cnt(100001);
+
+        cnt[zero] += 1;
+        cnt[one] += 1;
+
+        for(int i=1;i<100001;i++){
+            if(i-zero > 0){
+                cnt[i] += cnt[i-zero];
+                cnt[i] %= MOD;
+            }
+
+            if(i-one > 0){
+                cnt[i] += cnt[i-one];
+                cnt[i] %= MOD;
+            } 
+        }
+
+        for(int i=low;i<=high;i++){
+            result += cnt[i];
+            result %= MOD;
+        }
+
+        return result;
+    }
+};
