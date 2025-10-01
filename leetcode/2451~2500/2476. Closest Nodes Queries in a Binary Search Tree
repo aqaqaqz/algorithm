@@ -1,0 +1,72 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    void searchNode(TreeNode* n, vector<int>& v){
+        if(n == nullptr) return;
+
+        v.push_back(n->val);
+
+        searchNode(n->left, v);
+        searchNode(n->right, v);
+    }
+
+    int searchList(vector<int>& v, int q){
+        int s = 0;
+        int e = v.size()-1;
+        int m;
+
+        while(s <= e){
+            m = (s+e)/2;
+            if(v[m] == q) break;
+
+            if(v[m] > q)
+                e = m-1;
+            else
+                s = m+1;
+        }
+
+        return m;
+    }
+public:
+    vector<vector<int>> closestNodes(TreeNode* root, vector<int>& queries) {
+        vector<vector<int>> result;
+        vector<int> valList;
+
+        searchNode(root, valList);
+        sort(valList.begin(), valList.end());
+
+        for(int q : queries){
+            vector<int> v{INT_MIN, INT_MAX};
+            int p = searchList(valList, q);
+
+            if(valList[max(p-1, 0)]<=q)
+                v[0] = max(v[0], valList[max(p-1, 0)]);
+            if(valList[p]<=q)
+                v[0] = max(v[0], valList[p]);
+            if(valList[min(p+1, (int)valList.size()-1)]<=q)
+                v[0] = max(v[0], valList[min(p+1, (int)valList.size()-1)]);
+
+            if(valList[max(p-1, 0)]>=q)
+                v[1] = min(v[1], valList[max(p-1, 0)]);
+            if(valList[p]>=q)
+                v[1] = min(v[1], valList[p]);
+            if(valList[min(p+1, (int)valList.size()-1)]>=q)
+                v[1] = min(v[1], valList[min(p+1, (int)valList.size()-1)]);
+
+            if(v[0] == INT_MIN) v[0] = -1;
+            if(v[1] == INT_MAX) v[1] = -1;
+            result.push_back(v);
+        }
+
+        return result;
+    }
+};
