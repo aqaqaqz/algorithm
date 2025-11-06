@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int pivotInteger(int n) {
+        int s = 1;
+        int e = n;
+        int sum1 = 0;
+        int sum2 = 0;
+
+        while(s <= e){
+            if(s==e && sum1==sum2) return s;
+
+            if(sum1 > sum2){
+                sum2 += e;
+                e--;
+            }else{
+                sum1 += s;
+                s++;
+            }
+        }
+
+        return -1;
+    }
+};
