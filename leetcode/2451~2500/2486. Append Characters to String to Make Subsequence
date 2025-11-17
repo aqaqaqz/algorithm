@@ -1,0 +1,13 @@
+class Solution {
+public:
+    int appendCharacters(string s, string t) {
+        int p = 0;
+        for(char c : s){
+            if(p == t.size()) break;
+
+            if(c == t[p]) p++;
+        }
+
+        return t.size()-p;
+    }
+};
