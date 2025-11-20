@@ -1,0 +1,30 @@
+class Solution {
+public:
+    long long dividePlayers(vector<int>& skill) {
+        long long sum = 0;
+        long long value = 0;
+        int pairCnt = skill.size() / 2;
+        unordered_map<int, int> m;
+        
+        for(int n : skill) {
+            m[n]++;
+            value  += n;
+        }
+
+        if(value%(skill.size()/2) != 0) return -1;
+        value /= (skill.size()/2);
+
+        for(auto iter=m.begin();iter!=m.end();iter++){
+            while(iter->second != 0){
+                int p = value - iter->first;
+                if(m.find(p)==m.end() || m[p]==0) 
+                    return -1;
+                iter->second--;
+                m[p]--;
+                sum += iter->first*p;
+            }
+        }
+
+        return sum;
+    }
+};
