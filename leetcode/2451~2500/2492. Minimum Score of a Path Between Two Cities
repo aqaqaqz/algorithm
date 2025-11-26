@@ -1,0 +1,32 @@
+class Solution {
+public:
+    int minScore(int n, vector<vector<int>>& roads) {
+        int result = INT_MAX;
+        unordered_map<int, unordered_map<int, int>> m;
+        unordered_map<int, unordered_map<int, bool>> visit;
+        deque<int> next{1};
+
+        for(vector<int>& r : roads){
+            m[r[0]][r[1]] = r[2];
+            m[r[1]][r[0]] = r[2];
+            visit[r[0]][r[1]] = false;
+            visit[r[1]][r[0]] = false;
+        }
+
+        while(!next.empty()){
+            int p = next.front();
+            next.pop_front();
+            for(auto iter=m[p].begin();iter!=m[p].end();iter++){
+                int n = iter->first;
+                if(visit[p][n]) continue;
+
+                result = min(result, iter->second);
+                visit[p][n] = true;
+                visit[n][p] = true;
+                next.push_back(n);
+            }
+        }
+
+        return result;
+    }
+};
