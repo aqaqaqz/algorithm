@@ -1,0 +1,19 @@
+class Solution {
+    bool checkOnlyDigit(string& s){
+        for(char c : s){
+            if(!isdigit(c)) return false;
+        }
+
+        return true;
+    }
+public:
+    int maximumValue(vector<string>& strs) {
+        int result = 0;
+        for(string& s : strs){
+            if(!checkOnlyDigit(s)) result = max(result, (int)s.size());
+            else result = max(result, atoi(s.c_str()));
+        }
+
+        return result;
+    }
+};
