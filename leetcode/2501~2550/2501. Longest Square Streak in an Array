@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int longestSquareStreak(vector<int>& nums) {
+        int result = -1;
+        unordered_set<long long> m;
+        for(long long n : nums) m.insert(n);
+
+        sort(nums.begin(), nums.end());
+        
+        for(long long n : nums){
+            if(m.find(n) == m.end() | m.find(n*n) == m.end()) continue;
+            int temp = 1;
+            long long val = n;
+            while(m.find(val*val) != m.end()){
+                m.erase(val*val);
+                val *= val;
+                temp++;
+            }
+
+            result = max(result, temp);
+        }
+
+        return result;
+    }
+};
