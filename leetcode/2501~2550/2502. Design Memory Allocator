@@ -1,0 +1,54 @@
+class Allocator {
+    int mSize;
+    map<int, vector<int>> m;
+public:
+    Allocator(int n) {
+        mSize = n;
+    }
+    
+    int allocate(int size, int mID) {
+        m.insert(pair(-1, vector<int>{-1, -1}));
+
+        for(auto iter=m.begin();iter!=m.end();iter++){
+            auto nextIter = next(iter, 1);
+            int sPos = iter->second[0] + 1;
+            int ePos = sPos + size - 1;
+
+            if(nextIter == m.end() && ePos < mSize){
+                m.insert(pair(sPos, vector<int>{ePos, mID}));
+                return sPos;
+            }
+
+            if(ePos < nextIter->first){
+                m.insert(pair(sPos, vector<int>{ePos, mID}));
+                return sPos;
+            }
+        }
+
+        return -1;
+    }
+
+    
+    int freeMemory(int mID) {
+        int rst = 0;
+        vector<int> freeIdx;
+        for(auto iter=m.begin();iter!=m.end();iter++){
+            if(iter->second[1] == mID){
+                rst += (iter->second[0] - iter->first + 1);
+                freeIdx.push_back(iter->first);
+            }
+        }
+
+        for(int idx : freeIdx)
+            m.erase(idx);
+
+        return rst;
+    }
+};
+
+/**
+ * Your Allocator object will be instantiated and called as such:
+ * Allocator* obj = new Allocator(n);
+ * int param_1 = obj->allocate(size,mID);
+ * int param_2 = obj->freeMemory(mID);
+ */
