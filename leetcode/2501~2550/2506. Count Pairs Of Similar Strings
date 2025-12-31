@@ -1,0 +1,34 @@
+class Solution {
+    vector<bool> makeVector(string& w){
+        vector<bool> v(26, false);
+        for(char c : w)
+            v[c - 'a'] = true;
+
+        return v;
+    }
+
+    int checkWords(vector<bool>& v1, vector<bool>& v2){
+        for(int i=0;i<26;i++){
+            if(v1[i] != v2[i])
+                return 0;
+        }
+
+        return 1;
+    }
+public:
+    int similarPairs(vector<string>& words) {
+        int result = 0;
+        vector<vector<bool>> v;
+    
+        for(int i=0;i<words.size();i++)
+            v.push_back(makeVector(words[i]));
+
+        for(int i=0;i<v.size();i++){
+            for(int j=i+1;j<v.size();j++){
+                result += checkWords(v[i], v[j]);
+            }
+        }
+
+        return result;
+    }
+};
